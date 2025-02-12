@@ -1,11 +1,9 @@
 import express from "express"
-import authController from "../controllers/auth/auth.controller.js"
 
 const router = express.Router()
 
 const routeList = [
-    {path: "/login", method: "get", controller: authController.login},
-    {path: "/register", method: "get", controller: authController.register},
+    {path: "/register", method: "get", controller: ""},
     // {path: "/faculty", method: "get", controller: ""},
     // {path: "/departments", method: "get", controller: ""},
     // {path: "/faculty/departments", method: "get", controller: ""},

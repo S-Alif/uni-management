@@ -24,7 +24,7 @@ const schema = new mongoose.Schema({
         index: true
     },
     phone: {
-        typeof: String,
+        type: String,
         required: true,
         unique: true,
         lowercase: true,
