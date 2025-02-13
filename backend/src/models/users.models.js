@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 import {roles} from "../constants/rolesAndFiles.constants.js"
+import bcrypt from "bcryptjs"
 
 const schema = new mongoose.Schema({
     name: {
@@ -72,7 +73,21 @@ const schema = new mongoose.Schema({
     isBlocked: {
         type: Boolean,
         default: false
-    }
+    },
+    refreshTokens: [String]
 }, {timestamps: true, versionKey: false})
 
 export default mongoose.model("users", schema)
+
+
+// encrypt passwords
+schema.pre("save", async function(next){
+    if(!this.isModified("pass")) return next()
+    const salt = await bcrypt.genSalt(10)
+    this.pass = await bcrypt.hash(this.pass, salt)
+})
+
+// decrypt password
+schema.methods.verifyPass = async function(pass){
+    return await bcrypt.compare(pass, this.pass)
+}

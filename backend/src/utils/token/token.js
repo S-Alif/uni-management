@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken"
 
 // generate token
-const generateToken = (data, TOKEN_SECRET) => {
-    const token = jwt.sign(data, TOKEN_SECRET, {expiresIn: "1h"})
+const generateToken = (data, TOKEN_SECRET, expiresIn) => {
+    const token = jwt.sign(data, TOKEN_SECRET, { expiresIn: expiresIn })
     return token
 }
 
