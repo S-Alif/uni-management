@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils"
 
 // form schema
 const formSchema = z.object({
-    email: z.string().email({message: "Please provide valid email"}),
-    pass: z.string().min(8, { message: "Password must be at least 8 characters long"}),
+    email: z.string().email("Please provide valid email"),
+    pass: z.string().min(8, "Password must be at least 8 characters long"),
 })
 
 let defaultValues = {
@@ -20,7 +20,7 @@ let defaultValues = {
 // form fields
 const formFields = [
     {
-        type: "text",
+        type: "email",
         name: "email",
         label: "Email",
         placeholder: "Enter your email"
@@ -49,11 +49,11 @@ const Login = () => {
             pageTitle={"Login to your account"}
         >
             <FormLayout 
-                formId="login-form"
+                formId="login"
                 formSchema={formSchema}
                 defaultValues={defaultValues}
                 onSubmit={onSubmit}
-                buttonClass="w-full"
+                buttonClass="w-full h-12"
                 buttonText="Login"
                 formFields={formFields}
                 resetForm={resetForm}
