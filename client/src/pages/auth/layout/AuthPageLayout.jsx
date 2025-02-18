@@ -12,10 +12,11 @@ const AuthPageLayout = ({children, pageId, pageTitle}) => {
                 <img src={logo} alt="" />
             </div>
 
-            <Card className="max-h-[70vh] overflow-y-scroll">
+            <Card className="max-h-[70vh] overflow-y-auto">
                 <CardHeader>
                     <CardTitle className="text-2xl">{pageTitle}</CardTitle>
                 </CardHeader>
+                <hr className="mb-5" />
                 <CardContent>
                     {children}
                 </CardContent>
