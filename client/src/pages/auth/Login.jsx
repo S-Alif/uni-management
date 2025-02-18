@@ -1,8 +1,14 @@
+import AuthPageLayout from "./layout/AuthPageLayout"
 
 
 const Login = () => {
   return (
-    <div>Login</div>
+    <AuthPageLayout
+      pageId={"login-page"}
+      pageTitle={"Login to your account"}
+    >
+      
+    </AuthPageLayout>
   )
 }
 
