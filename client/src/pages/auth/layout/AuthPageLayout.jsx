@@ -4,7 +4,7 @@ import logo from "../../../assets/images/logo.png"
 const AuthPageLayout = ({children, pageId, pageTitle}) => {
   return (
     <section 
-        className="w-full min-h-screen flex justify-center items-center"
+        className="w-full min-h-screen py-10 flex justify-center items-center"
         id={pageId}
     >
         <div className="flex flex-col gap-5 w-[500px] max-w-[calc(100%-20px)]">
