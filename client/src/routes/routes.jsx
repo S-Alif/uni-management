@@ -9,16 +9,17 @@ import VerifyAccount from "@/pages/auth/VerifyAccount"
 import UpdatePass from "@/pages/auth/UpdatePass"
 
 // layouts
-import AuthLayout from "@/components/layouts/AuthLayout"
+import AuthLayout from "@/pages/auth/layout/AuthLayout"
+import UniversalLayout from "@/components/layouts/UniversalLayout"
 
 const routes = createBrowserRouter([
     {
         path: "/",
-        element: <App />
+        element: <UniversalLayout><App /></UniversalLayout>
     },
     {
         path: "/auth",
-        element: <AuthLayout />,
+        element: <UniversalLayout><AuthLayout /></UniversalLayout>,
         children: [
             {
                 path: "login",
