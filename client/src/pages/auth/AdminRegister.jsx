@@ -67,6 +67,7 @@ const formFields = [
 const AdminRegister = () => {
 
     const [resetForm, setResetForm] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const onSubmit = (value) => {
         console.log(value)
@@ -87,6 +88,7 @@ const AdminRegister = () => {
                 buttonText="Register account"
                 formFields={formFields}
                 resetForm={resetForm}
+                disabled={loading}
             />
 
         </AuthPageLayout>

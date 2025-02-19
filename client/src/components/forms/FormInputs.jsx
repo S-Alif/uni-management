@@ -1,5 +1,6 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { Input } from "../ui/input"
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "../ui/input-otp"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 
 
@@ -52,9 +53,32 @@ const FormInputs = ({
 
                     {/* input fields */}
                     {
-                        (fieldType !== "select" && fieldType !== "richText") &&
+                        (fieldType !== "select" && fieldType !== "richText" && fieldType !== "otp") &&
                         <FormControl>
                             <Input type={fieldType} placeholder={fieldData?.placeholder || "Write something"} className="h-12" {...field} />
+                        </FormControl>
+                    }
+
+                    {/* input otp */}
+                    {
+                        fieldType == "otp" &&
+                        <FormControl>
+                            <InputOTP maxLength={6} {...field} className="max-w-fit">
+                                <InputOTPGroup>
+                                    <InputOTPSlot index={0} />
+                                    <InputOTPSlot index={1} />
+                                </InputOTPGroup>
+                                <InputOTPSeparator />
+                                <InputOTPGroup>
+                                    <InputOTPSlot index={2} />
+                                    <InputOTPSlot index={3} />
+                                </InputOTPGroup>
+                                <InputOTPSeparator />
+                                <InputOTPGroup>
+                                    <InputOTPSlot index={4} />
+                                    <InputOTPSlot index={5} />
+                                </InputOTPGroup>
+                            </InputOTP>
                         </FormControl>
                     }
                     <FormMessage />

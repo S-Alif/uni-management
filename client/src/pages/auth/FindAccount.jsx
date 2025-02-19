@@ -1,20 +1,18 @@
-import { z } from "zod"
+import { useState } from "react"
 import AuthPageLayout from "./layout/AuthPageLayout"
 import FormLayout from "@/components/forms/FormLayout"
-import { useState } from "react"
+import { z } from "zod"
 import { NavLink } from "react-router"
-import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { buttonVariants } from "@/components/ui/button"
 
 // form schema
 const formSchema = z.object({
-    email: z.string().email("Please provide valid email"),
-    pass: z.string().min(8, "Password must be at least 8 characters long"),
+    email: z.string().email("Please provide valid email")
 })
 
 let defaultValues = {
-    email: "",
-    pass: "",
+    email: ""
 }
 
 // form fields
@@ -24,18 +22,11 @@ const formFields = [
         name: "email",
         label: "Email",
         placeholder: "Enter your email"
-    },
-    {
-        type: "password",
-        name: "pass",
-        label: "Password",
-        placeholder: "Enter your password"
     }
 ]
 
-// login page
-const Login = () => {
-
+// find account page
+const FindAccount = () => {
     const [resetForm, setResetForm] = useState(false)
     const [loading, setLoading] = useState(false)
 
@@ -46,27 +37,27 @@ const Login = () => {
 
     return (
         <AuthPageLayout
-            pageId={"login-page"}
-            pageTitle={"Login to your account"}
+            pageId={"find-account-page"}
+            pageTitle={"Find your account"}
         >
             <FormLayout 
-                formId="login"
+                formId="find-account"
                 formSchema={formSchema}
                 defaultValues={defaultValues}
                 onSubmit={onSubmit}
                 buttonClass="w-full h-12"
-                buttonText="Login"
+                buttonText="Send OTP"
                 formFields={formFields}
                 resetForm={resetForm}
                 disabled={loading}
             />
 
             <div className="pt-5 text-center">
-                <NavLink to={"/auth/find-account"} className={cn(buttonVariants({size: "lg", variant: "link"}), "text-[18px]")}>Forget password</NavLink>
+                <NavLink to={"/auth/login"} className={cn(buttonVariants({ size: "lg", variant: "link" }), "text-[18px]")}>Back to login</NavLink>
             </div>
 
         </AuthPageLayout>
     )
 }
 
-export default Login
+export default FindAccount

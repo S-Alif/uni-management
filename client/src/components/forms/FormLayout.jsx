@@ -14,7 +14,8 @@ const FormLayout = ({
     defaultValues,
     buttonClass = "",
     buttonText = "do something",
-    resetForm = false
+    resetForm = false,
+    disabled = false
 }) => {
 
     const form = useForm({
@@ -37,7 +38,15 @@ const FormLayout = ({
                             <FormInputs form={form} fieldType={field?.type} fieldData={field} key={index} />
                         ))
                     }
-                    <Button type="submit" size="lg" className={cn("text-xl", buttonClass)}>{buttonText}</Button>
+                    <Button 
+                        type="submit"
+                        size="lg"
+                        className={cn("text-xl", buttonClass)}
+                        disabled={disabled}
+                    >
+                        {buttonText}
+                        {disabled && <span className="ml-3 animate-spin w-6 h-6 border-4 rounded-t-full rounded-b-full border-l-transparent border-r-transparent border-white"></span>}
+                    </Button>
                 </form>
             </Form>
         </div>
