@@ -1,12 +1,18 @@
 import { errorToast } from "../toastNotification";
 import api from "./axios"
 
-const apiHandler = async (route, data = {}) => {
+
+const apiHandler = async (route, data = {}, accessToken = null) => {
     try {
         let options = {
             url: route.url,
             method: route.method,
             data: data,
+            ...(accessToken && {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
         }
         let result = await api(options)
 
@@ -19,7 +25,7 @@ const apiHandler = async (route, data = {}) => {
             errorToast(message?.data)
         }
         else{
-            errorToast('An error occurred, please try again later')
+            errorToast("An error occurred, please try again later")
         }
         return false
     }

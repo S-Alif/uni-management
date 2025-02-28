@@ -2,6 +2,12 @@ import FormLayout from "@/components/forms/FormLayout"
 import AuthPageLayout from "./layout/AuthPageLayout"
 import { z } from "zod"
 import { useState } from "react"
+import apiHandler from "@/utils/api/apiHandler"
+import { publicRoutes } from "@/utils/api/apiConstants"
+import { succesToast } from "@/utils/toastNotification"
+import { NavLink } from "react-router"
+import { cn } from "@/lib/utils"
+import { buttonVariants } from "@/components/ui/button"
 
 
 // form schema
@@ -10,7 +16,7 @@ const formSchema = z.object({
     email: z.string().email("Please provide valid email"),
     phone: z.string().min(10, "Please provide valid phone").max(15, "Please provide valid phone"),
     pass: z.string().min(8, "Password must be at least 8 characters long"),
-    personalId: z.string().min(8, "Personal Id must be at least 8 characters long"),
+    personalId: z.string().length(8, "Personal Id must be at least 8 characters long"),
     address: z.string().min(10, "Adress must be at least 10 characters long").max(300, "Address can't be more than 300 characters long"),
 })
 
@@ -69,8 +75,15 @@ const AdminRegister = () => {
     const [resetForm, setResetForm] = useState(false)
     const [loading, setLoading] = useState(false)
 
-    const onSubmit = (value) => {
-        console.log(value)
+    const onSubmit = async (value) => {
+        setLoading(true)
+        value.role = 2025
+        
+        let result = await apiHandler(publicRoutes.register, value)
+        setLoading(false)
+        if(!result) return
+
+        succesToast(result?.message)
         setResetForm(true)
     }
 
@@ -90,6 +103,10 @@ const AdminRegister = () => {
                 resetForm={resetForm}
                 disabled={loading}
             />
+
+            <div className="pt-5 text-center">
+                <NavLink to={"/auth/login"} className={cn(buttonVariants({ size: "lg", variant: "link" }), "text-[18px]")}>Back to login</NavLink>
+            </div>
 
         </AuthPageLayout>
     )

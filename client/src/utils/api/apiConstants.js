@@ -1,10 +1,10 @@
 const baseUrl = "http://localhost:9010"
 
 // paths
-const admin = "/admin"
-const teachers = "/teachers"
-const students = "/students"
-const publicEndpoint = "/public"
+const admin = "admin"
+const teachers = "teachers"
+const students = "students"
+const publicEndpoint = "public"
 
 // methods
 const GET = "GET"
@@ -14,7 +14,7 @@ const DELETE_METHOD = "DELETE"
 
 const createRoute = (paths, route, method) => {
     return {
-        url: `${baseUrl}${paths}${route}`,
+        url: `${baseUrl}/api/v1/${paths}/${route}`,
         method: method,
     }
 }
