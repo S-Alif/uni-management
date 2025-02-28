@@ -5,7 +5,7 @@ const router = express.Router()
 
 const routeList = [
     {path: "/login", method: "get", controller: authController.login},
-    {path: "/register", method: "get", controller: authController.register}, //valid only for admins
+    {path: "/register", method: "post", controller: authController.register}, //valid only for admins
     // {path: "/faculty", method: "get", controller: ""},
     // {path: "/departments", method: "get", controller: ""},
     // {path: "/faculty/departments", method: "get", controller: ""},

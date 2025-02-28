@@ -16,7 +16,7 @@ const authService = {
         if(!user) throw new ApiError(404, "No user found")
         
         const checkPass = await user.verifyPass(data?.pass)
-        if(!checkPass) throw new ApiError(401, "Incorrect password")
+        if(!checkPass) throw new ApiError(403, "Incorrect password")
 
         return new ApiResponse(200, user)
     },
@@ -31,7 +31,7 @@ const authService = {
         const countAdmin = await usersModels.countDocuments({role: data?.role})
         if(countAdmin >= 1) throw new ApiError(403, "Maximum number of admin users reached")
 
-        const result = await usersModels.create(data).lean()
+        const result = await usersModels.create(data)
 
         // send a mail to the user
 

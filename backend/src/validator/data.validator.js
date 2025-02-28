@@ -1,12 +1,12 @@
 import Joi from "joi"
-import { roles } from "../constants/rolesAndFiles.constants"
+import { roles } from "../constants/rolesAndFiles.constants.js"
 
 const emailRegex = "^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|hotmail\.com|outlook\.com|icloud\.com)$"
 
 // for registering a user by admin
 const userRegistration = Joi.object({
     name: Joi.string().min(5).max(80).required(),
-    personalId: Joi.string().min(2).max(20).required(),
+    personalId: Joi.string().length(8).required(),
     email: Joi.string().email(new RegExp(emailRegex)).required(),
     pass: Joi.string().min(8).max(255).required(),
     phone: Joi.string().min(10).max(15).required(),

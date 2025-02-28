@@ -23,6 +23,12 @@ const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET
 const PORT = process.env.PORT
 const CORS_ORIGIN = process.env.CORS_ORIGIN
 
+const MAIL_URL = process.env.MAIL_URL
+const MAIL_PASS = process.env.MAIL_PASS
+const MAIL = process.env.MAIL
+const MAIL_HOST = process.env.MAIL_HOST
+const MAIL_PORT = process.env.MAIL_PORT
+
 
 export {
     DB_URL,
@@ -37,5 +43,10 @@ export {
     REFRESH_TOKEN_SECRET,
     ACCESS_TOKEN_SECRET,
     PORT,
-    CORS_ORIGIN
+    CORS_ORIGIN,
+    MAIL_URL,
+    MAIL_PASS,
+    MAIL,
+    MAIL_HOST,
+    MAIL_PORT
 }
