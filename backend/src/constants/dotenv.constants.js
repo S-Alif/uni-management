@@ -22,6 +22,7 @@ const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET
 
 const PORT = process.env.PORT
 const CORS_ORIGIN = process.env.CORS_ORIGIN
+const NODE_ENV = process.env.NODE_ENV
 
 const MAIL_URL = process.env.MAIL_URL
 const MAIL_PASS = process.env.MAIL_PASS
@@ -48,5 +49,6 @@ export {
     MAIL_PASS,
     MAIL,
     MAIL_HOST,
-    MAIL_PORT
+    MAIL_PORT,
+    NODE_ENV
 }

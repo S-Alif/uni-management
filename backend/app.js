@@ -6,6 +6,7 @@ import hpp from "hpp"
 import ExpressMongoSanitize from "express-mongo-sanitize"
 import { CORS_ORIGIN } from "./src/constants/dotenv.constants.js"
 import routes from "./src/routes/routes.js"
+import errorMiddleware from "./src/middlewares/error.middleware.js"
 
 const app = express()
 
@@ -23,5 +24,7 @@ app.use(ExpressMongoSanitize())
 app.use(cookieParser())
 
 app.use("/api/v1", routes)
+
+app.use(errorMiddleware)
 
 export default app

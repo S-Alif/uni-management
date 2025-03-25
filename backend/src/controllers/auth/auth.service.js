@@ -62,7 +62,7 @@ const authService = {
     // verify otp
     verifyOtp: async (req) => {
         const checkOtp = await otpModel.findOne({ email: req.body?.email, otpCode: req.body?.otpCode })
-        if (checkOtp == null || !checkOtp) throw new ApiError(401, "Otp expired")
+        if (checkOtp == null || !checkOtp) throw new ApiError(400, "Otp expired")
 
         await otpModel.updateOne({ email: req.body.email, otpCode: req.body.otpCode, verified: false }, { verified: true })
 

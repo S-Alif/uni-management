@@ -1,22 +1,22 @@
 export class ApiError extends Error {
     constructor(
         statusCode,
-        data = "Something went wrong",
+        message = "Something went wrong",
         errors = [],
         stack = ""
     ) {
-        super(data)
+        super(message)
         this.code = statusCode
-        this.data = data
+        this.message = message
         this.success = "failed"
 
         if (process.env.NODE_ENV !== "production") {
             this.errors = errors
+            if (stack) {
+                this.stack = stack
+            }
         }
 
-        if (stack) {
-            this.stack = stack
-        }
         else {
             Error.captureStackTrace(this, this.constructor)
         }
