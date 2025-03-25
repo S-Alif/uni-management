@@ -5,11 +5,12 @@ import { ApiError } from "../../utils/api/response/apiError.js"
 import controllerHandler from "../../utils/controller-handler/controllerHandler.js"
 import { generateToken, verifyToken } from "../../utils/token/token.js"
 import authService from "./auth.service.js"
+import asyncHandler from "../../utils/controller-handler/asyncHandler.js"
 
 const authController = {
 
     // login all user
-    login: controllerHandler(async (req, res) => {
+    login: asyncHandler(async (req, res) => {
         const refreshTokenFromCookie = req.cookies?.refreshToken
         const result = await authService.login(req)
         const accessToken = generateToken({
@@ -19,22 +20,23 @@ const authController = {
         }, ACCESS_TOKEN_SECRET, "5m")
         const refreshToken = generateToken({_id: result?._id}, REFRESH_TOKEN_SECRET, "7d")
 
-        const user = await usersModels.findOne({_id: result?._id}).exex()
+        let user = await usersModels.findOne({ _id: result?._id }).exec()
 
         let newRefreshTokens = []
         if(refreshTokenFromCookie){
-            newRefreshTokens = user.refreshToken.filter(token => token != refreshTokenFromCookie)
+            newRefreshTokens = user.refreshTokens.filter(token => token != refreshTokenFromCookie)
             res.clearCookie("refreshToken", {httpOnly: true, sameSite: "None", secure: true})
         }
 
-        user.refreshToken = [...newRefreshTokens, refreshToken]
+        user.refreshTokens = [...newRefreshTokens, refreshToken]
         await user.save()
 
-        const data = {...result}
+        const data = {...result?._doc}
         delete data["pass"]
+        delete data["refreshTokens"]
 
         res.cookie("refreshToken", refreshToken, { httpOnly: true, sameSite: "None", secure: true, maxAge: Date.now() + (7 * 24 * 60 * 60 * 1000) })
-        res.status(200).json({data, accessToken })
+        res.status(200).json(new ApiResponse(200, {user: data, accessToken}, "Login success"))
     }),
 
     // register admin
@@ -84,6 +86,7 @@ const authController = {
     sendOtp: controllerHandler(authService.sendOtp),
     verifyOtp: controllerHandler(authService.verifyOtp),
     resetPassword: controllerHandler(authService.resetPassword),
+    
     logout: controllerHandler(async (req, res) => {
         const refreshToken = req.cookies?.refreshToken
         if (!refreshToken) return new ApiResponse(204, "No content")

@@ -4,8 +4,10 @@ import authController from "../controllers/auth/auth.controller.js"
 const router = express.Router()
 
 const routeList = [
-    {path: "/login", method: "get", controller: authController.login},
+    {path: "/login", method: "post", controller: authController.login},
     {path: "/register", method: "post", controller: authController.register}, //valid only for admins
+    {path: "/otp", method: "post", controller: authController.sendOtp},
+    {path: "/otp", method: "patch", controller: authController.verifyOtp},
     // {path: "/faculty", method: "get", controller: ""},
     // {path: "/departments", method: "get", controller: ""},
     // {path: "/faculty/departments", method: "get", controller: ""},

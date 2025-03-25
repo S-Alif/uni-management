@@ -3,3 +3,5 @@ const otpMail = (name, otpCode) => {
 
     return markUp
 }
+
+export default otpMail

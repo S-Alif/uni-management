@@ -4,3 +4,4 @@ const registrationSuccess = (name) => {
     `
     return markUp
 }
+export default registrationSuccess

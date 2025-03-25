@@ -75,10 +75,12 @@ const schema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    verified: {
+        type: Boolean,
+        default: function() { return this.role == roles.ADMIN },
+    },
     refreshTokens: [String]
 }, {timestamps: true, versionKey: false})
-
-export default mongoose.model("users", schema)
 
 
 // encrypt passwords
@@ -92,3 +94,5 @@ schema.pre("save", async function(next){
 schema.methods.verifyPass = async function(pass){
     return await bcrypt.compare(pass, this.pass)
 }
+
+export default mongoose.model("users", schema)

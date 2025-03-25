@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer"
-import { MAIL_HOST, MAIL_PASS, MAIL_PORT, MAIL_URL } from "../../constants/dotenv.constants"
+import { MAIL, MAIL_HOST, MAIL_PASS, MAIL_PORT, MAIL_URL } from "../../constants/dotenv.constants.js"
 
 const sendEmail = async (mailto, mailText, mailSubject) => {
     try {
@@ -22,8 +22,7 @@ const sendEmail = async (mailto, mailText, mailSubject) => {
             subject: mailSubject,
             text: mailText
         }
-
-        return await transporter.sendMail(mailOption)
+        await transporter.sendMail(mailOption)
     } catch (error) {
         return false
     }
