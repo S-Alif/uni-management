@@ -17,7 +17,7 @@ const authController = {
             id: result._id,
             email: result.email,
             role: result.role
-        }, ACCESS_TOKEN_SECRET, "5m")
+        }, ACCESS_TOKEN_SECRET, "1d")
         const refreshToken = generateToken({_id: result?._id}, REFRESH_TOKEN_SECRET, "7d")
 
         let user = await usersModels.findOne({ _id: result?._id }).exec()
