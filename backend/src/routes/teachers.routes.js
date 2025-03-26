@@ -2,5 +2,6 @@ import express from "express"
 
 const router = express.Router()
 
+const routeList = []
 
-export default router
+export default routeList

@@ -1,7 +1,4 @@
-import express from "express"
 import userController from "../../controllers/users/users.controller.js"
-
-const router = express.Router()
 
 const routeList = [
     {path: "/register", method: "post", controller: userController.registerUser},
@@ -13,8 +10,4 @@ const routeList = [
     // {path: "/subjects", method: "get", controller: ""},
 ]
 
-routeList.forEach(({path, method, controller}) => {
-    router[method](path, controller)
-})
-
-export default router
+export default routeList

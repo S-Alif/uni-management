@@ -12,11 +12,33 @@ import authCheck from "../middlewares/auth.middlewares.js"
 
 const router = express.Router()
 
+// route lists
+const routeList = [
+    { path: "/admin", middleware: authCheck([roles.ADMIN]), route: adminRoutes },
+    { path: "/students", middleware: authCheck([roles.STUDENTS]), route: studentsRoutes },
+    { path: "/teachers", middleware: authCheck([roles.TEACHERS]), route: teachersRoutes },
+    { path: "/public", route: publicRoutes }
+]
 
-router.use("/admin", authCheck([roles.ADMIN]), adminRoutes)
-router.use("/students", authCheck([roles.STUDENTS]), studentsRoutes)
-router.use("/teachers", authCheck([roles.TEACHERS]), teachersRoutes)
-router.use("/public", publicRoutes)
+const createRoutes = (parentRouter, routes) => {
+    routes.forEach(({ path, middleware, route, method, controller }) => {
+
+        if(route){
+            const childRouter = express.Router()
+            createRoutes(childRouter, route)
+
+            if(middleware) return parentRouter.use(path, middleware, childRouter)
+            parentRouter.use(path, childRouter)
+        }
+        else if(method && controller) {
+            if(middleware) return parentRouter[method](path, middleware, controller)
+            parentRouter[method](path, controller)
+        }
+    })
+}
+
+// initiate the routes
+createRoutes(router, routeList)
 
 
 export default router
