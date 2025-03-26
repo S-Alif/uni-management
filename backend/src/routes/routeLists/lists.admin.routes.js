@@ -1,5 +1,6 @@
 // controllers
 import batchController from "../../controllers/batch/batch.controller.js"
+import deptController from "../../controllers/departments/dept.controller.js"
 import userController from "../../controllers/users/users.controller.js"
 
 // user routes
@@ -17,6 +18,14 @@ const userRoutes = [
     // {path: "/subjects", method: "get", controller: ""},
 ]
 
+// department routes
+const deptRoutes = [
+    { path: "/", method: "post", controller: deptController.saveDept },
+    { path: "/:id", method: "patch", controller: deptController.saveDept },
+    { path: "/:id", method: "delete", controller: deptController.removeDept },
+    { path: "/", method: "get", controller: deptController.getDeptList },
+]
+
 // batch routes
 const batchRoutes = [
     { path: "/", method: "post", controller: batchController.saveBatch },
@@ -28,5 +37,6 @@ const batchRoutes = [
 
 export {
     userRoutes,
+    deptRoutes,
     batchRoutes
 }
