@@ -8,7 +8,8 @@ const schema = new mongoose.Schema({
         required: true,
         minlength: 5,
         maxlength: 80,
-        trim: true
+        trim: true,
+        index: true,
     },
     personalId: {
         type: String,
@@ -16,7 +17,8 @@ const schema = new mongoose.Schema({
         minlength: 2,
         maxlength: 20,
         trim: true,
-        unique: true
+        unique: true,
+        index: true,
     },
     email: {
         type: String,
@@ -44,6 +46,11 @@ const schema = new mongoose.Schema({
     batch: {
         type: mongoose.Types.ObjectId,
         required: function () {return this.role == roles.STUDENTS },
+        ref: "batches",
+    },
+    section: {
+        type: mongoose.Types.ObjectId,
+        required: function () {return this.role == roles.STUDENTS },
         ref: "batch_sections",
     },
     about: {
@@ -62,10 +69,6 @@ const schema = new mongoose.Schema({
         type: String,
         trim: true
     },
-    profileCover: {
-        type: String,
-        trim: true
-    },
     role: {
         type: Number,
         required: true,
@@ -74,10 +77,6 @@ const schema = new mongoose.Schema({
     isBlocked: {
         type: Boolean,
         default: false
-    },
-    verified: {
-        type: Boolean,
-        default: function() { return this.role == roles.ADMIN },
     },
     refreshTokens: [String]
 }, {timestamps: true, versionKey: false})

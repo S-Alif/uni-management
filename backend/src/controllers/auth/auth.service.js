@@ -16,7 +16,7 @@ const authService = {
         const isDataValid = isValidData(userLogin, data)
         if(!isDataValid) throw new ApiError(404, "Please provide all the data")
 
-        const user = await usersModels.findOne({email: data?.email})
+        const user = await usersModels.findOne({email: data?.email, isBlocked: false})
         if(!user) throw new ApiError(404, "No user found")
         
         const checkPass = await user.verifyPass(data?.pass)
