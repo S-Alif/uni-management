@@ -4,7 +4,7 @@ const roles = {
     TEACHERS: 2022
 }
 
-const fileExtensions = {
+const fileExt = {
     JPG: "image/jpeg",
     PNG: "image/png",
     PDF: "application/pdf",
@@ -19,5 +19,5 @@ const fileExtensions = {
 
 export {
     roles,
-    fileExtensions
+    fileExt
 }

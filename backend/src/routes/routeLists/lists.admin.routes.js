@@ -1,7 +1,12 @@
 // controllers
+import fileUpload from "express-fileupload"
 import batchController from "../../controllers/batch/batch.controller.js"
 import deptController from "../../controllers/departments/dept.controller.js"
 import userController from "../../controllers/users/users.controller.js"
+import fileCheck from "../../middlewares/fileChecker.middlewares.js"
+import { fileExt } from "../../constants/rolesAndFiles.constants.js"
+
+const fileUp = fileUpload({ createParentPath: true })
 
 // user routes
 const userRoutes = [
@@ -20,8 +25,8 @@ const userRoutes = [
 
 // department routes
 const deptRoutes = [
-    { path: "/", method: "post", controller: deptController.saveDept },
-    { path: "/:id", method: "patch", controller: deptController.saveDept },
+    { path: "/", method: "post", middleware: [fileUp, fileCheck([fileExt.JPG, fileExt.PNG], 1)], controller: deptController.saveDept },
+    { path: "/:id", method: "patch", middleware: [fileUp, fileCheck([fileExt.JPG, fileExt.PNG], 0)], controller: deptController.saveDept },
     { path: "/:id", method: "delete", controller: deptController.removeDept },
     { path: "/", method: "get", controller: deptController.getDeptList },
 ]

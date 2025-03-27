@@ -31,7 +31,7 @@ const createRoutes = (parentRouter, routes) => {
             parentRouter.use(path, childRouter)
         }
         else if(method && controller) {
-            if(middleware) return parentRouter[method](path, middleware, controller)
+            if(middleware) return parentRouter[method](path, ...middleware, controller)
             parentRouter[method](path, controller)
         }
     })

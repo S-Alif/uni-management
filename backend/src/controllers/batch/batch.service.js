@@ -1,6 +1,7 @@
 import { ApiError } from "../../utils/api/response/apiError.js"
 import { ApiResponse } from "../../utils/api/response/apiResponse.js"
 import batchesModels from "../../models/batches.models.js"
+import batchSectionsModels from "../../models/batchSections.models.js"
 
 
 const batchService = {
@@ -15,7 +16,7 @@ const batchService = {
         
         const id = req?.params?.id
 
-        const batch = await batchesModels.findOneAndUpdate(id ? { _id: id } : data, data, {upsert: true, new: true})
+        const batch = await batchesModels.findOneAndUpdate(id ? { _id: id } : {batchNo: data?.batchNo}, data, {upsert: true, new: true})
         return new ApiResponse(200, batch, "Batch saved successfully")
     },
 
@@ -24,7 +25,10 @@ const batchService = {
         const id = req?.params?.id
         if(!id) throw new ApiError(400, "No batch id provided")
 
-        const batch = await batchesModels.findByIdAndDelete(id)
+        const count = await batchSectionsModels.countDocuments({batch: id})
+        if(count > 0) throw new ApiError(400, "Cannot remove batch with active sections")
+        
+        const batch = await batchesModels.findByIdAndDelete({_id: id})
         return new ApiResponse(200, {}, "Batch removed successfully")
     },
 
