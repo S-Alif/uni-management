@@ -5,6 +5,7 @@ import deptController from "../../controllers/departments/dept.controller.js"
 import userController from "../../controllers/users/users.controller.js"
 import fileCheck from "../../middlewares/fileChecker.middlewares.js"
 import { fileExt } from "../../constants/rolesAndFiles.constants.js"
+import facultyController from "../../controllers/faculty/faculty.controller.js"
 
 const fileUp = fileUpload({ createParentPath: true })
 
@@ -23,12 +24,22 @@ const userRoutes = [
     // {path: "/subjects", method: "get", controller: ""},
 ]
 
+// faculty
+const facultyRoutes = [
+    { path: "/", method: "post", middleware: [fileUp, fileCheck([fileExt.JPG, fileExt.PNG], 1)], controller: facultyController.saveFaculty },
+    { path: "/:id", method: "patch", middleware: [fileUp, fileCheck([fileExt.JPG, fileExt.PNG], 0)], controller: facultyController.saveFaculty },
+    { path: "/:id", method: "delete", controller: facultyController.removeFaculty },
+    { path: "/", method: "get", controller: facultyController.getFacultyList },
+    { path: "/:id", method: "get", controller: facultyController.getFaculty },
+]
+
 // department routes
 const deptRoutes = [
     { path: "/", method: "post", middleware: [fileUp, fileCheck([fileExt.JPG, fileExt.PNG], 1)], controller: deptController.saveDept },
     { path: "/:id", method: "patch", middleware: [fileUp, fileCheck([fileExt.JPG, fileExt.PNG], 0)], controller: deptController.saveDept },
     { path: "/:id", method: "delete", controller: deptController.removeDept },
     { path: "/", method: "get", controller: deptController.getDeptList },
+    { path: "/:id", method: "get", controller: deptController.getDept },
 ]
 
 // batch routes
@@ -43,5 +54,6 @@ const batchRoutes = [
 export {
     userRoutes,
     deptRoutes,
-    batchRoutes
+    batchRoutes,
+    facultyRoutes
 }

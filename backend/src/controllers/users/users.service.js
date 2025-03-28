@@ -5,6 +5,7 @@ import {ApiResponse} from "../../utils/api/response/apiResponse.js"
 import { roles } from "../../constants/rolesAndFiles.constants.js"
 import usersModel from "../../models/users.models.js"
 import sendEmail from "../../utils/mail/sendMail.js"
+import { uploadMedia } from "../../utils/files/mediaUpload.js"
 
 const userService = {
 
@@ -15,6 +16,14 @@ const userService = {
 
         const validated = isValidData(userRegistration, data)
         if (!validated) throw new ApiError(400, "Please provide all the data")
+        
+        // upload image if there is
+        const file = req?.files?.image
+        if (!file) {
+            throw new ApiError(400, "No user image uploaded")
+        }
+        const imageUrl = await uploadMedia(file)
+        data.image = imageUrl
 
         const createNewUser = await usersModel.create(data)
         // await sendEmail(data?.email, "", "Account creation confirmed")

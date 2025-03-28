@@ -10,23 +10,25 @@ const deptService = {
     // create or update department
     saveDept: async (req) => {
         const data = req?.body
-        const validate = isValidData(deptValidate, data)
-        if(!validate) throw new ApiError(400, "Invalid department data")
-        
-        // count documents
-        const count = await departmentsModels.countDocuments({ $or: [{ name: data.name }, { shortName: data.shortName }]})
-        if(count > 0) throw new ApiError(400, "Department name or short name already exists")
+        if(!data) throw new ApiError(400, "No data found")
 
         // upload image if there is
         const file = req?.files?.image
         if(file) {
             var imageUrl = await uploadMedia(file)
-        }
+        }       
 
         const id = req?.params?.id
+        
+        data.image = imageUrl
+        const validate = isValidData(deptValidate, data)
+        if (!validate) throw new ApiError(400, "Invalid department data")
+        
+        // count documents
+        const count = await departmentsModels.countDocuments({ $or: [{ name: data.name }, { shortName: data.shortName }] })
+        if (count > 0) throw new ApiError(400, "Department name or short name already exists")
 
         // update or create new data
-        data.image = imageUrl
         const department = await departmentsModels.findByIdAndUpdate(id ? {_id: id} : {name: data?.name}, data, {upsert: true, new: true})
 
         return new ApiResponse(200, department, "Department saved successfully")
@@ -35,7 +37,7 @@ const deptService = {
     // remove department
     removeDept: async (req) => {
         const id = req?.params?.id
-        if(!id) throw new ApiError(404, "No department id provided")
+        if(!id) throw new ApiError(400, "No department id provided")
 
         // check if department is used
         const models = [
@@ -54,9 +56,34 @@ const deptService = {
 
     // get department list
     getDeptList: async (req) => {
-        // need to complete it after faculty model is created
         const department = await departmentsModels.find({})
+                                .select("name shortName _id image")
+                                .populate({
+                                    path: "faculty",
+                                    select: "name _id"
+                                })
+                                .populate({
+                                    path: "deptHead",
+                                    select: "name _id"
+                                })
         return new ApiResponse(200, department, "Department list loaded")
+    },
+
+    // get a department
+    getDept: async (req) => {
+        const id = req?.params?.id
+        if(!id) throw new ApiError(400, "No department id provided")
+        const department = await departmentsModels.findOne({_id: id})
+                                .populate({
+                                    path: "faculty",
+                                    select: "name _id"
+                                })
+                                .populate({
+                                    path: "deptHead",
+                                    select: "name image _id"
+                                })
+        
+        return new ApiResponse(200, department, "Department loaded")
     }
 }
 
