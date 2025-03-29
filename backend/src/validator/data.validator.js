@@ -75,8 +75,8 @@ const deptValidate = Joi.object({
     faculty: Joi.string().length(24).required(),
     deptHead: Joi.string().length(24).optional(),
     about: Joi.string().min(10).max(100000).required(),
-    image: Joi.string().min(10).max(300).required(),
-    msgFromDeptHead: Joi.string().min(10).max(10000).required(),
+    image: Joi.string().min(10).max(300).optional(),
+    msgFromDeptHead: Joi.string().min(10).max(10000).optional(),
 })
 
 // faculty

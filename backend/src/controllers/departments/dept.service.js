@@ -1,8 +1,9 @@
+import mongoose from "mongoose"
 import batchSectionsModels from "../../models/batchSections.models.js"
 import departmentsModels from "../../models/departments.models.js"
 import { ApiError } from "../../utils/api/response/apiError.js"
 import { ApiResponse } from "../../utils/api/response/apiResponse.js"
-import { uploadMedia } from "../../utils/files/mediaUpload.js"
+import { removeMedia, uploadMedia } from "../../utils/files/mediaUpload.js"
 import { deptValidate } from "../../validator/data.validator.js"
 import isValidData from "../../validator/validate.js"
 
@@ -12,24 +13,32 @@ const deptService = {
         const data = req?.body
         if(!data) throw new ApiError(400, "No data found")
 
-        // upload image if there is
-        const file = req?.files?.image
-        if(file) {
-            var imageUrl = await uploadMedia(file)
-        }       
-
-        const id = req?.params?.id
-        
-        data.image = imageUrl
         const validate = isValidData(deptValidate, data)
-        if (!validate) throw new ApiError(400, "Invalid department data")
+        if (!validate) {
+            throw new ApiError(400, "Invalid department data")
+        }
+            
+        const id = req?.params?.id
+
         
         // count documents
-        const count = await departmentsModels.countDocuments({ $or: [{ name: data.name }, { shortName: data.shortName }] })
-        if (count > 0) throw new ApiError(400, "Department name or short name already exists")
+        const count = await departmentsModels.countDocuments(
+            id ? { _id: { $ne: id }, $or: [{ name: data.name }, { shortName: data.shortName }] } 
+            : { $or: [{ name: data.name }, { shortName: data.shortName }] }
+        )
+        if (count > 0) throw new ApiError(400, "Department already exists")
+
+        // upload image if there is
+        const file = req?.files?.image
+        let imageUrl = null
+        if (file) {
+            if (id) await removeMedia(data?.image)
+            imageUrl = await uploadMedia(file)
+            data.image = imageUrl
+        }
 
         // update or create new data
-        const department = await departmentsModels.findByIdAndUpdate(id ? {_id: id} : {name: data?.name}, data, {upsert: true, new: true})
+        const department = await departmentsModels.findOneAndUpdate({ _id: id || new mongoose.Types.ObjectId() }, data, {upsert: true, new: true})
 
         return new ApiResponse(200, department, "Department saved successfully")
     },
@@ -50,7 +59,11 @@ const deptService = {
             }
         }
 
-        const department = await departmentsModels.findByIdAndDelete({_id: id})
+        const department = await departmentsModels.findOne({_id: id})
+        const removeImage = await removeMedia(department?.image)
+        if(!removeImage) throw new ApiError(400, "Could not remove department")
+
+        const removeDoc = await departmentsModels.findByIdAndDelete({_id: id})
         return new ApiResponse(200, {}, "Department removed successfully")
     },
 

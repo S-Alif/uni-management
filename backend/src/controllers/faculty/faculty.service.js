@@ -5,6 +5,7 @@ import { ApiResponse } from "../../utils/api/response/apiResponse.js"
 import { facultyValidate } from "../../validator/data.validator.js"
 import isValidData from "../../validator/validate.js"
 import {removeMedia, uploadMedia} from "../../utils/files/mediaUpload.js"
+import mongoose from "mongoose"
 
 
 const facultyService = {
@@ -34,7 +35,7 @@ const facultyService = {
         const count = await facultyModels.countDocuments({ name: data.name })
         if (count > 1) throw new ApiError(400, "Faculty name already exists")
 
-        const faculty = await facultyModels.findOneAndUpdate(id ? { _id: id } : { name: data?.name }, data, { upsert: true, new: true })
+        const faculty = await facultyModels.findOneAndUpdate({ _id: id || new mongoose.Types.ObjectId() }, data, { upsert: true, new: true })
 
         return new ApiResponse(200, faculty, "Faculty saved successfully")
     },
