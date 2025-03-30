@@ -66,10 +66,16 @@ const userUpdateByHimself = Joi.object({
     about: Joi.string().min(10).max(50000).required()
 })
 
-// admin login
+// user login
 const adminLogin = Joi.object({
     email: Joi.string().email(new RegExp(emailRegex)).required(),
     pass: Joi.string().min(8).max(255).required()
+})
+
+// reset pass
+const resetPass = Joi.object({
+    pass: Joi.string().min(8).max(50).required(),
+    email: Joi.string().email(new RegExp(emailRegex)).required(),
 })
 
 // departments
@@ -98,6 +104,7 @@ export {
     userUpdateByHimself,
     adminLogin,
     userUpdateByAdmin,
+    resetPass,
     deptValidate,
     facultyValidate
 }

@@ -1,4 +1,4 @@
-import { adminLogin, userRegistration } from "../../validator/data.validator.js"
+import { adminLogin, resetPass, userRegistration } from "../../validator/data.validator.js"
 import isValidData from "../../validator/validate.js"
 import {ApiError} from "../../utils/api/response/apiError.js"
 import { ApiResponse } from "../../utils/api/response/apiResponse.js"
@@ -10,7 +10,7 @@ import registrationSuccess from "../../utils/mail/mail-templates/registration-su
 import otpMail from "../../utils/mail/mail-templates/otp-mail.js"
 
 const authService = {
-    // login admin
+    // login
     login: async (req) => {
         const data = req?.body
         const isDataValid = isValidData(adminLogin, data)
@@ -38,7 +38,7 @@ const authService = {
         await usersModels.create(data)
 
         // send a mail to the user
-        await sendEmail(data?.email, registrationSuccess(data?.name), "Registration success notification")
+        // await sendEmail(data?.email, registrationSuccess(data?.name), "Registration success notification")
 
         return new ApiResponse(200, {}, "Registration successful")        
     },
@@ -75,7 +75,18 @@ const authService = {
 
     // rest password
     resetPassword: async (req) => {
+        const data = req?.body
+        const validate = isValidData(resetPass, data)
+        if(!validate) throw new ApiError(400, "Invalid reset password")
+        
+        const user = await usersModels.findOne({email: data?.email})
+        if(!user) throw new ApiError(404, "User not found")
+        user.pass = data?.pass
+        user.save()
 
+        // notification email to user
+        // await sendEmail(data?.email, "", "Password reset confirmation")
+        return new ApiResponse(200, {}, "Password reset successfully")
     }
 }
 
