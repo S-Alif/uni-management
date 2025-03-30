@@ -5,6 +5,8 @@ import { useState } from "react"
 import { NavLink } from "react-router"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import apiHandler from "@/utils/api/apiHandler"
+import { publicRoutes } from "@/utils/api/apiConstants"
 
 // form schema
 const formSchema = z.object({
@@ -39,9 +41,12 @@ const Login = () => {
     const [resetForm, setResetForm] = useState(false)
     const [loading, setLoading] = useState(false)
 
-    const onSubmit = (value) => {
+    const onSubmit = async (value) => {
         console.log(value)
+        let result = await apiHandler(publicRoutes.login, value, true)
+        if(!result) return
         setResetForm(true)
+        navigate("/") // navigate to profile or dashboard later
     }
 
     return (

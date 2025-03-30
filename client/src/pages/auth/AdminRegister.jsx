@@ -4,8 +4,7 @@ import { z } from "zod"
 import { useState } from "react"
 import apiHandler from "@/utils/api/apiHandler"
 import { publicRoutes } from "@/utils/api/apiConstants"
-import { succesToast } from "@/utils/toastNotification"
-import { NavLink } from "react-router"
+import { NavLink, useNavigate } from "react-router"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 
@@ -74,7 +73,9 @@ const AdminRegister = () => {
 
     const [resetForm, setResetForm] = useState(false)
     const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
 
+    // submit the form
     const onSubmit = async (value) => {
         setLoading(true)
         value.role = 2025
@@ -83,8 +84,10 @@ const AdminRegister = () => {
         setLoading(false)
         if(!result) return
 
-        succesToast(result?.message)
         setResetForm(true)
+
+        await apiHandler(publicRoutes.sendOtp, {email: value?.email})
+        navigate("/auth/verify-account", {state: {email: value?.email}})
     }
 
     return (

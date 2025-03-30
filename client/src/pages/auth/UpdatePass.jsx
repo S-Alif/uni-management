@@ -2,9 +2,11 @@ import { useState } from "react"
 import AuthPageLayout from "./layout/AuthPageLayout"
 import FormLayout from "@/components/forms/FormLayout"
 import { z } from "zod"
-import { NavLink } from "react-router"
+import { NavLink, useLocation, useNavigate } from "react-router"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
+import apiHandler from "@/utils/api/apiHandler"
+import { publicRoutes } from "@/utils/api/apiConstants"
 
 // form schema
 const formSchema = z.object({
@@ -45,10 +47,20 @@ const formFields = [
 const UpdatePass = () => {
     const [resetForm, setResetForm] = useState(false)
     const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
 
-    const onSubmit = (value) => {
+    // sent from find account page
+    const location = useLocation()
+    const userEmail = location.state?.email
+    const nextDestination = location.state?.to
+
+    const onSubmit = async (value) => {
         console.log(value)
+        let result = await apiHandler(publicRoutes.updatePass, {email: userEmail, pass: value?.pass}, true)
+        if(!result) return
         setResetForm(true)
+        if (nextDestination) return navigate(nextDestination, { state: { email: userEmail } })
+        navigate("/auth/login")
     }
 
     return (

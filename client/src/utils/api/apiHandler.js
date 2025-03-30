@@ -1,8 +1,10 @@
-import { errorToast } from "../toastNotification";
+import UserStore from "@/stores/UserStore"
+import { errorToast, succesToast } from "../toastNotification"
 import api from "./axios"
 
 
-const apiHandler = async (route, data = {}, accessToken = null) => {
+const apiHandler = async (route, data = {}, showToast = false) => {
+    const accessToken = UserStore.getState().accessToken || null
     try {
         let options = {
             url: route.url,
@@ -14,15 +16,19 @@ const apiHandler = async (route, data = {}, accessToken = null) => {
                 }
             })
         }
-        let result = await api(options)
 
-        return result.data;
+        let result = await api(options)
+        const response = result?.data
+
+        if (showToast) succesToast(response?.message || "Action success")
+
+        return response
 
     } catch (error) {
         console.log(error)
         const message = error?.response?.data
         if(message){
-            errorToast(message?.data)
+            errorToast(message?.message)
         }
         else{
             errorToast("An error occurred, please try again later")

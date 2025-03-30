@@ -2,9 +2,11 @@ import { useState } from "react"
 import AuthPageLayout from "./layout/AuthPageLayout"
 import FormLayout from "@/components/forms/FormLayout"
 import { z } from "zod"
-import { NavLink } from "react-router"
+import { NavLink, replace, useNavigate } from "react-router"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
+import apiHandler from "@/utils/api/apiHandler"
+import { publicRoutes } from "@/utils/api/apiConstants"
 
 // form schema
 const formSchema = z.object({
@@ -29,10 +31,20 @@ const formFields = [
 const FindAccount = () => {
     const [resetForm, setResetForm] = useState(false)
     const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
 
-    const onSubmit = (value) => {
-        console.log(value)
+    // send otp after finding account
+    const onSubmit = async (value) => {
+        let sendOtp = await apiHandler(publicRoutes.sendOtp, value, true)
+        if(!sendOtp) return
         setResetForm(true)
+        navigate("/auth/verify-account", {
+            state: {
+                ...value,
+                to: "/auth/update-pass"
+            },
+            replace: true
+        })
     }
 
     return (

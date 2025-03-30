@@ -21,8 +21,11 @@ const createRoute = (paths, route, method) => {
 
 // public routes
 const publicRoutes = {
-    login: createRoute(publicEndpoint, "login", GET),
+    login: createRoute(publicEndpoint, "login", POST),
     register: createRoute(publicEndpoint, "register", POST),
+    sendOtp: createRoute(publicEndpoint, "otp", POST),
+    verifyOtp: createRoute(publicEndpoint, "otp", PATCH),
+    updatePass: createRoute(publicEndpoint, "update-pass", PATCH),
 }
 
 export {
