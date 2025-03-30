@@ -1,4 +1,4 @@
-import { userLogin, userRegistration } from "../../validator/data.validator.js"
+import { adminLogin, userRegistration } from "../../validator/data.validator.js"
 import isValidData from "../../validator/validate.js"
 import {ApiError} from "../../utils/api/response/apiError.js"
 import { ApiResponse } from "../../utils/api/response/apiResponse.js"
@@ -10,10 +10,10 @@ import registrationSuccess from "../../utils/mail/mail-templates/registration-su
 import otpMail from "../../utils/mail/mail-templates/otp-mail.js"
 
 const authService = {
-    // login all users
+    // login admin
     login: async (req) => {
         const data = req?.body
-        const isDataValid = isValidData(userLogin, data)
+        const isDataValid = isValidData(adminLogin, data)
         if(!isDataValid) throw new ApiError(404, "Please provide all the data")
 
         const user = await usersModels.findOne({email: data?.email, isBlocked: false})

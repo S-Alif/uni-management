@@ -6,13 +6,16 @@ const emailRegex = "^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|hotmail\.com|outlo
 // for registering a user by admin
 const userRegistration = Joi.object({
     name: Joi.string().min(5).max(80).required(),
-    personalId: Joi.string().length(8).required(),
+    personalId: Joi.string().length(8).when("role",{
+        is: roles.ADMIN,
+        then: Joi.required(),
+        otherwise: Joi.optional()
+    }),
     email: Joi.string().email(new RegExp(emailRegex)).required(),
     pass: Joi.string().min(8).max(255).required(),
     phone: Joi.string().min(10).max(15).required(),
-    about: Joi.string().optional(),
     dept: Joi.string().length(24).when("role", {
-        is: roles.STUDENTS || roles.TEACHERS,
+        is: Joi.valid(roles.STUDENTS, roles.TEACHERS),
         then: Joi.required(),
         otherwise: Joi.optional()
     }),
@@ -34,11 +37,12 @@ const userRegistration = Joi.object({
 const userUpdateByAdmin = Joi.object({
     name: Joi.string().min(5).max(80).required(),
     email: Joi.string().email(new RegExp(emailRegex)).required(),
-    personalId: Joi.string().length(8).required(),
+    profileImg: Joi.string().min(10).max(300).optional(),
+    name: Joi.string().min(5).max(80).required(),
     pass: Joi.string().min(8).max(255).optional(),
     about: Joi.string().min(10).max(50000).optional(),
     dept: Joi.string().length(24).when("role", {
-        is: roles.STUDENTS || roles.TEACHERS,
+        is: Joi.valid(roles.STUDENTS, roles.TEACHERS),
         then: Joi.required(),
         otherwise: Joi.optional()
     }),
@@ -63,7 +67,7 @@ const userUpdateByHimself = Joi.object({
 })
 
 // admin login
-const userLogin = Joi.object({
+const adminLogin = Joi.object({
     email: Joi.string().email(new RegExp(emailRegex)).required(),
     pass: Joi.string().min(8).max(255).required()
 })
@@ -92,7 +96,7 @@ const facultyValidate = Joi.object({
 export {
     userRegistration,
     userUpdateByHimself,
-    userLogin,
+    adminLogin,
     userUpdateByAdmin,
     deptValidate,
     facultyValidate

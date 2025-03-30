@@ -12,43 +12,52 @@ const userService = {
     // register a new user - teacher or student
     registerUser: async (req) => {
         const data = req?.body
-        if(data?.role == roles.ADMIN) throw new ApiError(400, "Cannot register user")
+        if (data?.role == roles.ADMIN) throw new ApiError(400, "Cannot register user")
 
         const validated = isValidData(userRegistration, data)
         if (!validated) throw new ApiError(400, "Please provide all the data")
-        
+
         // upload image if there is
         const file = req?.files?.image
         if (!file) {
             throw new ApiError(400, "No user image uploaded")
         }
         const imageUrl = await uploadMedia(file)
-        data.image = imageUrl
+        data.profileImg = imageUrl
 
         const createNewUser = await usersModel.create(data)
+        const user = await usersModel.findOne({_id: createNewUser?._id})
+                            .select("name personalId email phone dept profileImg isBlocked")
+                            .populate({
+                                path: "dept",
+                                select: "shortName _id"
+                            })
         // await sendEmail(data?.email, "", "Account creation confirmed")
-        return new ApiResponse(200, createNewUser, "User registration successful")
+        return new ApiResponse(200, user, "User registration successful")
     },
 
     // list of teachers
     getTeacherList: async (req) => {
-        const {page, limit} = req?.query
+        const role = req?.headers?.role
+        const {page, limit, dept = ""} = req?.query
         const pageNum = parseInt(page) || 1
         const pageLimit = parseInt(limit) || 20
         const skip = (pageNum - 1) * pageLimit
 
         if (pageLimit > 60) throw new ApiError(400, "Limit exceeded")
+        
+        const query = {role: roles.TEACHERS}
+        if (dept != "all" && dept?.length == 24) query.dept = dept
+        if(role != roles.ADMIN) query.isBlocked = false
 
-        const teacherList = await usersModel.find({ role: roles.TEACHERS })
+
+        const teacherList = await usersModel.find(query)
                                 .skip(skip)
                                 .limit(pageLimit)
+                                .select("-refreshTokens -pass")
                                 .populate({
                                     path: "dept",
-                                    select: "shortName _id",
-                                    populate: {
-                                        path: "faculty",
-                                        select: "name _id"
-                                    }
+                                    select: "shortName _id"
                                 })
 
         return new ApiResponse(200, teacherList, "Teacher list loaded")
@@ -56,31 +65,40 @@ const userService = {
 
     // list of students
     getStudentList: async (req) => {
-        const { page, limit, dept, batch, section } = req?.query
+        const role = req?.headers?.role
+        const { page, limit, dept = "", batch = "", section = "" } = req?.query
         const pageNum = parseInt(page) || 1
         const pageLimit = parseInt(limit) || 60
         const skip = (pageNum - 1) * pageLimit
 
         if (limit > 100) throw new ApiError(400, "Limit exceeded")
 
-        let query = {
-            role: roles.STUDENTS,
-            dept: dept ? dept : {},
-            batch: batch ? batch : {},
-            section: section ? section : {}
-        }
+        let query = {role: roles.STUDENTS}
+        if (dept != "all" && dept?.length == 24) query.dept = dept
+        if(batch != "all" && batch?.length == 24) query.batch = batch
+        if(section != "all" && section?.length == 24) query.section = section
+        if (role != roles.ADMIN) query.isBlocked = false
+
 
         const studentList = await usersModel.find(query)
             .skip(skip)
             .limit(limit)
-            .select("name personalId dept email phone batch section")
+            .select("-refreshTokens -pass")
             .populate({
                 path: "dept",
-                select: "shortName _id",
-                populate: {
-                    path: "faculty",
-                    select: "name _id"
-                }
+                select: "shortName _id"
+            })
+            .populate({
+                path: "batch",
+                select: "batchNo _id"
+            })
+            .populate({
+                path: "batch",
+                select: "batchNo _id"
+            })
+            .populate({
+                path: "section",
+                select: "shift section _id"
             })
 
         return new ApiResponse(200, studentList, "Student list loaded")
@@ -107,10 +125,6 @@ const userService = {
                 { 
                     path: "dept",
                     select: "shortName _id",
-                    populate: { 
-                        path: "faculty",
-                        select: "name _id" 
-                    } 
                 },
                 { path: "batch", select: "batchNo _id" },
                 { path: "section", select: "section shift _id" }
@@ -139,6 +153,8 @@ const userService = {
         const id = isAdmin ? req?.params?.id : req?.headers?.id
 
         if(!id) throw new ApiError(400, "Invalid user info")
+
+        // need to add profile image update option - only valid for admin
         
         const userUpdate = await usersModel.findByIdAndUpdate({_id: id}, data)
 

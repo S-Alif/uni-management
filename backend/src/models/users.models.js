@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
 import {roles} from "../constants/rolesAndFiles.constants.js"
 import bcrypt from "bcryptjs"
+import batchesModels from "./batches.models.js"
 
 const schema = new mongoose.Schema({
     name: {
@@ -87,7 +88,30 @@ schema.pre("save", async function(next){
     if(!this.isModified("pass")) return next()
     const salt = await bcrypt.genSalt(10)
     this.pass = await bcrypt.hash(this.pass, salt)
+    next()
 })
+
+// create personal id for ne new users
+schema.pre("validate", async function(next){
+    if(!this.personalId) {
+        if(this.role == roles.STUDENTS){
+            const getBatch = await batchesModels.findOne({_id: this.batch}).select("batchNo -_id")
+            const batchNo = getBatch?.batchNo.padStart(3, "0")
+
+            const countStudents = await this.collection.countDocuments({batch: this.batch})
+            this.personalId = `${batchNo + (countStudents + 1).toString().padStart(5, "0") }`
+        }
+        else if(this.role == roles.TEACHERS){
+            const year = `${new Date().getFullYear()}`
+            const admitYear = year.substring(2).padStart(3, "0")
+            const countTeachers = await this.collection.countDocuments({role: roles.TEACHERS, dept: this.dept})
+            this.personalId = `${admitYear + (countTeachers + 1).toString().padStart(5, "0") }`
+        }
+        return next()
+    }
+    next()
+})
+
 
 // decrypt password
 schema.methods.verifyPass = async function(pass){

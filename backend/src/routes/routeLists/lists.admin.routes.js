@@ -11,7 +11,7 @@ const fileUp = fileUpload({ createParentPath: true })
 
 // user routes
 const userRoutes = [
-    {path: "/register", method: "post", controller: userController.registerUser},
+    {path: "/register", method: "post", middleware: [fileUp, fileCheck([fileExt.JPG, fileExt.PNG], 1)], controller: userController.registerUser},
     {path: "/list/teachers", method: "get", controller: userController.getTeacherList},
     {path: "/list/students", method: "get", controller: userController.getStudentList},
     {path: "/user/:id", method: "get", controller: userController.getUser},
