@@ -104,16 +104,12 @@ const userService = {
         return new ApiResponse(200, studentList, "Student list loaded")
     },
 
-    // user data
+    // user data by admin
     getUser: async (req) => {
         const id = req?.params.id
         if (!id) throw new ApiError(400, "No user info provided")
 
-        const isAdmin = roles.ADMIN == req?.headers?.role
-        const query = {
-            _id: id,
-            isBlocked: !isAdmin
-        }
+        const query = { _id: id }
 
         const user = await usersModel.findOne(query).select("role")
         if (!user) throw new ApiError(404, "User not found")
@@ -121,7 +117,7 @@ const userService = {
         let userQuery = await usersModel.findOne(query).select("-pass -refreshTokens")
 
         if (user?.role === roles.STUDENTS) {
-            userQuery = userQuery.populate([
+            userQuery = await userQuery.populate([
                 { 
                     path: "dept",
                     select: "shortName _id",
@@ -131,16 +127,13 @@ const userService = {
             ])
         }
         else if (user?.role === roles.TEACHERS) {
-            userQuery = userQuery.populate({
+            userQuery = await userQuery.populate({
                 path: "dept",
-                select: "shortName _id",
-                populate: { path: "faculty", select: "name _id" }
+                select: "shortName _id"
             })
         }
 
-        const populatedUser = await userQuery.exec()
-
-        return new ApiResponse(200, populatedUser, "User data loaded")
+        return new ApiResponse(200, userQuery, "User data loaded")
     },
 
     // update user info
