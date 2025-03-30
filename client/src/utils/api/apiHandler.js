@@ -22,7 +22,7 @@ const apiHandler = async (route, data = {}, showToast = false) => {
 
         if (showToast) succesToast(response?.message || "Action success")
 
-        return response
+        return response?.data
 
     } catch (error) {
         console.log(error)

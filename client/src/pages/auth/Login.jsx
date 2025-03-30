@@ -2,11 +2,12 @@ import { z } from "zod"
 import AuthPageLayout from "./layout/AuthPageLayout"
 import FormLayout from "@/components/forms/FormLayout"
 import { useState } from "react"
-import { NavLink } from "react-router"
+import { NavLink, useNavigate } from "react-router"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import apiHandler from "@/utils/api/apiHandler"
 import { publicRoutes } from "@/utils/api/apiConstants"
+import UserStore from "@/stores/UserStore"
 
 // form schema
 const formSchema = z.object({
@@ -40,13 +41,22 @@ const Login = () => {
 
     const [resetForm, setResetForm] = useState(false)
     const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
 
+    // state zustand store
+    const {setUser, setAccessToken} = UserStore()
+
+    // login submit
     const onSubmit = async (value) => {
-        console.log(value)
         let result = await apiHandler(publicRoutes.login, value, true)
         if(!result) return
+
+        // set the data in the state
+        setUser(result?.user)
+        setAccessToken(result?.accessToken)
+
         setResetForm(true)
-        navigate("/") // navigate to profile or dashboard later
+        navigate("/admin/dashboard") // navigate to profile or dashboard later
     }
 
     return (

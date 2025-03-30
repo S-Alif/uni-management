@@ -2,7 +2,7 @@ import { useState } from "react"
 import AuthPageLayout from "./layout/AuthPageLayout"
 import FormLayout from "@/components/forms/FormLayout"
 import { z } from "zod"
-import { NavLink, useLocation, useNavigate } from "react-router"
+import { Navigate, NavLink, useLocation, useNavigate } from "react-router"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import apiHandler from "@/utils/api/apiHandler"
@@ -54,6 +54,9 @@ const UpdatePass = () => {
     const userEmail = location.state?.email
     const nextDestination = location.state?.to
 
+    // if no email return to before
+    if(!userEmail) return <Navigate to={window.history.back()} replace={true} />
+
     const onSubmit = async (value) => {
         console.log(value)
         let result = await apiHandler(publicRoutes.updatePass, {email: userEmail, pass: value?.pass}, true)
@@ -65,16 +68,16 @@ const UpdatePass = () => {
 
     return (
         <AuthPageLayout
-            pageId={"verify-account-page"}
-            pageTitle={"Verify your account"}
+            pageId={"update-pass-page"}
+            pageTitle={"Update your password"}
         >
             <FormLayout
-                formId="verify-account"
+                formId="update-password"
                 formSchema={formSchema}
                 defaultValues={defaultValues}
                 onSubmit={onSubmit}
                 buttonClass="w-full h-12"
-                buttonText="Verify Account"
+                buttonText="update password"
                 formFields={formFields}
                 resetForm={resetForm}
                 disabled={loading}

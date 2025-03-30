@@ -62,7 +62,7 @@ const VerifyAccount = () => {
         let result = await apiHandler(publicRoutes.verifyOtp, {email: userEmail, ...value}, true)
         if(!result) return
         setResetForm(true)
-        if (nextDestination) return navigate(nextDestination, { state: { email: userEmail } })
+        if (nextDestination) return navigate(nextDestination, { state: { email: userEmail }, replace: true })
         navigate("/auth/login")
     }
 
