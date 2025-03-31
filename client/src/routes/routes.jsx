@@ -85,7 +85,7 @@ const routes = createBrowserRouter([
                 element: <Departments />
             },
             {
-                path: "faculty",
+                path: "semesters",
                 element: <Semesters />
             },
 
