@@ -28,11 +28,22 @@ const publicRoutes = {
     updatePass: createRoute(publicEndpoint, "update-pass", PATCH),
 }
 
+// admin routes
+const administrationRoutes = {
+    // batches
+    batch: `${baseUrl}/api/v1/admin/batch`,
+    department: `${baseUrl}/api/v1/admin/department`,
+    faculty: `${baseUrl}/api/v1/admin/faculty`,
+    faculty: `${baseUrl}/api/v1/admin/faculty`,
+}
+
+
 export {
     baseUrl,
     publicRoutes,
     GET,
     POST,
     PATCH,
-    DELETE_METHOD
+    DELETE_METHOD,
+    administrationRoutes
 }

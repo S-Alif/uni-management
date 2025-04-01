@@ -42,7 +42,7 @@ const FormInputs = ({
                                             key={index}
                                             className="hover:cursor-pointer hover:!bg-primary hover:!text-white"
                                         >
-
+                                            {e?.name}
                                         </SelectItem>
                                     ))
                                 }
