@@ -9,14 +9,14 @@ const batchService = {
     saveBatch: async (req) => {
         let data = req?.body
         if(!data) throw new ApiError(400, "No data provided")
-        if(isNaN(data?.batchNo) || data?.batchNo?.length < 1 || data?.batchNo?.length > 5) throw new ApiError(400, "Invalid batch number")
+        if(isNaN(data?.name) || data?.name?.length < 1 || data?.name?.length > 5) throw new ApiError(400, "Invalid batch number")
 
         const checkDupticate = await batchesModels.countDocuments(data)
         if(checkDupticate > 0) throw new ApiError(400, "Batch number already exists")
         
         const id = req?.params?.id
 
-        const batch = await batchesModels.findOneAndUpdate(id ? { _id: id } : {batchNo: data?.batchNo}, data, {upsert: true, new: true})
+        const batch = await batchesModels.findOneAndUpdate({ _id: id || new mongoose.Types.ObjectId() }, data, {upsert: true, new: true})
         return new ApiResponse(200, batch, "Batch saved successfully")
     },
 
@@ -39,8 +39,10 @@ const batchService = {
         const pageLimit = parseInt(limit) || 10
         const skip = (pageNum - 1) * pageLimit
 
-        const batchList = await batchesModels.find({}).skip(skip).limit(pageLimit)
-        return new ApiResponse(200, batchList, "Batch list loaded")
+        const batchList = await batchesModels.find({}).skip(skip).select("name _id").limit(pageLimit)
+        const total = await batchesModels.countDocuments({})
+        const totalPage = Math.ceil(total / pageLimit)
+        return new ApiResponse(200, {batch:batchList, totalPage: totalPage}, "Batch list loaded")
     },
 }
 

@@ -6,7 +6,7 @@ const schema = new mongoose.Schema({
         required: true,
         ref: "course_materials",
     },
-    batchSections: {
+    batchSection: {
         type: mongoose.Types.ObjectId,
         required: true,
         ref: "batch_sections",

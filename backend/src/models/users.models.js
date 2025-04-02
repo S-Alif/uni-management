@@ -75,6 +75,12 @@ const schema = new mongoose.Schema({
         required: true,
         enum: [roles.ADMIN, roles.TEACHERS, roles.STUDENTS],
     },
+    teacherDesignation: {
+        type: String,
+        default: "Lecturer",
+        enum: ["Professor", "Associate Professor", "Assistant Professor", "Senior Lecturer", "Lecturer"],
+        required: function () { return this.role == roles.TEACHERS }
+    },
     isBlocked: {
         type: Boolean,
         default: false
@@ -95,11 +101,11 @@ schema.pre("save", async function(next){
 schema.pre("validate", async function(next){
     if(!this.personalId) {
         if(this.role == roles.STUDENTS){
-            const getBatch = await batchesModels.findOne({_id: this.batch}).select("batchNo -_id")
-            const batchNo = getBatch?.batchNo.padStart(3, "0")
+            const getBatch = await batchesModels.findOne({_id: this.batch}).select("name -_id")
+            const name = getBatch?.name.padStart(3, "0")
 
             const countStudents = await this.collection.countDocuments({batch: this.batch})
-            this.personalId = `${batchNo + (countStudents + 1).toString().padStart(5, "0") }`
+            this.personalId = `${name + (countStudents + 1).toString().padStart(5, "0") }`
         }
         else if(this.role == roles.TEACHERS){
             const year = `${new Date().getFullYear()}`

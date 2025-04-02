@@ -39,7 +39,7 @@ const userService = {
     // list of teachers
     getTeacherList: async (req) => {
         const role = req?.headers?.role
-        const {page, limit, dept = ""} = req?.query
+        const {page, limit, dept = "all", designation = "all"} = req?.query
         const pageNum = parseInt(page) || 1
         const pageLimit = parseInt(limit) || 20
         const skip = (pageNum - 1) * pageLimit
@@ -48,6 +48,7 @@ const userService = {
         
         const query = {role: roles.TEACHERS}
         if (dept != "all" && dept?.length == 24) query.dept = dept
+        if (designation != "all" && designation !== "") query.teacherDesignation = designation
         if(role != roles.ADMIN) query.isBlocked = false
 
 
@@ -59,8 +60,10 @@ const userService = {
                                     path: "dept",
                                     select: "shortName _id"
                                 })
+        const total = await usersModel.countDocuments(query)
+        const totalPages = Math.ceil(total / pageLimit)
 
-        return new ApiResponse(200, teacherList, "Teacher list loaded")
+        return new ApiResponse(200, {teachers: teacherList, totalPage: totalPages}, "Teacher list loaded")
     },
 
     // list of students
@@ -90,18 +93,20 @@ const userService = {
             })
             .populate({
                 path: "batch",
-                select: "batchNo _id"
+                select: "name _id"
             })
             .populate({
                 path: "batch",
-                select: "batchNo _id"
+                select: "name _id"
             })
             .populate({
                 path: "section",
                 select: "shift section _id"
             })
+        const total = await usersModel.countDocuments(query)
+        const totalPages = Math.ceil(total / pageLimit)
 
-        return new ApiResponse(200, studentList, "Student list loaded")
+        return new ApiResponse(200, {students:studentList, totalPage: totalPages}, "Student list loaded")
     },
 
     // user data by admin
@@ -122,7 +127,7 @@ const userService = {
                     path: "dept",
                     select: "shortName _id",
                 },
-                { path: "batch", select: "batchNo _id" },
+                { path: "batch", select: "name _id" },
                 { path: "section", select: "section shift _id" }
             ])
         }

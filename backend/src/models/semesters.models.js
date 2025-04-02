@@ -9,11 +9,11 @@ const schema = new mongoose.Schema({
         unique: true
     },
     start: {
-        type: Date,
+        type: String,
         required: true,
     },
     end: {
-        type: Date,
+        type: String,
         required: true,
     },
 }, { timestamps: true, versionKey: false })

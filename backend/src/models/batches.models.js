@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 
 const schema = new mongoose.Schema({
-    batchNo: {
+    name: {
         type: String,
         required: true,
         minLength: 1,

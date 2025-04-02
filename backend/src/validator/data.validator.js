@@ -98,6 +98,17 @@ const facultyValidate = Joi.object({
     msgFromDean: Joi.string().min(10).max(10000).optional(),
 })
 
+// section
+const sectionValidate = Joi.object({
+    batch: Joi.string().length(24).required(),
+    dept: Joi.string().length(24).required(),
+    batchCo: Joi.string().length(24).optional(),
+    classRep: Joi.string().length(24).optional(),
+    shift: Joi.string().valid("day", "evening").default("day"),
+    start: Joi.string().min(5).max(100).required(),
+    end: Joi.string().min(5).max(100).required(),
+})
+
 
 export {
     userRegistration,
@@ -106,5 +117,6 @@ export {
     userUpdateByAdmin,
     resetPass,
     deptValidate,
-    facultyValidate
+    facultyValidate,
+    sectionValidate
 }
