@@ -38,3 +38,7 @@ body{
 .section-layout{
     @apply py-7 block;
 }
+
+.page-title{
+    @apply text-2xl font-bold;
+}

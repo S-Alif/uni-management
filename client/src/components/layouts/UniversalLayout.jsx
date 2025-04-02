@@ -3,12 +3,21 @@ import { NavLink } from "react-router"
 import { buttonVariants } from "../ui/button"
 import { cn } from "@/lib/utils"
 import { Toaster } from "../ui/sonner"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import UserStore from "@/stores/UserStore"
+import OtherStore from "@/stores/OtherStore"
 
 const UniversalLayout = ({ children }) => {
 
     const {sidebarState} = UserStore()
+    const {getInitialData} = OtherStore()
+
+    useEffect(() => {
+        (async () => {
+            await getInitialData()
+        })()
+    }, [])
+    
 
     return (
         <div className="w-full h-auto block">

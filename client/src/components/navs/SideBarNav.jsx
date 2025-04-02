@@ -1,4 +1,4 @@
-import { BookOpen, BookType, Box, Boxes, CalendarClock, ClipboardType, Grid2x2Plus, LayoutDashboard, Plus, SquareLibrary, UserRoundCog } from "lucide-react"
+import { BookOpen, BookType, Box, Boxes, CalendarClock, ClipboardType, Codesandbox, Grid2x2Plus, LayoutDashboard, Plus, SquareLibrary, UserRoundCog } from "lucide-react"
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarRail } from "../ui/sidebar"
 import { NavLink } from "react-router"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "../ui/collapsible"

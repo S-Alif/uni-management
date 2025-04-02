@@ -26,15 +26,17 @@ const publicRoutes = {
     sendOtp: createRoute(publicEndpoint, "otp", POST),
     verifyOtp: createRoute(publicEndpoint, "otp", PATCH),
     updatePass: createRoute(publicEndpoint, "update-pass", PATCH),
+    faculty: createRoute(publicEndpoint, "faculty", GET),
+    department: createRoute(publicEndpoint, "departments", GET),
 }
 
 // admin routes
 const administrationRoutes = {
     // batches
-    batch: `${baseUrl}/api/v1/admin/batch`,
-    department: `${baseUrl}/api/v1/admin/department`,
-    faculty: `${baseUrl}/api/v1/admin/faculty`,
-    faculty: `${baseUrl}/api/v1/admin/faculty`,
+    batch: `${baseUrl}/api/v1/${admin}/batch`,
+    department: `${baseUrl}/api/v1/${admin}/department`,
+    faculty: `${baseUrl}/api/v1/${admin}/faculty`,
+    sections: `${baseUrl}/api/v1/${admin}/section`,
 }
 
 

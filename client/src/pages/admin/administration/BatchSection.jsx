@@ -6,7 +6,7 @@ import { administrationRoutes, GET } from "@/utils/api/apiConstants"
 import apiHandler from "@/utils/api/apiHandler"
 import { Plus } from "lucide-react"
 import { useEffect, useState } from "react"
-import { useSearchParams } from "react-router"
+import { NavLink, useSearchParams } from "react-router"
 import { z } from "zod"
 
 // form schema
@@ -57,7 +57,7 @@ const BatchSection = () => {
 				true
 			)
 			if (!result) return
-			setBatch(result)
+			setBatch(result?.batch)
 		})()
 	}, [page, limit])
 	
@@ -100,15 +100,17 @@ const BatchSection = () => {
 							<CustomSheet
 								trigger={
 									<Card key={index} className="cursor-pointer">
-										<CardHeader>
-											<CardTitle className="text-center">Batch</CardTitle>
-										</CardHeader>
-										<CardContent>
-											<h2 className="text-center text-5xl">{e?.name < 10 ? "0" + e?.name : e?.name}</h2>
-										</CardContent>
+										<NavLink to={`/admin/sections?batch=${e?._id}&no=${e?.name}`} state={{batchNo: e?.name}}>
+											<CardHeader>
+												<CardTitle className="text-center">Batch</CardTitle>
+											</CardHeader>
+											<CardContent>
+												<h2 className="text-center text-5xl">{e?.name < 10 ? "0" + e?.name : e?.name}</h2>
+											</CardContent>
+										</NavLink>
 									</Card>
 								}
-								title="All sections in this batch"
+								title="Update batch"
 							>
 								<div className="pt-4">
 									

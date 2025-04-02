@@ -24,6 +24,7 @@ import Courses from "@/pages/admin/academics/Courses"
 import Schedules from "@/pages/admin/academics/Schedules"
 import Notices from "@/pages/admin/academics/Notices"
 import AccessForbidden from "@/pages/AccessForbidden"
+import Sections from "@/pages/admin/administration/Sections"
 
 
 const routes = createBrowserRouter([
@@ -75,6 +76,10 @@ const routes = createBrowserRouter([
             {
                 path: "batch",
                 element: <BatchSection />
+            },
+            {
+                path: "sections",
+                element: <Sections />
             },
             {
                 path: "faculty",
