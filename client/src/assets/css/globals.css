@@ -40,5 +40,5 @@ body{
 }
 
 .page-title{
-    @apply text-2xl font-bold;
+    @apply text-3xl font-bold;
 }

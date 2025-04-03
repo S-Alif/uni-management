@@ -1,5 +1,6 @@
 import CustomSheet from "@/components/CustomSheet"
 import DisplayAvatar from "@/components/DisplayAvatar"
+import DisplayDialog from "@/components/DisplayDialog"
 import DisplayTable from "@/components/DisplayTable"
 import { Button } from "@/components/ui/button"
 import { TableCell, TableRow } from "@/components/ui/table"
@@ -19,7 +20,9 @@ const Faculty = () => {
 				<h1 className="page-title">Faculty list</h1>
 				<CustomSheet
 					trigger={
-						<Button size="lg"><span className="hidden md:block">Create faculty</span> <span className="!text-2xl"><Plus size={50} /></span></Button>
+						<Button size="lg">
+							<span className="hidden md:block">Create faculty</span> <span className="!text-2xl"><Plus size={50} /></span>
+						</Button>
 					}
 					title="Create new faculty"
 				>
@@ -43,7 +46,15 @@ const Faculty = () => {
 								<TableCell className="border-r">{index+1}</TableCell>
 								<TableCell className="border-r">
 									<DisplayAvatar img={item?.image} alt="FY">
-										<p>{item?.name}</p>
+										<DisplayDialog
+											trigger={<p className="cursor-pointer">{item?.name}</p>}
+											heading={"Faculty details"}
+										>
+											<div className="pt-8">
+												{item?.about}
+											</div>
+
+										</DisplayDialog>
 									</DisplayAvatar>
 								</TableCell>
 								<TableCell className="border-r">
