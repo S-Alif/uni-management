@@ -10,6 +10,7 @@ const FormInputs = ({
     fieldType = "text",
     fieldData
 }) => {
+    // console.log("fieldData", fieldData)
     return (
         <FormField
             control={form.control}
@@ -36,15 +37,17 @@ const FormInputs = ({
                                 {
                                     fieldData?.selectItems &&
                                     fieldData?.selectItems.length > 0 &&
-                                    fieldData?.map((e, index) => (
-                                        <SelectItem
-                                            value={e?._id}
-                                            key={index}
-                                            className="hover:cursor-pointer hover:!bg-primary hover:!text-white"
-                                        >
-                                            {e?.name}
-                                        </SelectItem>
-                                    ))
+                                    fieldData?.selectItems.map((e, index) => {
+                                        return (
+                                            <SelectItem
+                                                value={e?._id}
+                                                key={index}
+                                                className="hover:cursor-pointer hover:!bg-primary hover:!text-white"
+                                            >
+                                                {e?.name}
+                                            </SelectItem>
+                                        )
+                                    })
                                 }
                             </SelectContent>
 
