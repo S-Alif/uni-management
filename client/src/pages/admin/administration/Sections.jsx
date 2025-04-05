@@ -1,3 +1,4 @@
+import FilterOptions from "@/components/FilterOptions"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import useQueryParams from "@/hooks/useQueryParams"
@@ -16,7 +17,7 @@ const Sections = () => {
     const { updateParams, values: { batch, no, page = 1, limit = 40, dept = "all", shift = "all" }} = useQueryParams(["batch", "page", "limit", "dept", "shift", "no"])
 
     const [section, setSection] = useState([])
-    const [controlOpen, setControlOpen] = useState(false)
+    const [filterOpen, setFilterOpen] = useState(false)
     const [loading, setLoading] = useState(false)
 
     // if no batch
@@ -35,20 +36,58 @@ const Sections = () => {
     }
 
     // get the list of sections
+    const getSections = async () => {
+        setLoading(true)
+        const result = await apiHandler(
+            { url: `${administrationRoutes.sections}?page=${page}&limit=${limit}&dept=${dept}&shift=${shift}`, method: GET },
+            {},
+            true
+        )
+        if (!result) return
+        setSection(result?.sections)
+        setLoading(false)
+    }
     useEffect(() => {
-        (async () => {
-            setLoading(true)
-            const result = await apiHandler(
-                { url: `${administrationRoutes.sections}?page=${page}&limit=${limit}&dept=${dept}&shift=${shift}`, method: GET },
-                {},
-                true
-            )
-            if (!result) return
-            setSection(result?.sections)
-            setLoading(false)
-        })()
+        getSections()
+    }, [])
 
-    }, [page])
+    // filter options
+    const filterOptions = [
+        {
+            label: "Limit",
+            name: "limit",
+            placeholder: "Select limit",
+            selectItems: [
+                { _id: 30, name: "30" },
+                { _id: 50, name: "50" },
+                { _id: 70, name: "70" },
+            ],
+            onValueChange: (name, value) => {
+                updateParams(name, value)
+            }
+        },
+        {
+            label: "Department",
+            name: "dept",
+            placeholder: "Select department",
+            selectItems: department,
+            onValueChange: (name, value) => {
+                updateParams(name, value)
+            }
+        },
+        {
+            label: "Shift",
+            name: "shift",
+            placeholder: "Select shift",
+            selectItems: [
+                { _id: "day", name: "Day" },
+                { _id: "evening", name: "Evening" },
+            ],
+            onValueChange: (name, value) => {
+                updateParams(name, value)
+            }
+        }
+    ]
 
     return (
         <section className="section-layout">
@@ -61,7 +100,7 @@ const Sections = () => {
                             size="lg"
                             variant="outline"
                             onClick={() => {
-                                setControlOpen((prev) => !prev)
+                                setFilterOpen((prev) => !prev)
                             }}
                         >
                             filter <span className="ml-1"><ListFilter /></span>
@@ -75,75 +114,15 @@ const Sections = () => {
                 </div>
 
                 {/* filter options */}
-                <div className={`mt-10 transition-all duration-300 ${controlOpen ? "max-h-[600px]" : "max-h-0"} overflow-hidden`}>
-                    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 items-end">
-                        {/* limit */}
-                        <div>
-                            <label className="block text-base font-bold pb-5 text-gray-700">Limit</label>
-                            <Select
-                                onValueChange={(value) => {
-                                    updateParams("limit", value)
-                                }}
-                            >
-                                <SelectTrigger className="">
-                                    <SelectValue placeholder="Select limit" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="30" className="cursor-pointer">30</SelectItem>
-                                    <SelectItem value="50" className="cursor-pointer">50</SelectItem>
-                                    <SelectItem value="70" className="cursor-pointer">70</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        {/* department */}
-                        <div>
-                            <label className="block text-base font-bold pb-5 text-gray-700">Department</label>
-                            <Select
-                                onValueChange={(value) => {
-                                    updateParams("dept", value)
-                                }}
-                            >
-                                <SelectTrigger className="">
-                                    <SelectValue placeholder="Select limit" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {
-                                        department?.map((e, index) => (
-                                            <SelectItem key={index} value={e?._id} className="cursor-pointer">{e?.shortName}</SelectItem>
-                                        ))
-                                    }
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        {/* shift */}
-                        <div>
-                            <label className="block text-base font-bold pb-5 text-gray-700">Shift</label>
-                            <Select
-                                onValueChange={(value) => {
-                                    updateParams("shift", value)
-                                }}
-                            >
-                                <SelectTrigger className="">
-                                    <SelectValue placeholder="Select limit" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value={"day"} className="cursor-pointer">Day</SelectItem>
-                                    <SelectItem value={"evening"} className="cursor-pointer">Evening</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-
-                        {/* search btn */}
-                        <div>
-                            <Button
-                                size="lg"
-                                onClick={() => updateParams("page", 1)}
-                            >
-                                Search <Search />
-                            </Button>
-                        </div>
-                    </div>
-                </div>
+                <FilterOptions 
+                    options={filterOptions}
+                    filterOpen={filterOpen}
+                    searchBtnOnClick={() => {
+                        updateParams("page", 1)
+                        getSections()
+                    }}
+                />
+                
             </div>
 
         </section>
