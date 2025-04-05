@@ -7,6 +7,7 @@ import { TableCell, TableRow } from "@/components/ui/table"
 import OtherStore from "@/stores/OtherStore"
 import { format } from "date-fns"
 import { PencilLine, Plus, Trash2 } from "lucide-react"
+import FacultyForm from "./forms/FacultyForm"
 
 
 const Faculty = () => {
@@ -26,7 +27,9 @@ const Faculty = () => {
 					}
 					title="Create new faculty"
 				>
-					create a form
+					<div className="pt-10">
+						<FacultyForm />
+					</div>
 				</CustomSheet>
 			</div>
 
@@ -69,7 +72,9 @@ const Faculty = () => {
 											}
 											title="Edit faculty"
 										>
-											Edit form
+											<div className="pt-10">
+												<FacultyForm id={item?._id} data={item} />
+											</div>
 										</CustomSheet>
 
 										{/* remove */}

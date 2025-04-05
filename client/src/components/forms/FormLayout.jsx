@@ -41,7 +41,7 @@ const FormLayout = ({
                     <Button 
                         type="submit"
                         size="lg"
-                        className={cn("text-xl", buttonClass)}
+                        className={cn("text-base", buttonClass)}
                         disabled={disabled}
                     >
                         {buttonText}

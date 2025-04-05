@@ -16,7 +16,7 @@ const FormInputs = ({
             name={fieldData?.name || "noName"}
             render={({field}) => (
                 <FormItem className="mb-5">
-                    <FormLabel className="text-xl">{fieldData?.label || "No name"}</FormLabel>
+                    <FormLabel className="text-base">{fieldData?.label || "No name"}</FormLabel>
 
                     {/* select fields */}
                     {
@@ -53,9 +53,25 @@ const FormInputs = ({
 
                     {/* input fields */}
                     {
-                        (fieldType !== "select" && fieldType !== "richText" && fieldType !== "otp") &&
+                        (fieldType !== "select" && 
+                        fieldType !== "richText" && 
+                        fieldType !== "otp" && fieldType !== "file") &&
                         <FormControl>
-                            <Input type={fieldType} placeholder={fieldData?.placeholder || "Write something"} className="h-12" {...field} />
+                            <Input type={fieldType} placeholder={fieldData?.placeholder || "Write something"} {...field} />
+                        </FormControl>
+                    }
+
+                    {
+                        fieldType == "file" &&
+                        <FormControl>
+                            <Input
+                                type="file"
+                                placeholder={fieldData?.placeholder || "Write something"}
+                                onChange={(e) => {
+                                    const file = e?.target?.files[0]
+                                    field.onChange(file)
+                                }}
+                            />
                         </FormControl>
                     }
 

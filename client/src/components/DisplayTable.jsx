@@ -3,7 +3,7 @@ import { Table, TableBody, TableHead, TableHeader, TableRow } from "./ui/table"
 
 const DisplayTable = ({headings=[], children}) => {
     return(
-        <Table>
+        <Table className="overflow-x-auto">
             <TableHeader>
                 <TableRow>
                     {headings.map((heading, index) => (

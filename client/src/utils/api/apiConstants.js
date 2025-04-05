@@ -33,6 +33,7 @@ const publicRoutes = {
 // admin routes
 const administrationRoutes = {
     // batches
+    user: `${baseUrl}/api/v1/${admin}/users`,
     batch: `${baseUrl}/api/v1/${admin}/batch`,
     department: `${baseUrl}/api/v1/${admin}/department`,
     faculty: `${baseUrl}/api/v1/${admin}/faculty`,
