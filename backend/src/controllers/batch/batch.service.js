@@ -39,7 +39,7 @@ const batchService = {
         const pageLimit = parseInt(limit) || 10
         const skip = (pageNum - 1) * pageLimit
 
-        const batchList = await batchesModels.find({}).skip(skip).select("name _id").limit(pageLimit)
+        const batchList = await batchesModels.find({}).sort({createdAt: -1}).skip(skip).select("name _id").limit(pageLimit)
         const total = await batchesModels.countDocuments({})
         const totalPage = Math.ceil(total / pageLimit)
         return new ApiResponse(200, {batch:batchList, totalPage: totalPage}, "Batch list loaded")

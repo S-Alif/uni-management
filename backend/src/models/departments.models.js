@@ -32,12 +32,10 @@ const schema = new mongoose.Schema({
     },
     deptHead: {
         type: mongoose.Types.ObjectId,
-        required: true,
         ref: "users"
     },
     msgFromDeptHead: {
         type: String,
-        required: true,
         minLength: 10,
         maxLength: 10000,
     },

@@ -70,7 +70,7 @@ const deptService = {
     // get department list
     getDeptList: async (req) => {
         const department = await departmentsModels.find({})
-                                .select("name shortName _id image")
+                                .select("-createdAt")
                                 .populate({
                                     path: "faculty",
                                     select: "name _id"

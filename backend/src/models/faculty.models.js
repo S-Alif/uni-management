@@ -20,12 +20,10 @@ const schema = new mongoose.Schema({
     },
     dean: {
         type: mongoose.Types.ObjectId,
-        required: true,
         ref: "users"
     },
     msgFromDean: {
         type: String,
-        required: true,
         minLength: 10,
         maxLength: 10000,
     },

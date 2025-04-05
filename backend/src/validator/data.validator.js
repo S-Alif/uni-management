@@ -83,7 +83,7 @@ const deptValidate = Joi.object({
     name: Joi.string().min(1).max(100).required(),
     shortName: Joi.string().min(1).max(10).required(),
     faculty: Joi.string().length(24).required(),
-    deptHead: Joi.string().length(24).optional(),
+    deptHead: Joi.string().length(24).allow("").optional(),
     about: Joi.string().min(10).max(100000).required(),
     image: Joi.string().min(10).max(300).optional(),
     msgFromDeptHead: Joi.string().min(10).max(10000).optional(),
@@ -92,10 +92,10 @@ const deptValidate = Joi.object({
 // faculty
 const facultyValidate = Joi.object({
     name: Joi.string().min(1).max(100).required(),
-    dean: Joi.string().length(24).optional(),
-    about: Joi.string().min(10).max(100000).required(),
+    dean: Joi.string().length(24).allow("").optional(),
+    about: Joi.string().max(100000).required(),
     image: Joi.string().min(10).max(300).required(),
-    msgFromDean: Joi.string().min(10).max(10000).optional(),
+    msgFromDean: Joi.string().max(10000).allow("").optional(),
 })
 
 // section
