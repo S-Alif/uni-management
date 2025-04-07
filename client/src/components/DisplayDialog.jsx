@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
 
 
@@ -5,12 +6,18 @@ const DisplayDialog = ({
     trigger = null,
     heading = null,
     description = null,
+    openState = null,
+    setOpenstate = null,
+    dialogClassName = "",
     children
 }) => {
+
+    const [open, setOpen] = useState(false)
+
     return (
-        <Dialog>
+        <Dialog open={openState || open} onOpenChange={setOpenstate || setOpen}>
             <DialogTrigger asChild>{trigger}</DialogTrigger>
-            <DialogContent>
+            <DialogContent className={dialogClassName}>
                 {
                     heading && 
                     <DialogHeader>
