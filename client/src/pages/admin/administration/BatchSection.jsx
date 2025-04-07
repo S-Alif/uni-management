@@ -1,52 +1,23 @@
 import CustomSheet from "@/components/CustomSheet"
+import DisplayTable from "@/components/DisplayTable"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { administrationRoutes, GET } from "@/utils/api/apiConstants"
+import { TableCell, TableRow } from "@/components/ui/table"
+import useQueryParams from "@/hooks/useQueryParams"
+import { administrationRoutes, DELETE_METHOD, GET } from "@/utils/api/apiConstants"
 import apiHandler from "@/utils/api/apiHandler"
-import { Plus } from "lucide-react"
+import { PencilLine, Plus, Trash2 } from "lucide-react"
 import { useEffect, useState } from "react"
-import { NavLink, useSearchParams } from "react-router"
-import { z } from "zod"
+import { NavLink } from "react-router"
+import BatchForm from "./forms/BatchForm"
+import { format } from "date-fns"
+import DisplayDialog from "@/components/DisplayDialog"
 
-// form schema
-const formSchema = z.object({
-	name: z.string().min(1).max(3).superRefine(({name}, ctx) => {
-		if(isNaN(name)) ctx.addIssue({
-			code: "custom",
-            message: "Batch number must be a number",
-            path: ["name"]
-		})
-	})
-})
-
-let defaultValues = {name: ""}
-
-// form fields
-const formFields = [
-	{
-		type: "text",
-		name: "name",
-		label: "Enter new batch no",
-		placeholder: "Enter your new batch no (e.g: 27)"
-	}
-]
 
 const BatchSection = () => {
 
-	const [resetForm, setResetForm] = useState(false)
 	const [batch, setBatch] = useState([])
-
-	// setting url params
-	const [params, setParams] = useSearchParams()
-	let page = parseInt(params.get("page") || "1", 10)
-	let limit = parseInt(params.get("limit") || "20", 10)
-	
-
-	// save batch
-	const onSubmit = async (value) => {
-		console.log(value)
-	}
+	const {values: {page = 1, limit = 20}, updateParams} = useQueryParams(["page", "limit"])
 
 	// fetch list
 	useEffect(() => {
@@ -64,14 +35,31 @@ const BatchSection = () => {
 
 	return (
 		<section className="section-layout">
-			{/* batch list sort options */}
+
+			{/* controls */}
 			<div className="flex justify-between items-end">
-				<div className="control">
+				<h1 className="page-title">Batch list</h1>
+				<CustomSheet
+					trigger={
+						<Button size="lg">
+							<span className="hidden md:block">Create Batch</span> <span className="!text-2xl"><Plus size={50} /></span>
+						</Button>
+					}
+					title="Create new batch"
+				>
+					<div className="pt-10">
+						<BatchForm setBatch={setBatch} />
+					</div>
+				</CustomSheet>
+			</div>
+
+			{/* batch list sort options */}
+			<div className="pt-10">
+				<div>
 					<label className="block text-base font-bold pb-5 text-gray-700">Limit</label>
 					<Select
 						onValueChange={(value) => {
-							setParams({...params, limit: value })
-                            page = 1
+							updateParams("limit", value)
 						}}
 					>
 						<SelectTrigger className="w-[180px] lg:w-[300px]">
@@ -84,48 +72,109 @@ const BatchSection = () => {
 						</SelectContent>
 					</Select>
 				</div>
-
-				<div className="">
-					<Button size="lg"><span className="hidden md:block">Create batch</span> <span className="!text-2xl"><Plus size={50} /></span></Button>
-				</div>
 			</div>
 
 
 			{/* batch list */}
 			<div className="pt-14">
-				<div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 xl:grid-cols-12 gap-2">
+				<DisplayTable
+					headings={[
+						{ name: "#" },
+						{ name: "Batch no" },
+						{ name: "Last updated at" },
+						{ name: "Actions" },
+					]}
+				>
 					{
-						batch.length > 0 &&
-						batch.map((e, index) => (
-							<CustomSheet
-								trigger={
-									<Card key={index} className="cursor-pointer">
-										<NavLink to={`/admin/sections?batch=${e?._id}&no=${e?.name}`} state={{batchNo: e?.name}}>
-											<CardHeader>
-												<CardTitle className="text-center">Batch</CardTitle>
-											</CardHeader>
-											<CardContent>
-												<h2 className="text-center text-5xl">{e?.name < 10 ? "0" + e?.name : e?.name}</h2>
-											</CardContent>
-										</NavLink>
-									</Card>
-								}
-								title="Update batch"
-							>
-								<div className="pt-4">
-									
-								</div>
-							</CustomSheet>
+						batch?.length > 0 &&
+						batch.map((item, index) => (
+							<BatchSectionTableRow 
+								item={item}
+								index={index}
+								setBatch={setBatch}
+								key={index}
+							/>
 						))
 					}
-					
-				</div>
-				{
-					batch.length == 0 && <h3 className="text-lg font-bold text-black/55">No batch found</h3>
-				} 
+
+				</DisplayTable>
 			</div>
 		</section>
 	)
 }
 
 export default BatchSection
+
+// batch section table row
+const BatchSectionTableRow = ({item, index, setBatch}) => {
+
+	const [dialogOpen, setDialogOpen] = useState(false)
+
+	return (
+		<TableRow>
+			<TableCell className="border-r">{index + 1}</TableCell>
+			<TableCell className="border-r">
+				<NavLink to={`/admin/sections?batch=${item?._id}&no=${item?.name}`} state={{ batchNo: item?.name }}>
+					<p className="text-base">Batch {item?.name < 10 ? "0" + item?.name : item?.name}</p>
+				</NavLink>
+			</TableCell>
+			<TableCell className="border-r">
+				{format(item?.updatedAt, "MMMM dd, EEEE, yyyy, hh:mm a")}
+			</TableCell>
+			<TableCell>
+				<div className="flex gap-2 items-center">
+					<CustomSheet
+						trigger={
+							<Button size="icon"><PencilLine /></Button>
+						}
+						title="Update batch"
+					>
+						<div className="pt-10">
+							<BatchForm id={item?._id} data={item} setBatch={setBatch} />
+						</div>
+					</CustomSheet>
+
+					{/* remove */}
+					<DisplayDialog
+						trigger={
+							<Button size="icon" variant="destructive" onClick={() => setDialogOpen(true)}>
+								<Trash2 />
+							</Button>
+						}
+						openState={dialogOpen}
+						setOpenstate={setDialogOpen}
+						heading={`Delete batch - ${item?.name}`}
+						description={`Are you sure you want to delete this batch ?`}
+					>
+						<div className="flex gap-5 justify-end pt-10">
+							<Button
+								size="lg"
+								variant="destructive"
+								onClick={async () => {
+									const result = await apiHandler(
+										{ url: `${administrationRoutes.batch}/${item?._id}`, method: DELETE_METHOD },
+										{},
+										true
+									)
+									if (!result) return
+									setBatch(prev => prev.filter(batch => batch._id !== item?._id))
+									setDialogOpen(false)
+								}}
+							>
+								Proceed
+							</Button>
+
+							<Button
+								size="lg"
+								variant="outline"
+								onClick={() => setDialogOpen(false)}
+							>
+								Exit
+							</Button>
+						</div>
+					</DisplayDialog>
+				</div>
+			</TableCell>
+		</TableRow>
+	)
+}

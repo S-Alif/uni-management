@@ -67,9 +67,9 @@ const Departments = () => {
                                 <TableCell className="border-r">
                                     {format(item?.updatedAt, "MMMM dd, EEEE, yyyy, hh:mm a")}
                                 </TableCell>
-                                <TableCell className="border-r">
+                                <TableCell>
                                     {/* actions */}
-                                    <div className="flex gap-2 items-center justify-end">
+                                    <div className="flex gap-2 items-center">
                                         <CustomSheet
                                             trigger={
                                                 <Button size="icon"><PencilLine /></Button>
