@@ -12,12 +12,14 @@ import { NavLink } from "react-router"
 import BatchForm from "./forms/BatchForm"
 import { format } from "date-fns"
 import DisplayDialog from "@/components/DisplayDialog"
+import DisplayPagination from "@/components/DisplayPagination"
 
 
 const BatchSection = () => {
 
 	const [batch, setBatch] = useState([])
 	const {values: {page = 1, limit = 20}, updateParams} = useQueryParams(["page", "limit"])
+	const [totalPage, setTotalPage] = useState(0)
 
 	// fetch list
 	useEffect(() => {
@@ -27,8 +29,10 @@ const BatchSection = () => {
 				{},
 				true
 			)
+			console.log(result)
 			if (!result) return
 			setBatch(result?.batch)
+			setTotalPage(result?.totalPage)
 		})()
 	}, [page, limit])
 	
@@ -90,6 +94,8 @@ const BatchSection = () => {
 						batch.map((item, index) => (
 							<BatchSectionTableRow 
 								item={item}
+								page={parseInt(page)}
+								limit={parseInt(limit)}
 								index={index}
 								setBatch={setBatch}
 								key={index}
@@ -99,6 +105,15 @@ const BatchSection = () => {
 
 				</DisplayTable>
 			</div>
+
+			{/* pagination */}
+			<div className="pt-10">
+				<DisplayPagination 
+					totalPage={totalPage}
+					currentPage={parseInt(page)}
+					onPageChange={updateParams}
+				/>
+			</div>
 		</section>
 	)
 }
@@ -106,13 +121,13 @@ const BatchSection = () => {
 export default BatchSection
 
 // batch section table row
-const BatchSectionTableRow = ({item, index, setBatch}) => {
+const BatchSectionTableRow = ({item, page, limit, index, setBatch}) => {
 
 	const [dialogOpen, setDialogOpen] = useState(false)
 
 	return (
 		<TableRow>
-			<TableCell className="border-r">{index + 1}</TableCell>
+			<TableCell className="border-r">{(page - 1) * limit + index + 1}</TableCell>
 			<TableCell className="border-r">
 				<NavLink to={`/admin/sections?batch=${item?._id}&no=${item?.name}`} state={{ batchNo: item?.name }}>
 					<p className="text-base">Batch {item?.name < 10 ? "0" + item?.name : item?.name}</p>
