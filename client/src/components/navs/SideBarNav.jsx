@@ -1,4 +1,4 @@
-import { BookOpen, BookType, Box, Boxes, CalendarClock, ClipboardType, Codesandbox, Grid2x2Plus, LayoutDashboard, Plus, SquareLibrary, UserRoundCog } from "lucide-react"
+import { BookOpen, BookType, Box, Boxes, CalendarClock, ClipboardType, Codesandbox, FileUser, Grid2x2Plus, LayoutDashboard, Plus, SquareLibrary, SquareUser, UserRoundCog, Users } from "lucide-react"
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarRail } from "../ui/sidebar"
 import { NavLink } from "react-router"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "../ui/collapsible"
@@ -51,12 +51,29 @@ const items = [
             {
                 label: "Schedules",
                 to: "/admin/schedules",
-                icon: <CalendarClock />
+                icon: <CalendarClock size={48} />
             },
             {
                 label: "Notices",
                 to: "/admin/notices",
-                icon: <ClipboardType />
+                icon: <ClipboardType size={48} />
+            },
+        ]
+    },
+    {
+        groupLabel: "Management", // academics routes
+        role: 2025,
+        icon: <Users size={50} />,
+        links: [
+            {
+                label: "Students",
+                to: "/admin/students",
+                icon: <SquareUser size={48} />
+            },
+            {
+                label: "Teachers",
+                to: "/admin/teachers",
+                icon: <FileUser size={48} />
             },
         ]
     },

@@ -25,6 +25,10 @@ import Schedules from "@/pages/admin/academics/Schedules"
 import Notices from "@/pages/admin/academics/Notices"
 import AccessForbidden from "@/pages/AccessForbidden"
 import Sections from "@/pages/admin/administration/Sections"
+import Students from "@/pages/admin/actors/Students"
+import StudentProfile from "@/pages/admin/actors/StudentProfile"
+import Teachers from "@/pages/admin/actors/Teachers"
+import TeacherProfile from "@/pages/admin/actors/TeacherProfile"
 
 
 const routes = createBrowserRouter([
@@ -109,6 +113,22 @@ const routes = createBrowserRouter([
             },
 
             // actors routes
+            {
+                path: "students",
+                element: <Students />
+            },
+            {
+                path: "students/:id",
+                element: <StudentProfile />
+            },
+            {
+                path: "teachers",
+                element: <Teachers />,
+            },
+            {
+                path: "teachers/:id",
+                element: <TeacherProfile />
+            }
         ]
     }
 ])
