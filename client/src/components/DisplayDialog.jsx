@@ -17,7 +17,7 @@ const DisplayDialog = ({
     return (
         <Dialog open={openState || open} onOpenChange={setOpenstate || setOpen}>
             <DialogTrigger asChild>{trigger}</DialogTrigger>
-            <DialogContent className={dialogClassName}>
+            <DialogContent className={`max-w-[calc(100%-16px)] sm:max-w-[600px] ${dialogClassName}`}>
                 {
                     heading && 
                     <DialogHeader>

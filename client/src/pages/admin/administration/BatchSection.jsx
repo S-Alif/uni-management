@@ -29,7 +29,6 @@ const BatchSection = () => {
 				{},
 				true
 			)
-			console.log(result)
 			if (!result) return
 			setBatch(result?.batch)
 			setTotalPage(result?.totalPage)
