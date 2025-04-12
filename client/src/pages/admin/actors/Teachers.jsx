@@ -1,9 +1,10 @@
+import ActorPage from "./components/ActorPage"
 
 
 const Teachers = () => {
-  return (
-    <div>Teachers</div>
-  )
+	return (
+		<ActorPage userType="teacher" />
+	)
 }
 
 export default Teachers

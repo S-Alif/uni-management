@@ -2,6 +2,7 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/
 import { Input } from "../ui/input"
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "../ui/input-otp"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
+import { Textarea } from "../ui/textarea"
 
 
 
@@ -54,9 +55,18 @@ const FormInputs = ({
                         </Select>
                     }
 
+                    {/* textarea */}
+                    {
+                        fieldType === "textarea" &&
+                        <FormControl>
+                            <Textarea placeholder={fieldData?.placeholder || "Write something"} {...field} />
+                        </FormControl>
+                    }
+
                     {/* input fields */}
                     {
                         (fieldType !== "select" && 
+                        fieldType !== "textarea" && 
                         fieldType !== "richText" && 
                         fieldType !== "otp" && fieldType !== "file") &&
                         <FormControl>
@@ -72,7 +82,17 @@ const FormInputs = ({
                                 placeholder={fieldData?.placeholder || "Write something"}
                                 onChange={(e) => {
                                     const file = e?.target?.files[0]
+                                    if(!file) return
                                     field.onChange(file)
+
+                                    const reader = new FileReader()
+                                    reader.onload = () => {
+                                        const dataUrl = reader.result
+                                        if(fieldData?.setFile){
+                                            fieldData?.setFile(dataUrl)
+                                        }
+                                    }
+                                    reader.readAsDataURL(file)
                                 }}
                             />
                         </FormControl>

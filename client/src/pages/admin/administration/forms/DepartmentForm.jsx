@@ -121,7 +121,7 @@ const DepartmentForm = ({id = null, data = null}) => {
         Object.keys(value).forEach((key) => {
             if(value[key] instanceof File || value[key] != "") {
                 if (key === "image" && (value[key] instanceof File)) {
-                    formData.append(key, value[key])
+                    formData.append("file", value[key])
                 }
                 else {
                     formData.append(key, value[key])

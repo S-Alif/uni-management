@@ -101,7 +101,7 @@ const FacultyForm = ({id = null, data = null}) => {
 
         Object.keys(value).forEach((key) => {
             if (key === "image" && (value[key] instanceof File)) {
-                formData.append(key, value[key][0])
+                formData.append("file", value[key][0])
             }
             else {
                 if (key == "image") return formData.append(key, data?.image)
