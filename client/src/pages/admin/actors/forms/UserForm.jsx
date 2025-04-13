@@ -1,8 +1,9 @@
 import FormLayout from "@/components/forms/FormLayout"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import OtherStore from "@/stores/OtherStore"
-import { administrationRoutes, GET } from "@/utils/api/apiConstants"
+import { administrationRoutes, GET, PATCH, POST } from "@/utils/api/apiConstants"
 import apiHandler from "@/utils/api/apiHandler"
+import { formData } from "@/utils/formData"
 import { errorToast } from "@/utils/toastNotification"
 import { useEffect, useState } from "react"
 import { z } from "zod"
@@ -14,6 +15,7 @@ const UserForm = ({userType, id = null, data = null}) => {
     const {department} = OtherStore()
 
     const [resetForm, setResetForm] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [extraInfo, setExtraInfo] = useState({
         dept: "", // for teacher only department will go
         batch: "",
@@ -80,7 +82,7 @@ const UserForm = ({userType, id = null, data = null}) => {
         }),
         pass: z.string().optional().default(""),
         address: z.string().min(10, "Please enter address").max(300, "Address is too long"),
-        teacherDesignation: userType !== "teacher" ? z.string().optional() : z.enum(["Professor", "Associate Professor", "Assistant Professor", "Senior Lecturer", "Lecturer"]),
+        teacherDesignation: userType !== "teacher" ? z.string().optional() : z.enum(["Professor", "Associate Professor", "Assistant Professor", "Senior Lecturer", "Lecturer"]).default("Lecturer"),
         role: z.number().optional().default(userType == "student" ? 1999 : 2022),
     })
 
@@ -92,7 +94,7 @@ const UserForm = ({userType, id = null, data = null}) => {
         image: id ? data?.image : "",
         address: id ? data?.address : "",
         ...(userType == "teacher" && {
-            teacherDesignation: id ? data?.teacherDesignation : ""
+            teacherDesignation: id ? data?.teacherDesignation : "Lecturer"
         }),
         ...(id && {
             pass: ""
@@ -151,6 +153,8 @@ const UserForm = ({userType, id = null, data = null}) => {
 
     // form submit
     const onSubmit = async (value) => {
+        setLoading(true)
+        setResetForm(false)
         if(extraInfo.dept.length < 24) return errorToast("Select department") 
         if(userType == "student") {
             if(extraInfo.batch.length < 24 || extraInfo.section.length < 24) return errorToast("Provide all information")
@@ -159,8 +163,19 @@ const UserForm = ({userType, id = null, data = null}) => {
         }
         
         value.dept = extraInfo.dept
-        console.log(value)
         
+        const data = formData(value)
+
+        const result = await apiHandler(
+            { url: `${administrationRoutes.user}/${id ? id : ""}`, method: id ? PATCH : POST},
+            data,
+            true
+        )
+        setLoading(false)
+        if(!result) return
+        
+        setResetForm(true)
+        setImage(null)
     }
 
 
@@ -275,6 +290,7 @@ const UserForm = ({userType, id = null, data = null}) => {
                         buttonText={`Add ${userType}`}
                         resetForm={resetForm}
                         onSubmit={onSubmit}
+                        disabled={loading}
                     />
                 </div>
             </div>
