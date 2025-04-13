@@ -12,7 +12,7 @@ const userRegistration = Joi.object({
         otherwise: Joi.optional()
     }),
     email: Joi.string().email(new RegExp(emailRegex)).required(),
-    pass: Joi.string().min(8).max(255).required(),
+    // pass: Joi.string().min(8).max(255).required(),
     phone: Joi.string().min(10).max(15).required(),
     dept: Joi.string().length(24).when("role", {
         is: Joi.valid(roles.STUDENTS, roles.TEACHERS),
@@ -30,6 +30,11 @@ const userRegistration = Joi.object({
         otherwise: Joi.optional()
     }),
     address: Joi.string().min(10).max(300).required(),
+    teacherDesignation: Joi.string().valid("Professor", "Associate Professor", "Assistant Professor", "Senior Lecturer", "Lecturer").when("role", {
+        is: roles.TEACHERS,
+        then: Joi.required(),
+        otherwise: Joi.optional()
+    }),
     role: Joi.number().valid(...Object.values(roles)).required()
 })
 
@@ -37,7 +42,7 @@ const userRegistration = Joi.object({
 const userUpdateByAdmin = Joi.object({
     name: Joi.string().min(5).max(80).required(),
     email: Joi.string().email(new RegExp(emailRegex)).required(),
-    profileImg: Joi.string().min(10).max(300).optional(),
+    image: Joi.string().min(10).max(300).optional(),
     name: Joi.string().min(5).max(80).required(),
     pass: Joi.string().min(8).max(255).optional(),
     about: Joi.string().min(10).max(50000).optional(),

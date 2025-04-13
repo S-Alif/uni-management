@@ -10,21 +10,21 @@ const schema = new mongoose.Schema({
 	dept: {
 		type: mongoose.Types.ObjectId,
 		required: true,
+		index: true,
 		ref: "departments"
 	},
 	batchCo: {
 		type: mongoose.Types.ObjectId,
-		required: true,
 		ref: "users"
 	},
 	classRep: {
 		type: mongoose.Types.ObjectId,
-		required: true,
 		ref: "users"
 	},
 	shift: {
 		type: String,
 		default: "day",
+		index: true,
 		enum: ["day", "evening"]
 	},
 	section: {

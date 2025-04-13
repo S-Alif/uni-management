@@ -17,7 +17,7 @@ const facultyService = {
 
         const id = req?.params?.id
         // upload image if there is
-        const file = req?.files?.image
+        const file = req?.files?.file
         let imageUrl = null
         if (file) {
             if(id) await removeMedia(data?.image)

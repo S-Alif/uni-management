@@ -66,7 +66,7 @@ const schema = new mongoose.Schema({
         maxlength: 300,
         trim: true
     },
-    profileImg: {
+    image: {
         type: String,
         trim: true
     },
@@ -110,7 +110,7 @@ schema.pre("validate", async function(next){
         else if(this.role == roles.TEACHERS){
             const year = `${new Date().getFullYear()}`
             const admitYear = year.substring(2).padStart(3, "0")
-            const countTeachers = await this.collection.countDocuments({role: roles.TEACHERS, dept: this.dept})
+            const countTeachers = await this.collection.countDocuments({role: roles.TEACHERS})
             this.personalId = `${admitYear + (countTeachers + 1).toString().padStart(5, "0") }`
         }
         return next()

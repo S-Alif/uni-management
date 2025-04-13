@@ -29,7 +29,7 @@ const deptService = {
         if (count > 0) throw new ApiError(400, "Department already exists")
 
         // upload image if there is
-        const file = req?.files?.image
+        const file = req?.files?.file
         let imageUrl = null
         if (file) {
             if (id) await removeMedia(data?.image)

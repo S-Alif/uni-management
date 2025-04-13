@@ -66,11 +66,11 @@ const batchSectionService = {
                                 })
                                 .populate({
                                     path: "batchCo",
-                                    select: "name profileImg _id"
+                                    select: "name image _id"
                                 })
                                 .populate({
                                     path: "classRep",
-                                    select: "name profileImg _id"
+                                    select: "name image _id"
                                 })
 
         const total = await batchSectionsModels.countDocuments(query)

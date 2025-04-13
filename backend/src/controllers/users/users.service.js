@@ -6,6 +6,8 @@ import { roles } from "../../constants/rolesAndFiles.constants.js"
 import usersModel from "../../models/users.models.js"
 import sendEmail from "../../utils/mail/sendMail.js"
 import { uploadMedia } from "../../utils/files/mediaUpload.js"
+import crypto from "crypto"
+import userRegistrationMail from "../../utils/mail/mail-templates/user-registration-mail.js"
 
 const userService = {
 
@@ -18,22 +20,34 @@ const userService = {
         if (!validated) throw new ApiError(400, "Please provide all the data")
 
         // upload image if there is
-        const file = req?.files?.image
+        const file = req?.files?.file
         if (!file) {
             throw new ApiError(400, "No user image uploaded")
         }
         const imageUrl = await uploadMedia(file)
-        data.profileImg = imageUrl
+        data.image = imageUrl
+
+        // create password
+        data.pass = crypto.randomUUID()
 
         const createNewUser = await usersModel.create(data)
-        const user = await usersModel.findOne({_id: createNewUser?._id})
-                            .select("name personalId email phone dept profileImg isBlocked")
-                            .populate({
-                                path: "dept",
-                                select: "shortName _id"
-                            })
-        // await sendEmail(data?.email, "", "Account creation confirmed")
-        return new ApiResponse(200, user, "User registration successful")
+        const userData = await usersModel.findOne({_id: createNewUser?._id})
+                        .select("-pass -refreshToken")
+                        .populate({
+                            path: "dept",
+                            select: "name shortName _id"
+                        })
+                        .populate({
+                            path: "batch",
+                            select: "name _id"
+                        })
+                        .populate({
+                            path: "section",
+                            select: "section shift _id"
+                        })
+
+        await sendEmail(data?.email, userRegistrationMail({ ...userData?._doc, pass: data.pass }), "Account creation confirmed")
+        return new ApiResponse(200, userData, "User registration successful")
     },
 
     // list of teachers
@@ -90,10 +104,6 @@ const userService = {
             .populate({
                 path: "dept",
                 select: "shortName _id"
-            })
-            .populate({
-                path: "batch",
-                select: "name _id"
             })
             .populate({
                 path: "batch",
