@@ -1,3 +1,4 @@
+import CustomSheet from "@/components/CustomSheet"
 import FilterOptions from "@/components/FilterOptions"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -8,6 +9,7 @@ import apiHandler from "@/utils/api/apiHandler"
 import { ListFilter, Plus, Search } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router"
+import SectionForm from "./forms/SectionForm"
 
 
 const Sections = () => {
@@ -49,7 +51,7 @@ const Sections = () => {
     }
     useEffect(() => {
         getSections()
-    }, [])
+    }, [page])
 
     // filter options
     const filterOptions = [
@@ -105,11 +107,19 @@ const Sections = () => {
                         >
                             filter <span className="ml-1"><ListFilter /></span>
                         </Button>
-                        <Button
-                            size="lg"
+                        {/* section form */}
+                        <CustomSheet 
+                            trigger={
+                                <Button
+                                    size="lg"
+                                >
+                                    Create Section <span className="ml-1"><Plus /></span>
+                                </Button>
+                            }
+                            title="Create a new section"
                         >
-                            Create Section <span className="ml-1"><Plus /></span>
-                        </Button>
+                            <SectionForm batch={batch} setSection={setSection} />
+                        </CustomSheet>
                     </div>
                 </div>
 
