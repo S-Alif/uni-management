@@ -9,7 +9,7 @@ import { useEffect, useState } from "react"
 import { z } from "zod"
 
 
-const UserForm = ({userType, id = null, data = null}) => {
+const UserForm = ({userType, id = null, data = null, setUsers}) => {
 
     // store
     const {department} = OtherStore()
@@ -173,7 +173,13 @@ const UserForm = ({userType, id = null, data = null}) => {
         )
         setLoading(false)
         if(!result) return
-        
+
+        if(id) {
+            return setUsers(prev => {
+                return prev.map(user => user?._id == id ? result : user)
+            })
+        }
+        setUsers(prev => [result, ...prev])
         setResetForm(true)
         setImage(null)
     }

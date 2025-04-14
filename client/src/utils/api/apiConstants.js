@@ -5,6 +5,7 @@ const admin = "admin"
 const teachers = "teachers"
 const students = "students"
 const publicEndpoint = "public"
+const users = "users"
 
 // methods
 const GET = "GET"
@@ -38,6 +39,10 @@ const administrationRoutes = {
     department: `${baseUrl}/api/v1/${admin}/department`,
     faculty: `${baseUrl}/api/v1/${admin}/faculty`,
     sections: `${baseUrl}/api/v1/${admin}/section`,
+
+    // for users
+    teachers: `${baseUrl}/api/v1/${admin}/${users}/teachers`,
+    students: `${baseUrl}/api/v1/${admin}/${users}/students`,
 }
 
 
