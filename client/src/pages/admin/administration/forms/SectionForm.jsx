@@ -2,6 +2,7 @@ import FormLayout from "@/components/forms/FormLayout"
 import OtherStore from "@/stores/OtherStore"
 import { administrationRoutes, PATCH, POST } from "@/utils/api/apiConstants"
 import apiHandler from "@/utils/api/apiHandler"
+import { format, parseISO } from "date-fns"
 import { useState } from "react"
 import { z } from "zod"
 
@@ -85,11 +86,11 @@ const SectionForm = ({id = null, data = null, setSection, batch}) => {
 
     // defaultValues
     let defaultValues = {
-        dept: data?.dept ? data?.dept : "",
+        dept: data?.dept ? data?.dept?._id : "",
         section: data?.section ? data?.section : "A",
         shift: data?.shift ? data?.shift : "day",
-        start: data?.start ? data?.start : "",
-        end: data?.end ? data?.end : "",
+        start: data?.start ? format(parseISO(data?.start), "yyyy-MM-dd'T'HH:mm") : "",
+        end: data?.end ? format(parseISO(data?.end), "yyyy-MM-dd'T'HH:mm") : "",
     }
 
     // submit form
@@ -104,9 +105,8 @@ const SectionForm = ({id = null, data = null, setSection, batch}) => {
         if(!result) return
 
         if(id) {
-            return setSection(prev => {
-                return prev.map(section => section?._id == id ? result : section)
-            })
+            setSection(prev => prev.map(item => item?._id == id ? result : item))
+            return
         }
         setSection(prev => [result, ...prev])
         setResetForm(true)
