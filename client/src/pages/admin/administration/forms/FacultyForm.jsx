@@ -16,12 +16,12 @@ const FacultyForm = ({id = null, data = null}) => {
     useEffect(() => {
         (async () => {
             const result = await apiHandler(
-                { url: `${administrationRoutes.user}/list/teachers?designation=Professor`, method: GET },
+                { url: `${administrationRoutes.teachers}?designation=Professor`, method: GET },
                 {},
                 false
             )
             if (!result) return
-            setTeacherList(result?.teachers)
+            setTeacherList(result?.users)
         })()
     }, [])
 

@@ -15,14 +15,15 @@ const DepartmentForm = ({id = null, data = null}) => {
     // get teacher list
     useEffect(() => {
         (async () => {
-            const result = await apiHandler(
-                { url: `${administrationRoutes.user}/list/teachers?designation=Professor`, method: GET },
-                {},
-                false
-            )
-            if (!result) return
-            console.log(result?.teachers, teacherList)
-            setTeacherList(result?.teachers)
+            const [result1, result2] = await Promise.all([
+                apiHandler({ url: `${administrationRoutes.teachers}?designation=Professor`, method: GET }),
+                apiHandler({ url: `${administrationRoutes.teachers}?designation=Assistant Professor`, method: GET })
+            ])
+            if (!result1 || !result2) return
+            setTeacherList([
+                ...(result1?.users ? result1?.users : []),
+                ...(result2?.users ? result2?.users : []),
+            ])
         })()
     }, [])
 
@@ -85,7 +86,7 @@ const DepartmentForm = ({id = null, data = null}) => {
             type: "select",
             name: "faculty",
             label: "Select faculty",
-            // placeholder: "Select faculty",
+            placeholder: "Select faculty",
             selectItems: faculty,
         },
         {

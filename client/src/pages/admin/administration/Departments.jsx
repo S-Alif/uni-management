@@ -40,6 +40,7 @@ const Departments = () => {
                         { name: "#" },
                         { name: "Department" },
                         { name: "Faculty" },
+                        { name: "HOD" },
                         { name: "Last Updated" },
                         { name: "Actions" },
                     ]}
@@ -61,8 +62,17 @@ const Departments = () => {
                                         </DisplayDialog>
                                     </DisplayAvatar>
                                 </TableCell>
+                                <TableCell className="border-r">{item?.faculty?.name}</TableCell>
                                 <TableCell className="border-r">
-                                    {item?.faculty?.name}
+                                    {
+                                        !item?.deptHead ? 
+                                        <h3 className="text-xl font-bold text-center">-</h3>
+                                        :
+                                        <DisplayAvatar img={item?.deptHead?.image} alt="HOD">
+                                            <h3 className="text-base">{item?.deptHead?.name}</h3>
+                                                <p className="text-sm text-gray-400">{item?.deptHead?.personalId}</p>
+                                        </DisplayAvatar>
+                                    }
                                 </TableCell>
                                 <TableCell className="border-r">
                                     {format(item?.updatedAt, "MMMM dd, EEEE, yyyy, hh:mm a")}
