@@ -7,7 +7,7 @@ const FilterOptions = ({options = [], filterOpen, searchBtnOnClick = null}) => {
 
     return (
         <div className={`mt-10 transition-all duration-300 ${filterOpen ? "max-h-[600px]" : "max-h-0"} overflow-hidden`}>
-            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 items-end">
+            <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-2 items-end">
                 {
                     options?.map((option, index) => (
                         <div key={index}>
@@ -29,7 +29,7 @@ const FilterOptions = ({options = [], filterOpen, searchBtnOnClick = null}) => {
                                                     value={item?._id}
                                                     className="cursor-pointer"
                                                 >
-                                                    {item?.shortName || item?.name}
+                                                    {item?.shortName || item?.name || `${item?.section} - ${item?.shift}`}
                                                 </SelectItem>
                                             )
                                         })

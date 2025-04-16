@@ -21,6 +21,8 @@ const ActorPage = ({userType = ""}) => {
 
     const [totalPage, setTotalPage] = useState(0)
     const [filterOpen, setFilterOpen] = useState(false)
+    const [batchList, setBatchList] = useState([])
+    const [sectionList, setSectionList] = useState([])
     const [users, setUsers] = useState([])
 
     // fetch function
@@ -38,6 +40,100 @@ const ActorPage = ({userType = ""}) => {
     useEffect(() => {
         getData()
     }, [page])
+
+    // get batch and sections
+    useEffect(() => {
+        // get batch list based on department
+        if (userType != "student") return
+        const getBatchList = async () => {
+            if (batchList.length > 0) return
+            const result = await apiHandler(
+                { url: `${administrationRoutes.batch}?page=1&limit=100`, method: GET },
+                {},
+                false
+            )
+            if (!result) return
+            setBatchList(result?.batch)
+        }
+        getBatchList()
+
+        // get section based on dept and batch
+        if (batch == "all") {
+            setSectionList([])
+            updateParams("section", "all")
+            return
+        }
+        const getSectionList = async () => {
+            if (sectionList.length > 0) return
+            const result = await apiHandler(
+                { url: `${administrationRoutes.sections}?dept=${dept}&batch=${batch}`, method: GET },
+                {},
+                false
+            )
+            if (!result) return
+            setSectionList(result?.sections)
+        }
+        getSectionList()
+
+    }, [batch, section, dept])
+
+
+    // filter options
+    const filterOptions = [
+        {
+            label: "Limit",
+            name: "limit",
+            placeholder: "Limit",
+            selectItems: [
+                { _id: "40", name: "40" },
+                { _id: "60", name: "60" },
+                { _id: "80", name: "80" },
+            ],
+            onValueChange: (name, value) => {
+                updateParams(name, value)
+            }
+        },
+        {
+            label: "Department",
+            name: "dept",
+            placeholder: "Select department",
+            selectItems: [
+                { _id: "all", name: "All" },
+                ...department
+            ],
+            onValueChange: (name, value) => {
+                updateParams(name, value)
+            }
+        },
+        ...((userType != "student" && dept != "") ? [] : 
+            [
+                {
+                    label: "Batch",
+                    name: "batch",
+                    placeholder: "Select Batch",
+                    selectItems: [
+                        {_id: "all", name: "ALL"},
+                        ...batchList
+                    ],
+                    onValueChange: (name, value) => {
+                        updateParams(name, value)
+                    }
+                },
+                {
+                    label: "Section",
+                    name: "section",
+                    placeholder: "Select section",
+                    selectItems: [
+                        {_id: "all", name: "ALL"},
+                        ...sectionList
+                    ],
+                    onValueChange: (name, value) => {
+                        updateParams(name, value)
+                    }
+                },
+            ]
+        )
+    ]
     
     
 
@@ -80,33 +176,7 @@ const ActorPage = ({userType = ""}) => {
 
                 {/* filter options */}
                 <FilterOptions
-                    options={[
-                        {
-                            label: "Limit",
-                            name: "limit",
-                            placeholder: "Limit",
-                            selectItems: [
-                                {_id: "40", name: "40"},
-                                {_id: "60", name: "60"},
-                                {_id: "80", name: "80"},
-                            ],
-                            onValueChange: (name, value) => {
-                                updateParams(name, value)
-                            }
-                        },
-                        {
-                            label: "Department",
-                            name: "dept",
-                            placeholder: "Select department",
-                            selectItems: [
-                                {_id:"all", name: "All"},
-                                ...department
-                            ],
-                            onValueChange: (name, value) => {
-                                updateParams(name, value)
-                            }
-                        },
-                    ]}
+                    options={filterOptions}
                     filterOpen={filterOpen}
                     searchBtnOnClick={async () => {
                         if(page == 1) {
