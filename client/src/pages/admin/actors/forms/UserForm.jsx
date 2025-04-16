@@ -52,7 +52,7 @@ const UserForm = ({userType, id = null, data = null, setUsers}) => {
                 false
             )
             if (!result) return
-            setSectionList(result?.section)
+            setSectionList(result?.sections)
         }
         getSectionList()
 
@@ -179,7 +179,7 @@ const UserForm = ({userType, id = null, data = null, setUsers}) => {
                 return prev.map(user => user?._id == id ? result : user)
             })
         }
-        setUsers(prev => [result, ...prev])
+        setUsers(prev => [...prev, result])
         setResetForm(true)
         setImage(null)
     }
@@ -267,7 +267,7 @@ const UserForm = ({userType, id = null, data = null, setUsers}) => {
                                                 value={item?._id}
                                                 className="cursor-pointer"
                                             >
-                                                {item?.section} - {item?.shift}
+                                                {item?.section} - {item?.shift.toUpperCase()}
                                             </SelectItem>
                                         ))
                                     }

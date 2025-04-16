@@ -5,7 +5,7 @@ const DisplayAvatar = ({ img = null, alt = "UN", children }) => {
     return (
         <div className="flex items-center gap-3">
             <Avatar className="shadow-md w-[55px] h-[55px]">
-                <AvatarImage src={img} />
+                <AvatarImage src={img} className="object-cover object-center" />
                 <AvatarFallback>{alt}</AvatarFallback>
             </Avatar>
 

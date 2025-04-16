@@ -202,7 +202,7 @@ const UserTableRows = ({data, userType, index, page, limit}) => {
             {
                 userType == "student" &&
                 <TableCell className="border-r">
-                    <p className="text-base">{data?.batch?.name} - {data?.section?.shift} - {data?.section?.section}</p>
+                    <p className="text-base">{data?.batch?.name} - {data?.section?.shift.toUpperCase()} - {data?.section?.section}</p>
                 </TableCell>
             }
 
