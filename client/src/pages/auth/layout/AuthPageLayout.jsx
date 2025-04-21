@@ -1,6 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import logo from "../../../assets/images/logo.png"
-import { NavLink } from "react-router"
 
 const AuthPageLayout = ({children, pageId, pageTitle}) => {
   return (
@@ -8,12 +6,7 @@ const AuthPageLayout = ({children, pageId, pageTitle}) => {
         className="w-full min-h-[calc(100vh-80px)] py-10 flex justify-center items-center"
         id={pageId}
     >
-        <div className="flex flex-col gap-5 w-[500px] max-w-[calc(100%-20px)]">
-            <div>
-                <NavLink to={"/"}>
-                    <img src={logo} alt="" />
-                </NavLink>
-            </div>
+        <div className="w-[500px] max-w-[calc(100%-20px)]">
 
             <Card className="max-h-[70vh] lg:max-h-[50vh] overflow-y-auto">
                 <CardHeader>

@@ -1,8 +1,8 @@
 import { z } from "zod"
 import AuthPageLayout from "./layout/AuthPageLayout"
 import FormLayout from "@/components/forms/FormLayout"
-import { useState } from "react"
-import { NavLink, useNavigate } from "react-router"
+import { useEffect, useState } from "react"
+import { Navigate, NavLink, useNavigate } from "react-router"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import apiHandler from "@/utils/api/apiHandler"
@@ -44,7 +44,13 @@ const Login = () => {
     const navigate = useNavigate()
 
     // state zustand store
-    const {setUser, setAccessToken} = UserStore()
+    const {setUser, setAccessToken, user} = UserStore()
+
+    useEffect(() => {
+        if (user) {
+            return <Navigate to="/" replace={true} />
+        } 
+    }, [])
 
     // login submit
     const onSubmit = async (value) => {
@@ -56,7 +62,7 @@ const Login = () => {
         setAccessToken(result?.accessToken)
 
         setResetForm(true)
-        navigate("/admin/dashboard") // navigate to profile or dashboard later
+        navigate("/admin/dashboard", {replace: true}) // navigate to profile or dashboard later
     }
 
     return (

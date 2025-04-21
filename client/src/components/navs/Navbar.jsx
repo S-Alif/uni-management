@@ -1,6 +1,5 @@
 import { NavLink, useLocation } from "react-router"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu"
-import { Button } from "../ui/button"
 import { useIsMobile } from "@/hooks/use-mobile"
 import DisplayLogo from "../DisplayLogo"
 import DisplayAvatar from "../DisplayAvatar"
