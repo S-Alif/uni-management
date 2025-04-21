@@ -130,6 +130,9 @@ const routes = createBrowserRouter([
                 element: <TeacherProfile />
             }
         ]
+    },
+    {
+        path: "",
     }
 ])
 
