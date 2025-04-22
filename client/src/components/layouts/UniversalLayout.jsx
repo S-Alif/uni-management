@@ -13,7 +13,8 @@ const UniversalLayout = ({ children }) => {
     const {sidebarState} = UserStore()
     const {getInitialData} = OtherStore()
     const location = useLocation()
-    const isDashboard = (location.pathname.includes("admin") || location.pathname.includes("user"))
+    const pathname = location.pathname
+    const isDashboard = ((pathname.includes("admin") || pathname.includes("user")) && !pathname.includes("admin/register"))
 
     useEffect(() => {
         (async () => {

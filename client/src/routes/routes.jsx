@@ -12,7 +12,7 @@ import UpdatePass from "@/pages/auth/UpdatePass"
 // layouts
 import AuthLayout from "@/pages/auth/layout/AuthLayout"
 import UniversalLayout from "@/components/layouts/UniversalLayout"
-import AdminLayout from "@/pages/admin/layout/AdminLayout"
+import DashboardLayout from "@/components/layouts/DashboardLayout"
 
 // admin pages
 import Dashboard from "@/pages/admin/administration/Dashboard"
@@ -69,7 +69,7 @@ const routes = createBrowserRouter([
     // admin routes
     {
         path: "/admin",
-        element: <UniversalLayout><AdminLayout /></UniversalLayout>,
+        element: <UniversalLayout><DashboardLayout /></UniversalLayout>,
         children: [
 
             // administration routes

@@ -5,7 +5,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/s
 import UserStore from '@/stores/UserStore'
 import { Navigate, Outlet, useLocation } from 'react-router'
 
-const AdminLayout = () => {
+const DashboardLayout = () => {
 
     const {user} = UserStore()
 
@@ -55,4 +55,4 @@ const AdminLayout = () => {
     )
 }
 
-export default AdminLayout
+export default DashboardLayout
