@@ -10,6 +10,7 @@ const FacultyForm = ({id = null, data = null}) => {
 
     const [teacherList, setTeacherList] = useState([])
     const [resetForm, setResetForm] = useState(false)
+    const [loading, setLoading] = useState(false)
     const {setState, faculty} = OtherStore()
 
     // get teacher list
@@ -36,18 +37,34 @@ const FacultyForm = ({id = null, data = null}) => {
                     ctx.addIssue({
                         code: "custom",
                         message: "Invalid file type",
-                        path: ["image"],
                     })
                 }
                 if (file.size > 5 * 1024 * 1024) {
                     ctx.addIssue({
                         code: "custom",
                         message: "Image size exceeds 5MB",
-                        path: ["image"],
                     })
                 }
             }
         }),
+        bgImage: z.any().optional().superRefine((value, ctx) => {
+            if (Array.isArray(value) && value.length > 0) {
+                const file = value[0]
+                if (!(file instanceof File)) {
+                    ctx.addIssue({
+                        code: "custom",
+                        message: "Invalid file type",
+                    })
+                }
+                if (file.size > 5 * 1024 * 1024) {
+                    ctx.addIssue({
+                        code: "custom",
+                        message: "Image size exceeds 5MB",
+                    })
+                }
+            }
+        }),
+        shortDesc: z.string().min(10, "Length 10 - 200 characters").max(200, "Length 10 - 200 characters").default(""),
         dean: z.string().optional().default(""),
         msgFromDean: z.string().optional().default(""),
     })
@@ -61,16 +78,22 @@ const FacultyForm = ({id = null, data = null}) => {
             placeholder: "Faculty name"
         },
         {
-            type: "textarea",
-            name: "about",
-            label: "About faculty",
-            placeholder: "Write about the faculty"
+            type: "file",
+            name: "image",
+            label: "Faculty image",
+            placeholder: "Faculty image"
         },
         {
             type: "file",
-            name: "image",
-            label: "Upload faculty image",
-            placeholder: "Upload faculty image"
+            name: "bgImage",
+            label: "Faculty background image",
+            placeholder: "Faculty background image"
+        },
+        {
+            type: "textarea",
+            name: "shortDesc",
+            label: "Faculty short description",
+            placeholder: "Write faculty short description"
         },
         {
             type: "select",
@@ -83,29 +106,39 @@ const FacultyForm = ({id = null, data = null}) => {
             name: "msgFromDean",
             label: "Message from dean",
             placeholder: "Write message from dean"
-        }
+        },
+        {
+            type: "textarea",
+            name: "about",
+            label: "About faculty",
+            placeholder: "Write about the faculty"
+        },
     ]
 
     // default values
     const defaultValues = {
         name: id ? data?.name : "",
         about: id ? data?.about : "",
+        shortDesc: id ? data?.shortDesc : "",
         image: id ? data?.image : "",
+        bgImage: id ? data?.bgImage : "",
         dean: id ? data?.dean?._id : "",
         msgFromDean: id ? data?.msgFromDean : ""
     }
 
     // save faculty
     const onSubmit = async (value) => {
+        setLoading(true)
         const formData = new FormData()
 
         Object.keys(value).forEach((key) => {
-            if (key === "image" && (value[key] instanceof File)) {
-                formData.append("file", value[key][0])
-            }
-            else {
-                if (key == "image") return formData.append(key, data?.image)
-                formData.append(key, value[key])
+            if (value[key] instanceof File || value[key] != "") {
+                if ((key === "image" || key === "bgImage") && (value[key] instanceof File)) {
+                    formData.append(key, value[key])
+                }
+                else {
+                    formData.append(key, value[key])
+                }
             }
         })
 
@@ -114,6 +147,8 @@ const FacultyForm = ({id = null, data = null}) => {
             formData,
             true
         )
+
+        setLoading(false)
         if(!saveFaculty) return
         if(id){
             let newList = faculty.filter((e) => e._id !== id)

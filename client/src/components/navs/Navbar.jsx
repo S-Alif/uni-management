@@ -72,7 +72,7 @@ const Navbar = () => {
                                                     `text-base capitalize font-bold px-4 py-2 rounded-md cursor-pointer ${pathname.includes(item?.to) ? "text-primary bg-background" : "text-white"}`
                                                 }>{item?.label}</p>
                                             </DropdownMenuTrigger>
-                                            <DropdownMenuContent>
+                                            <DropdownMenuContent className="z-[1001]">
                                                 {
                                                     item?.dropdowns?.map((dropdown, dropdownIndex) => (
                                                         <div key={dropdownIndex}>
@@ -116,7 +116,7 @@ const Navbar = () => {
                                             </DisplayAvatar>
                                         </div>
                                     </DropdownMenuTrigger>
-                                    <DropdownMenuContent>
+                                    <DropdownMenuContent className="z-[1001]">
                                         {
                                             !user &&
                                             <DropdownMenuItem className="text-base capitalize font-bold rounded-md">

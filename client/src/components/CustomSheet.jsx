@@ -10,7 +10,7 @@ const CustomSheet = ({
     return (
         <Sheet>
             <SheetTrigger asChild>{trigger}</SheetTrigger>
-            <SheetContent side={side} className="max-w-[400px] sm:!max-w-[540px] lg:!max-w-[640px]">
+            <SheetContent side={side} className="max-w-[400px] sm:!max-w-[540px] lg:!max-w-[640px] overflow-y-auto">
                 <SheetHeader>
                     <SheetTitle>{title}</SheetTitle>
                 </SheetHeader>
