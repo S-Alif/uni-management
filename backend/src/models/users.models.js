@@ -77,7 +77,6 @@ const schema = new mongoose.Schema({
     },
     teacherDesignation: {
         type: String,
-        default: "Lecturer",
         enum: ["Professor", "Associate Professor", "Assistant Professor", "Senior Lecturer", "Lecturer"],
         required: function () { return this.role == roles.TEACHERS }
     },

@@ -17,10 +17,27 @@ const batchSectionService = {
         if (!validate) throw new ApiError(400, "Please provide all the data")
         const id = req?.params?.id
 
-        const checkDuplicate = await batchSectionsModels.countDocuments({ section: data?.section, batch: data?.batch, dept: data?.dept })
+        const checkDuplicate = await batchSectionsModels.countDocuments({ 
+            section: data?.section,
+            batch: data?.batch,
+            dept: data?.dept,
+            shift: data?.shift,
+            ...(id && { _id: { $ne: id } })
+        })
         if (checkDuplicate > 0) throw new ApiError(400, "Section already exists")
 
-        const section = await batchSectionsModels.findOneAndUpdate({ _id: id || new mongoose.Types.ObjectId() }, data, { upsert: true, new: true })
+        const section = await batchSectionsModels.findOneAndUpdate(
+            { _id: id || new mongoose.Types.ObjectId() },
+            data,
+            { upsert: true, new: true }
+        ).populate({
+            path: "dept",
+            select: "name shortName _id"
+        })
+        .populate({
+            path: "batch",
+            select: "name _id"
+        })
         return new ApiResponse(200, section, "Section saved successfully")
     },
 
@@ -66,11 +83,11 @@ const batchSectionService = {
                                 })
                                 .populate({
                                     path: "batchCo",
-                                    select: "name image _id"
+                                    select: "name personalId image _id"
                                 })
                                 .populate({
                                     path: "classRep",
-                                    select: "name image _id"
+                                    select: "name personalId image _id"
                                 })
 
         const total = await batchSectionsModels.countDocuments(query)

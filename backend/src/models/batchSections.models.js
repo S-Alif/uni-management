@@ -33,11 +33,11 @@ const schema = new mongoose.Schema({
 		enum: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"]
 	},
 	start: {
-		type: String,
+		type: Date,
 		required: true,
 	},
 	end: {
-		type: String,
+		type: Date,
 		required: true,
 	},
 }, { timestamps: true, versionKey: false })

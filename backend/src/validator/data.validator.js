@@ -109,6 +109,7 @@ const sectionValidate = Joi.object({
     dept: Joi.string().length(24).required(),
     batchCo: Joi.string().length(24).optional(),
     classRep: Joi.string().length(24).optional(),
+    section: Joi.string().valid("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K").default("A"),
     shift: Joi.string().valid("day", "evening").default("day"),
     start: Joi.string().min(5).max(100).required(),
     end: Joi.string().min(5).max(100).required(),

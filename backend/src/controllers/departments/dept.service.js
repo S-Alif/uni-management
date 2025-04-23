@@ -38,7 +38,18 @@ const deptService = {
         }
 
         // update or create new data
-        const department = await departmentsModels.findOneAndUpdate({ _id: id || new mongoose.Types.ObjectId() }, data, {upsert: true, new: true})
+        const department = await departmentsModels.findOneAndUpdate(
+            { _id: id || new mongoose.Types.ObjectId() },
+             data, 
+             {upsert: true, new: true}
+            ).populate({
+                path: "faculty",
+                select: "name _id"
+            })
+            .populate({
+                path: "deptHead",
+                select: "name image personalId _id"
+            })
 
         return new ApiResponse(200, department, "Department saved successfully")
     },
@@ -77,7 +88,7 @@ const deptService = {
                                 })
                                 .populate({
                                     path: "deptHead",
-                                    select: "name _id"
+                                    select: "name image personalId _id"
                                 })
         return new ApiResponse(200, department, "Department list loaded")
     },

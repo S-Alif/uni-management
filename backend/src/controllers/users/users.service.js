@@ -24,14 +24,16 @@ const userService = {
         if (!file) {
             throw new ApiError(400, "No user image uploaded")
         }
-        const imageUrl = await uploadMedia(file)
-        data.image = imageUrl
 
         // create password
         data.pass = crypto.randomUUID()
 
         const createNewUser = await usersModel.create(data)
-        const userData = await usersModel.findOne({_id: createNewUser?._id})
+        
+        // upload user image
+        const imageUrl = await uploadMedia(file)
+
+        const userData = await usersModel.findOneAndUpdate({_id: createNewUser?._id}, {image: imageUrl}, {upsert: true, new: true})
                         .select("-pass -refreshToken")
                         .populate({
                             path: "dept",
@@ -77,7 +79,7 @@ const userService = {
         const total = await usersModel.countDocuments(query)
         const totalPages = Math.ceil(total / pageLimit)
 
-        return new ApiResponse(200, {teachers: teacherList, totalPage: totalPages}, "Teacher list loaded")
+        return new ApiResponse(200, {users: teacherList, totalPage: totalPages}, "Teacher list loaded")
     },
 
     // list of students
@@ -116,7 +118,7 @@ const userService = {
         const total = await usersModel.countDocuments(query)
         const totalPages = Math.ceil(total / pageLimit)
 
-        return new ApiResponse(200, {students:studentList, totalPage: totalPages}, "Student list loaded")
+        return new ApiResponse(200, {users:studentList, totalPage: totalPages}, "Student list loaded")
     },
 
     // user data by admin
