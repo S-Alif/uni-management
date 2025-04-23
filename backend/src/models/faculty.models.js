@@ -12,6 +12,16 @@ const schema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    bgImage: {
+        type: String,
+        required: true
+    },
+    shortDesc: {
+        type: String,
+        required: true,
+        minLength: 10,
+        maxLength: 200,
+    },
     about: {
         type: String,
         required: true,

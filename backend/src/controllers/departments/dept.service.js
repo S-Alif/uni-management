@@ -19,7 +19,6 @@ const deptService = {
         }
             
         const id = req?.params?.id
-
         
         // count documents
         const count = await departmentsModels.countDocuments(
@@ -27,14 +26,28 @@ const deptService = {
             : { $or: [{ name: data.name }, { shortName: data.shortName }] }
         )
         if (count > 0) throw new ApiError(400, "Department already exists")
+        
+        let dept = null
+        if(id){
+            dept = await departmentsModels.findOne({_id: id}).select("image bgImage")
+        }
 
         // upload image if there is
-        const file = req?.files?.file
+        const image = req?.files?.image
         let imageUrl = null
-        if (file) {
-            if (id) await removeMedia(data?.image)
-            imageUrl = await uploadMedia(file)
+        if (image) {
+            if (id) await removeMedia(dept?.image)
+            imageUrl = await uploadMedia(image)
             data.image = imageUrl
+        }
+
+        // upload background image if there is
+        const bgImage = req?.files?.bgImage
+        let bgImageUrl = null
+        if (bgImage) {
+            if (id) await removeMedia(dept?.bgImage)
+            bgImageUrl = await uploadMedia(bgImage)
+            data.bgImage = bgImageUrl
         }
 
         // update or create new data
@@ -71,7 +84,8 @@ const deptService = {
         }
 
         const department = await departmentsModels.findOne({_id: id})
-        const removeImage = await removeMedia(department?.image)
+        await removeMedia(department?.image)
+        await removeMedia(department?.bgImage)
         if(!removeImage) throw new ApiError(400, "Could not remove department")
 
         const removeDoc = await departmentsModels.findByIdAndDelete({_id: id})

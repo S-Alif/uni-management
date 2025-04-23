@@ -20,6 +20,12 @@ const schema = new mongoose.Schema({
         required: true,
         ref: "faculties"
     },
+    shortDesc: {
+        type: String,
+        required: true,
+        minLength: 10,
+        maxLength: 200,
+    },
     about: {
         type: String,
         required: true,
@@ -27,6 +33,10 @@ const schema = new mongoose.Schema({
         maxLength: 100000,
     },
     image: {
+        type: String,
+        required: true
+    },
+    bgImage: {
         type: String,
         required: true
     },

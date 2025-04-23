@@ -15,26 +15,43 @@ const facultyService = {
         const data = req?.body
         if (!data) throw new ApiError(400, "No data provided")
 
+        const validate = isValidData(facultyValidate, data)
+        if (!validate) {
+            throw new ApiError(400, "Invalid faculty data")
+        }
+
         const id = req?.params?.id
+
+        // count documents
+        const count = await facultyModels.countDocuments(
+            id ? { _id: { $ne: id }, name: data?.name }
+                : { name: data.name }
+        )
+        if (count > 0) throw new ApiError(400, "Faculty name already exists")
+
+        let facultyData = null
+        if (id) {
+            facultyData = await facultyModels.findOne({ _id: id }).select("image bgImage")
+        }
+
         // upload image if there is
-        const file = req?.files?.file
+        const file = req?.files?.image
         let imageUrl = null
         if (file) {
-            if(id) await removeMedia(data?.image)
+            if(id) await removeMedia(facultyData?.image)
             imageUrl = await uploadMedia(file)
             data.image = imageUrl
         }
 
-        const validate = isValidData(facultyValidate, data)
-        if (!validate) {
-            if(imageUrl) await removeMedia(imageUrl)
-            throw new ApiError(400, "Invalid faculty data")
+        // upload background image if there is
+        const bgImage = req?.files?.bgImage
+        let bgImageUrl = null
+        if (bgImage) {
+            if (id) await removeMedia(facultyData?.bgImage)
+            bgImageUrl = await uploadMedia(bgImage)
+            data.bgImage = bgImageUrl
         }
-
-        // count documents
-        const count = await facultyModels.countDocuments({ name: data.name })
-        if (count > 1) throw new ApiError(400, "Faculty name already exists")
-
+        
         const faculty = await facultyModels.findOneAndUpdate({ _id: id || new mongoose.Types.ObjectId() }, data, { upsert: true, new: true })
 
         return new ApiResponse(200, faculty, "Faculty saved successfully")
@@ -50,7 +67,8 @@ const facultyService = {
         if (count > 0) throw new ApiError(400, "Cannot remove faculty with active departments")
         
         const faculty = await facultyModels.findOne({_id: id})
-        const removeImage = await removeMedia(faculty?.image)
+        await removeMedia(faculty?.image)
+        await removeMedia(faculty?.bgImage)
         if(!removeImage) throw new ApiError(400, "Could not remove Faculty")
 
         const removeDoc = await facultyModels.findByIdAndDelete({ _id: id })
