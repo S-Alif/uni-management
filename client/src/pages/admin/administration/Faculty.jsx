@@ -48,7 +48,11 @@ const Faculty = () => {
 							<TableRow key={index}>
 								<TableCell className="border-r">{index+1}</TableCell>
 								<TableCell className="border-r">
-									<DisplayAvatar img={item?.image} alt="FY">
+									<DisplayAvatar 
+										img={item?.image} 
+										alt="FY"
+										avatarClassName="rounded-md shadow-none"
+									>
 										<DisplayDialog
 											trigger={<p className="cursor-pointer">{item?.name}</p>}
 											heading={"Faculty details"}

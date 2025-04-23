@@ -13,6 +13,7 @@ const DeptCard = ({item}) => {
                 <DisplayAvatar
                     img={item?.image}
                     alt="department image"
+                    avatarClassName="rounded-md shadow-none"
                 >
                     <NavLink to={`/academics/departments/${item?._id}`} className={"font-bold hover:underline underline-offset-1"}>{item?.name} ({item?.shortName})</NavLink>
                 </DisplayAvatar>

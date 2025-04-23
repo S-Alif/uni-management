@@ -50,7 +50,7 @@ const FacultyAndDept = () => {
             <SectionPage
                 id="deprtment-list"
                 sectionTitle="Our Departments"
-                sectionClassName="bg-accent"
+                sectionClassName="bg-primary/10"
             >
                 <div className="card-grid-layout">
                     {

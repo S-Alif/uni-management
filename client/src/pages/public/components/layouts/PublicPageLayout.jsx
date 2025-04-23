@@ -1,3 +1,4 @@
+import { Separator } from "@/components/ui/separator"
 
 const PublicPageLayout = ({
     pageImg = "https://tinyurl.com/mrx7udcr",
@@ -12,9 +13,10 @@ const PublicPageLayout = ({
           <div className="w-full h-[50vh] lg:h-[60vh] relative overflow-hidden">
               <img src={pageImg} alt="faculty-and-dept" className="w-full h-full object-cover object-center" />
               {/* overlay text */}
-              <div className="absolute top-0 left-0 w-full h-full bg-black/65 flex items-center justify-center">
+              <div className="absolute top-0 left-0 w-full h-full bg-black/75 flex items-center justify-center">
                   <div className="text-center text-white">
                       <h1 className="public-page-title">{pageTitle}</h1>
+                      <Separator className="my-4 xl:my-8 max-w-[200px] mx-auto" />
                       <p className="text-white text-base lg:text-xl w-full max-w-[600px] mx-auto">{pageDescription}</p>
                   </div>
               </div>

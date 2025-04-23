@@ -171,6 +171,7 @@ const FacultyForm = ({id = null, data = null}) => {
                 onSubmit={onSubmit}
                 buttonText="Save faculty"
                 resetForm={resetForm}
+                disabled={loading}
                 // buttonClass="bg-primary text-white hover:bg-primary/90"
             />
         </div>
