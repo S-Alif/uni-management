@@ -36,9 +36,13 @@ body{
     @apply w-full px-4 md:px-0 md:max-w-[720px] lg:max-w-[960px] xl:max-w-[1200px] 2xl:max-w-[1420px] mx-auto;
 }
 .section-layout{
-    @apply py-7 block;
+    @apply py-20 block;
+}
+.section-title{
+    @apply text-2xl md:text-3xl xl:text-4xl font-bold mb-10 relative pl-10;
+    @apply before:w-3 before:h-full before:absolute before:bg-primary before:rounded-md before:top-0 before:left-0;
 }
 
 .page-title{
-    @apply text-3xl font-bold;
+    @apply text-white text-3xl md:text-4xl xl:text-6xl font-bold pb-4 border-b border-b-white mb-4;
 }

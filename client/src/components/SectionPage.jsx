@@ -10,7 +10,7 @@ const SectionPage = ({
   return (
     <section id={id} className={`section-layout ${sectionClassName}`}>
         <div className="container">
-        {sectionTitle && <h2 className="section-title">{title}</h2>}
+        {sectionTitle && <h2 className="section-title">{sectionTitle}</h2>}
 
             <div className={containerClassName}>
                 {children}

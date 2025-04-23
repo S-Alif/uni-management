@@ -29,6 +29,7 @@ import Students from "@/pages/admin/actors/Students"
 import StudentProfile from "@/pages/admin/actors/StudentProfile"
 import Teachers from "@/pages/admin/actors/Teachers"
 import TeacherProfile from "@/pages/admin/actors/TeacherProfile"
+import FacultyAndDept from "@/pages/public/FacultyAndDept"
 
 
 const routes = createBrowserRouter([
@@ -132,7 +133,14 @@ const routes = createBrowserRouter([
         ]
     },
     {
-        path: "",
+        path: "/academics",
+        element: <UniversalLayout />,
+        children: [
+            {
+                path: "faculty-and-department",
+                element: <FacultyAndDept />
+            }
+        ]
     }
 ])
 

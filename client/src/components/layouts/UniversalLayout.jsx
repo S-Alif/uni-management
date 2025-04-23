@@ -1,5 +1,5 @@
 import { CopyrightIcon } from "lucide-react"
-import { NavLink, useLocation } from "react-router"
+import { NavLink, Outlet, useLocation } from "react-router"
 import { buttonVariants } from "../ui/button"
 import { cn } from "@/lib/utils"
 import { Toaster } from "../ui/sonner"
@@ -8,7 +8,7 @@ import UserStore from "@/stores/UserStore"
 import OtherStore from "@/stores/OtherStore"
 import PublicLayout from "./PublicLayout"
 
-const UniversalLayout = ({ children }) => {
+const UniversalLayout = ({ children = null }) => {
 
     const {sidebarState} = UserStore()
     const {getInitialData} = OtherStore()
@@ -29,9 +29,9 @@ const UniversalLayout = ({ children }) => {
             {
                 !isDashboard ?
                 <PublicLayout>
-                    {children}
+                    {children ? children : <Outlet />}
                 </PublicLayout>
-                : children
+                : children ? children : <Outlet />
             }
 
             <div className={`w-full md:px-2 bg-sidebar${(sidebarState && isDashboard) ? " md:pl-[16rem] rounded-xl" : ""}`}>
