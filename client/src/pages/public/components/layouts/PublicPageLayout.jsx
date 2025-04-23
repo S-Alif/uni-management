@@ -14,7 +14,7 @@ const PublicPageLayout = ({
               {/* overlay text */}
               <div className="absolute top-0 left-0 w-full h-full bg-black/65 flex items-center justify-center">
                   <div className="text-center text-white">
-                      <h1 className="page-title">{pageTitle}</h1>
+                      <h1 className="public-page-title">{pageTitle}</h1>
                       <p className="text-white text-base lg:text-xl w-full max-w-[600px] mx-auto">{pageDescription}</p>
                   </div>
               </div>

@@ -1,3 +1,4 @@
+import Loading from "./Loading"
 
 
 const SectionPage = ({
@@ -5,6 +6,8 @@ const SectionPage = ({
     containerClassName = "",
     sectionClassName = "",
     sectionTitle = null,
+    loading = false,
+    loadingType = "card",
     children
 }) => {
   return (
@@ -13,7 +16,12 @@ const SectionPage = ({
         {sectionTitle && <h2 className="section-title">{sectionTitle}</h2>}
 
             <div className={containerClassName}>
-                {children}
+                {
+                  loading ? 
+                  <Loading type={loadingType} />
+                  :
+                  children
+                }
             </div>
         </div>
     </section>

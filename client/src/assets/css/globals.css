@@ -39,10 +39,19 @@ body{
     @apply py-20 block;
 }
 .section-title{
-    @apply text-2xl md:text-3xl xl:text-4xl font-bold mb-10 relative pl-10;
+    @apply text-2xl md:text-3xl xl:text-4xl font-bold mb-12 relative pl-10;
     @apply before:w-3 before:h-full before:absolute before:bg-primary before:rounded-md before:top-0 before:left-0;
 }
 
-.page-title{
+.page-title{ /* for admin pages */
+    @apply text-3xl font-bold;
+}
+
+.public-page-title{
     @apply text-white text-3xl md:text-4xl xl:text-6xl font-bold pb-4 border-b border-b-white mb-4;
+}
+
+/* grid layout */
+.card-grid-layout{ /* faculty and dept */
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4;
 }
