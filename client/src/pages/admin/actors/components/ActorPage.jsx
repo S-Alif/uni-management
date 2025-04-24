@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import UserForm from "../forms/UserForm"
 import DisplayDialog from "@/components/DisplayDialog"
 import { Button, buttonVariants } from "@/components/ui/button"
-import { ListFilter, Plus } from "lucide-react"
+import { ListFilter, PencilLine, Plus, Trash2 } from "lucide-react"
 import OtherStore from "@/stores/OtherStore"
 import FilterOptions from "@/components/FilterOptions"
 import apiHandler from "@/utils/api/apiHandler"
@@ -216,6 +216,7 @@ const ActorPage = ({userType = ""}) => {
                                     index={index}
                                     page={page}
                                     limit={limit}
+                                    setUsers={setUsers}
                                 />
                             ))
                         }
@@ -243,7 +244,7 @@ export default ActorPage
 
 
 // table rows
-const UserTableRows = ({data, userType, index, page, limit}) => {
+const UserTableRows = ({data, userType, index, page, limit, setUsers}) => {
     return (
         <TableRow>
             <TableCell className="border-r">{(page - 1) * limit + index + 1}</TableCell>
@@ -285,6 +286,31 @@ const UserTableRows = ({data, userType, index, page, limit}) => {
 
             <TableCell className="border-r">
                 {format(data?.updatedAt, "MMMM dd, EEEE, yyyy, hh:mm a")}
+            </TableCell>
+
+            <TableCell className="">
+                {/* actions */}
+                <div className="flex gap-2 items-center">
+                    <DisplayDialog
+                        trigger={
+                            <Button size="icon"><PencilLine /></Button>
+                        }
+                        heading={`Update ${userType}`}
+                        dialogClassName="lg:max-w-[900px]"
+                    >
+                        <div className="pt-10">
+                            <UserForm id={data?._id} data={data} userType={userType} setUsers={setUsers} />
+                        </div>
+                    </DisplayDialog>
+
+                    {/* remove */}
+                    <Button
+                        size="icon"
+                        variant="destructive"
+                    >
+                        <Trash2 />
+                    </Button>
+                </div>
             </TableCell>
         </TableRow>
     )

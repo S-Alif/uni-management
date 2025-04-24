@@ -5,7 +5,7 @@ const DisplayTable = ({headings=[], children}) => {
     return(
         <div className="max-h-[60vh] overflow-y-scroll relative">
             <Table className="overflow-x-auto relative">
-                <TableHeader className="sticky top-0">
+                <TableHeader className="sticky top-0 z-10">
                     <TableRow className="bg-primary hover:bg-primary">
                         {headings.map((heading, index) => (
                             <TableHead

@@ -15,19 +15,29 @@ const FacultyDetail = () => {
         return <Navigate to="/page-not-found" replace={true} />
     }
 
+    // get faculty data
     useEffect(() => {
         (async () => {
+            setLoading(true)
             const result = await apiHandler(
-                { url: `${publicRoutes.faculty.url}/${params?.id}`}
+                { url: `${publicRoutes.faculty.url}/${params?.id}`, method: publicRoutes.faculty.method}
             )
+            
+            setLoading(false)
+            if(!result) return
+            setFaculty(result)
         })()
     }, [])
 
     return (
         <PublicPageLayout
-
+            pageTitle={faculty?.name}
+            pageDescription={faculty?.shortDesc}
+            pageImg={faculty?.bgImage}
+            pageId="faculty-detail"
+            loading={loading}
         >
-
+            
         </PublicPageLayout>
     )
 }

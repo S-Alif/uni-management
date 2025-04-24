@@ -9,35 +9,35 @@ const Loading = ({type}) => {
             <section className="section-layout">
                 <div className="border shadow-sm w-[380px]">
                     <div className="flex flex-col space-y-1.5 p-6">
-                        <h3 className="leading-none tracking-tight">
+                        <div className="leading-none tracking-tight">
                             <Skeleton className="w-[104px] max-w-full" />
-                        </h3>
-                        <p>
+                        </div>
+                        <div>
                             <Skeleton className="w-[216px] max-w-full" />
-                        </p>
+                        </div>
                     </div>
                     <div className="p-6 pt-0 grid gap-4">
                         <div>
                             <div className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
                                 <span className="flex h-2 w-2 translate-y-1"></span>
                                 <div className="space-y-1">
-                                    <p className="leading-none">
+                                    <div className="leading-none">
                                         <Skeleton className="w-[184px] max-w-full" />
-                                    </p>
-                                    <p>
+                                    </div>
+                                    <div>
                                         <Skeleton className="w-[80px] max-w-full" />
-                                    </p>
+                                    </div>
                                 </div>
                             </div>
                             <div className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
                                 <span className="flex h-2 w-2 translate-y-1"></span>
                                 <div className="space-y-1">
-                                    <p className="leading-none">
+                                    <div className="leading-none">
                                         <Skeleton className="w-[280px] max-w-full" />
-                                    </p>
-                                    <p>
+                                    </div>
+                                    <div>
                                         <Skeleton className="w-[88px] max-w-full" />
-                                    </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -67,7 +67,7 @@ const Loading = ({type}) => {
                                 <th className="h-12 px-4 text-left align-middle [&amp;:has([role=checkbox])]:pr-0">
                                     <div className="inline-flex items-center justify-center transition-colors h-10 px-4 py-2">
                                         <Skeleton className="w-[40px] max-w-full" />
-                                        <SVGSkeleton className="lucide-arrow-up-down ml-2 w-[24px] h-[24px]" />
+                                        <Skeleton className="lucide-arrow-up-down ml-2 w-[24px] h-[24px]" />
                                     </div>
                                 </th>
                                 <th className="h-12 px-4 text-left align-middle [&amp;:has([role=checkbox])]:pr-0">

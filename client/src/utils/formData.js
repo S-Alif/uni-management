@@ -6,7 +6,7 @@ const formData = (value) => {
     Object.keys(value).forEach((key) => {
         if (value[key] instanceof File || value[key] != "") {
             if (value[key] instanceof File) {
-                formData.append("file", value[key])
+                formData.append(key, value[key])
             }
             else {
                 formData.append(key, value[key])

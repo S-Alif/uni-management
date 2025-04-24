@@ -25,6 +25,7 @@ const UserForm = ({userType, id = null, data = null, setUsers}) => {
     const [sectionList, setSectionList] = useState([])
     const [image, setImage] = useState(null)
 
+
     // get batch list and section list
     useEffect(() => {
 
@@ -57,6 +58,21 @@ const UserForm = ({userType, id = null, data = null, setUsers}) => {
         getSectionList()
 
     }, [extraInfo.dept, extraInfo.batch, extraInfo.section])
+
+    useEffect(() => {
+        if (id && userType == "student") {
+            setExtraInfo({
+                dept: data?.dept?._id || "",
+                batch: data?.batch?._id || "",
+                section: data?.section?._id || ""
+            })
+        }
+        else if(id) {
+            setExtraInfo(prev => {
+                return { ...prev, ["dept"]: data?.dept?._id || "" }
+            })
+        }
+    }, [id, data])
 
     // form schema
     const formSchema = z.object({
@@ -121,6 +137,16 @@ const UserForm = ({userType, id = null, data = null, setUsers}) => {
             label: "Enter phone",
             placeholder: "Enter phone number"
         },
+        ...(!id ? [] : 
+            [
+                {
+                    type: "password",
+                    name: "pass",
+                    label: "Enter password",
+                    placeholder: "Enter password"
+                }
+            ]
+        ),
         {
             type: "file",
             name: "image",
@@ -165,6 +191,7 @@ const UserForm = ({userType, id = null, data = null, setUsers}) => {
         value.dept = extraInfo.dept
         
         const data = formData(value)
+        console.log(Object.fromEntries(data))
 
         const result = await apiHandler(
             { url: `${administrationRoutes.user}/${id ? id : ""}`, method: id ? PATCH : POST},
@@ -196,6 +223,7 @@ const UserForm = ({userType, id = null, data = null, setUsers}) => {
                 <div>
                     <label className="block text-base font-bold pb-5 text-gray-700">Select department</label>
                     <Select
+                        value={extraInfo.dept}
                         onValueChange={(value) => {
                             setExtraInfo((prev) => ({ ...prev, dept: value }))
                         }}
@@ -226,12 +254,13 @@ const UserForm = ({userType, id = null, data = null, setUsers}) => {
                         <div>
                             <label className="block text-base font-bold pb-5 text-gray-700">Select Batch</label>
                             <Select
+                                value={extraInfo.batch}
                                 onValueChange={(value) => {
                                     setExtraInfo((prev) => ({ ...prev, batch: value }))
                                 }}
                             >
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Select department" />
+                                    <SelectValue placeholder="Select Batch" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {
@@ -252,12 +281,13 @@ const UserForm = ({userType, id = null, data = null, setUsers}) => {
                         <div>
                             <label className="block text-base font-bold pb-5 text-gray-700">Select section</label>
                             <Select
+                                value={extraInfo.section}
                                 onValueChange={(value) => {
                                     setExtraInfo((prev) => ({ ...prev, section: value }))
                                 }}
                             >
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Select department" />
+                                    <SelectValue placeholder="Select Section" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {
@@ -293,7 +323,7 @@ const UserForm = ({userType, id = null, data = null, setUsers}) => {
                         formSchema={formSchema}
                         formFields={formFields}
                         defaultValues={defaultValues}
-                        buttonText={`Add ${userType}`}
+                        buttonText={`Save ${userType}`}
                         resetForm={resetForm}
                         onSubmit={onSubmit}
                         disabled={loading}
