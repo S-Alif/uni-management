@@ -108,7 +108,7 @@ const FacultyForm = ({id = null, data = null}) => {
             placeholder: "Write message from dean"
         },
         {
-            type: "textarea",
+            type: "richText",
             name: "about",
             label: "About faculty",
             placeholder: "Write about the faculty"
@@ -151,8 +151,8 @@ const FacultyForm = ({id = null, data = null}) => {
         setLoading(false)
         if(!saveFaculty) return
         if(id){
-            let newList = faculty.filter((e) => e._id !== id)
-            setState("faculty", [...newList, saveFaculty])
+            let newList = faculty.filter((e) => e._id !== id ? e : saveFaculty)
+            setState("faculty", newList)
         }
         else{
             setState("faculty", [...faculty, saveFaculty])

@@ -1,3 +1,4 @@
+import RichTextEditor from "../RichTextEditor/Index"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { Input } from "../ui/input"
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "../ui/input-otp"
@@ -71,6 +72,17 @@ const FormInputs = ({
                         fieldType !== "otp" && fieldType !== "file") &&
                         <FormControl>
                             <Input type={fieldType} placeholder={fieldData?.placeholder || "Write something"} {...field} />
+                        </FormControl>
+                    }
+
+                    {/* richText */}
+                    {
+                        fieldType == "richText" &&
+                        <FormControl>
+                            <RichTextEditor 
+                                defaultValue={field.value}
+                                onChange={(e) => field.onChange(e)}
+                            />
                         </FormControl>
                     }
 
