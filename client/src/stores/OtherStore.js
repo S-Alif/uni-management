@@ -5,7 +5,7 @@ import { create } from "zustand"
 const OtherStore = create((set) => ({
     department: [],
     faculty: [],
-    setState: (stateName, value) => set((state) => ({
+    setState: (stateName, value) => set(() => ({
         [stateName]: value
     })),
     // get initial data

@@ -39,6 +39,7 @@ const Faculty = () => {
 					headings={[
 						{name:"#"},
 						{name: "Faculty"},
+						{name: "Dean"},
 						{name: "Last Updated"},
 						{name: "Actions"},
 					]}
@@ -56,13 +57,28 @@ const Faculty = () => {
 										<DisplayDialog
 											trigger={<p className="cursor-pointer">{item?.name}</p>}
 											heading={"Faculty details"}
+											dialogClassName="lg:max-w-[900px]"
 										>
-											<div className="pt-8">
-												{item?.about}
+											<div className="pt-5">
+												<p className="text-base">{item?.shortDesc}</p>
+												<div className="pt-8 detail-content">
+													<div dangerouslySetInnerHTML={{ __html: item?.about }} />
+												</div>
 											</div>
 
 										</DisplayDialog>
 									</DisplayAvatar>
+								</TableCell>
+								<TableCell className="border-r">
+									{
+										!item?.dean ?
+											<h3 className="text-xl font-bold text-center">-</h3>
+											:
+											<DisplayAvatar img={item?.dean?.image} alt="Dran">
+												<h3 className="text-base">{item?.dean?.name}</h3>
+												<p className="text-sm text-gray-400">{item?.dean?.personalId}</p>
+											</DisplayAvatar>
+									}
 								</TableCell>
 								<TableCell className="border-r">
 									{format(item?.updatedAt, "MMMM dd, EEEE, yyyy, hh:mm a")}

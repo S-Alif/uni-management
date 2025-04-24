@@ -11,7 +11,7 @@ const FacultyForm = ({id = null, data = null}) => {
     const [teacherList, setTeacherList] = useState([])
     const [resetForm, setResetForm] = useState(false)
     const [loading, setLoading] = useState(false)
-    const {setState, faculty} = OtherStore()
+    const { getInitialData } = OtherStore()
 
     // get teacher list
     useEffect(() => {
@@ -129,6 +129,7 @@ const FacultyForm = ({id = null, data = null}) => {
     // save faculty
     const onSubmit = async (value) => {
         setLoading(true)
+        setResetForm(true)
         const formData = new FormData()
 
         Object.keys(value).forEach((key) => {
@@ -150,14 +151,8 @@ const FacultyForm = ({id = null, data = null}) => {
 
         setLoading(false)
         if(!saveFaculty) return
-        if(id){
-            let newList = faculty.filter((e) => e._id !== id ? e : saveFaculty)
-            setState("faculty", newList)
-        }
-        else{
-            setState("faculty", [...faculty, saveFaculty])
-        }
         setResetForm(true)
+        getInitialData()
     }
 
 
