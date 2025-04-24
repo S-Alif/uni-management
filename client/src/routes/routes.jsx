@@ -30,12 +30,18 @@ import StudentProfile from "@/pages/admin/actors/StudentProfile"
 import Teachers from "@/pages/admin/actors/Teachers"
 import TeacherProfile from "@/pages/admin/actors/TeacherProfile"
 import FacultyAndDept from "@/pages/public/FacultyAndDept"
+import FacultyDetail from "@/pages/public/FacultyDetail"
+import NotFound from "@/pages/NotFound"
 
 
 const routes = createBrowserRouter([
     {
         path: "/",
         element: <UniversalLayout><App /></UniversalLayout>
+    },
+    {
+        path: "/page-not-found",
+        element: <UniversalLayout><NotFound /></UniversalLayout>
     },
     {
         path: "/no-access",
@@ -139,8 +145,16 @@ const routes = createBrowserRouter([
             {
                 path: "faculty-and-department",
                 element: <FacultyAndDept />
+            },
+            {
+                path: "faculty/:id",
+                element: <FacultyDetail />
             }
         ]
+    },
+    {
+        path: "*",
+        element: <UniversalLayout><NotFound /></UniversalLayout>
     }
 ])
 
