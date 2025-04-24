@@ -16,7 +16,7 @@ const userRoutes = [
     {path: "/teachers", method: "get", controller: userController.getTeacherList},
     {path: "/students", method: "get", controller: userController.getStudentList},
     {path: "/:id", method: "get", controller: userController.getUser},
-    {path: "/:id", method: "patch", controller: userController.updateUser},
+    {path: "/:id", method: "patch",middleware: [fileUp, fileCheck([fileExt.JPG, fileExt.PNG], 0)], controller: userController.updateUser},
     // {path: "/faculty", method: "get", controller: ""},
     // {path: "/departments", method: "get", controller: ""},
     // {path: "/faculty/departments", method: "get", controller: ""},
@@ -27,7 +27,7 @@ const userRoutes = [
 
 // faculty
 const facultyRoutes = [
-    { path: "/", method: "post", middleware: [fileUp, fileCheck([fileExt.JPG, fileExt.PNG], 1)], controller: facultyController.saveFaculty },
+    { path: "/", method: "post", middleware: [fileUp, fileCheck([fileExt.JPG, fileExt.PNG], 2)], controller: facultyController.saveFaculty },
     { path: "/:id", method: "patch", middleware: [fileUp, fileCheck([fileExt.JPG, fileExt.PNG], 0)], controller: facultyController.saveFaculty },
     { path: "/:id", method: "delete", controller: facultyController.removeFaculty },
     { path: "/", method: "get", controller: facultyController.getFacultyList },
@@ -36,7 +36,7 @@ const facultyRoutes = [
 
 // department routes
 const deptRoutes = [
-    { path: "/", method: "post", middleware: [fileUp, fileCheck([fileExt.JPG, fileExt.PNG], 1)], controller: deptController.saveDept },
+    { path: "/", method: "post", middleware: [fileUp, fileCheck([fileExt.JPG, fileExt.PNG], 2)], controller: deptController.saveDept },
     { path: "/:id", method: "patch", middleware: [fileUp, fileCheck([fileExt.JPG, fileExt.PNG], 0)], controller: deptController.saveDept },
     { path: "/:id", method: "delete", controller: deptController.removeDept },
     { path: "/", method: "get", controller: deptController.getDeptList },

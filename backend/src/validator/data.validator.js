@@ -43,7 +43,7 @@ const userUpdateByAdmin = Joi.object({
     name: Joi.string().min(5).max(80).required(),
     email: Joi.string().email(new RegExp(emailRegex)).required(),
     image: Joi.string().min(10).max(300).optional(),
-    name: Joi.string().min(5).max(80).required(),
+    phone: Joi.string().min(10).max(15).required(),
     pass: Joi.string().min(8).max(255).optional(),
     about: Joi.string().min(10).max(50000).optional(),
     dept: Joi.string().length(24).when("role", {
@@ -62,6 +62,11 @@ const userUpdateByAdmin = Joi.object({
         otherwise: Joi.optional()
     }),
     address: Joi.string().min(10).max(300).optional(),
+    teacherDesignation: Joi.string().valid("Professor", "Associate Professor", "Assistant Professor", "Senior Lecturer", "Lecturer").when("role", {
+        is: roles.TEACHERS,
+        then: Joi.required(),
+        otherwise: Joi.optional()
+    }),
     role: Joi.number().valid(...Object.values(roles)).optional()
 })
 

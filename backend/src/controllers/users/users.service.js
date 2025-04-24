@@ -20,7 +20,7 @@ const userService = {
         if (!validated) throw new ApiError(400, "Please provide all the data")
 
         // upload image if there is
-        const file = req?.files?.file
+        const file = req?.files?.image
         if (!file) {
             throw new ApiError(400, "No user image uploaded")
         }
@@ -48,7 +48,7 @@ const userService = {
                             select: "section shift _id"
                         })
 
-        await sendEmail(data?.email, userRegistrationMail({ ...userData?._doc, pass: data.pass }), "Account creation confirmed")
+        // await sendEmail(data?.email, userRegistrationMail({ ...userData?._doc, pass: data.pass }), "Account creation confirmed")
         return new ApiResponse(200, userData, "User registration successful")
     },
 
@@ -166,9 +166,22 @@ const userService = {
 
         // need to add profile image update option - only valid for admin
         
-        const userUpdate = await usersModel.findByIdAndUpdate({_id: id}, data)
+        const userUpdate = await usersModel.findByIdAndUpdate({_id: id}, data, {new: true})
+            .select("-refreshTokens -pass")
+            .populate({
+                path: "dept",
+                select: "shortName _id"
+            })
+            .populate({
+                path: "batch",
+                select: "name _id"
+            })
+            .populate({
+                path: "section",
+                select: "shift section _id"
+            })
 
-        return new ApiResponse(200, {}, "User updated")        
+        return new ApiResponse(200, userUpdate, "User updated")        
     }
 
 }
