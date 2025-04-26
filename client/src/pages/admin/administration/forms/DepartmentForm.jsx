@@ -125,7 +125,7 @@ const DepartmentForm = ({id = null, data = null}) => {
             placeholder: "Write message from department head"
         },
         {
-            type: "textarea",
+            type: "richText",
             name: "about",
             label: "About department",
             placeholder: "Write about the department"

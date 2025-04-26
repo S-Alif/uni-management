@@ -28,3 +28,28 @@
 .detail-content hr{
     @apply my-8;
 }
+
+
+/* table */
+.detail-content table{
+    @apply w-full caption-bottom text-sm;
+}
+.detail-content table tbody{
+    @apply [&_tr:last-child]:border-0;
+}
+.detail-content table tbody tr{
+    @apply !border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted;
+}
+.detail-content table tr:not(:first-child) td:first-child{
+    @apply border-l;
+}
+.detail-content table tr:not(:first-child) td{
+    @apply p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] border-r;
+}
+
+.detail-content table tr:first-child th{
+    @apply h-10 px-2 text-left align-middle border-x font-medium text-white bg-primary [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px];
+}
+.detail-content table tr:first-child th > p {
+    @apply mb-0 font-bold text-base lg:text-lg;
+}

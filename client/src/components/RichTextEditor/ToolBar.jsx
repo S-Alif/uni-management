@@ -1,4 +1,4 @@
-import { Heading4, Heading5, Heading6, List, Minus } from "lucide-react"
+import { Grid2x2Check, Grid2x2Plus, Grid2x2X, Heading4, Heading5, Heading6, List, Minus, SquareX, Table, Table2, TableCellsMerge, TableCellsSplit, TableProperties, TicketX } from "lucide-react"
 import { Toggle } from "../ui/toggle"
 import {
     Heading1,
@@ -92,6 +92,72 @@ export default function ToolBar({ editor }) {
             onClick: () => editor.chain().focus().setHorizontalRule().run(),
             pressed: editor.isActive("horizontalRule"),
             name: "Horizontal Rule",
+        },
+        {
+            icon: <Table className="size-4" />,
+            onClick: () => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run(),
+            pressed: editor.isActive("table"),
+            name: "Table",
+        },
+        {
+            icon: <Table2 className="size-4" />,
+            onClick: () => editor.chain().focus().addColumnBefore().run(),
+            pressed: editor.isActive("addColumnBefore"),
+            name: "Add column before",
+        },
+        {
+            icon: <TableProperties className="size-4" />,
+            onClick: () => editor.chain().focus().addColumnAfter().run(),
+            pressed: editor.isActive("addColumnAfter"),
+            name: "Add column after",
+        },
+        {
+            icon: <Grid2x2X className="size-4" />,
+            onClick: () => editor.chain().focus().deleteColumn().run(),
+            pressed: editor.isActive("deleteColumn"),
+            name: "Delete column",
+        },
+        {
+            icon: <Grid2x2Check className="size-4" />,
+            onClick: () => editor.chain().focus().addRowBefore().run(),
+            pressed: editor.isActive("addRowBefore"),
+            name: "Add row before",
+        },
+        {
+            icon: <Grid2x2Plus className="size-4" />,
+            onClick: () => editor.chain().focus().addRowAfter().run(),
+            pressed: editor.isActive("addRowAfter"),
+            name: "Add row after",
+        },
+        {
+            icon: <SquareX className="size-4" />,
+            onClick: () => editor.chain().focus().deleteRow().run(),
+            pressed: editor.isActive("deleteRow"),
+            name: "Delete row",
+        },
+        {
+            icon: <TicketX className="size-4" />,
+            onClick: () => editor.chain().focus().deleteTable().run(),
+            pressed: editor.isActive("deleteTable"),
+            name: "Delete table",
+        },
+        {
+            icon: <TableCellsMerge className="size-4" />,
+            onClick: () => editor.chain().focus().mergeCells().run(),
+            pressed: editor.isActive("mergeCells"),
+            name: "Merge cells",
+        },
+        {
+            icon: <TableCellsMerge className="size-4" />,
+            onClick: () => editor.chain().focus().mergeCells().run(),
+            pressed: editor.isActive("mergeCells"),
+            name: "Merge cells",
+        },
+        {
+            icon: <TableCellsSplit className="size-4" />,
+            onClick: () => editor.chain().focus().splitCell().run(),
+            pressed: editor.isActive("splitCell"),
+            name: "Split cell",
         },
         {
             icon: <AlignLeft className="size-4" />,
