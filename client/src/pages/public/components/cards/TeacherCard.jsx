@@ -14,7 +14,7 @@ const TeacherCard = ({item}) => {
                     <h3 className="text-white text-2xl font-bold">{item?.name}</h3>
                     <p className="pt-2 text-white">
                         {item?.teacherDesignation}
-                        {item?.dept && <span>({item?.dept?.name})</span>}
+                        {item?.dept && <span>({item?.dept?.shortName})</span>}
                     </p>
                 </CardContent>
             </div>

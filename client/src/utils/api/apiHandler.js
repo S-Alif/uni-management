@@ -26,7 +26,7 @@ const apiHandler = async (route, data = {}, showToast = false) => {
 
     } catch (error) {
         console.log(error)
-        const message = error?.response?.data
+        const message = error?.response?.data?.message
         if(message){
             errorToast(message?.message)
         }

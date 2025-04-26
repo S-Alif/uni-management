@@ -148,12 +148,6 @@ export default function ToolBar({ editor }) {
             name: "Merge cells",
         },
         {
-            icon: <TableCellsMerge className="size-4" />,
-            onClick: () => editor.chain().focus().mergeCells().run(),
-            pressed: editor.isActive("mergeCells"),
-            name: "Merge cells",
-        },
-        {
             icon: <TableCellsSplit className="size-4" />,
             onClick: () => editor.chain().focus().splitCell().run(),
             pressed: editor.isActive("splitCell"),

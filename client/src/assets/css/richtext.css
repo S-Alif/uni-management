@@ -47,9 +47,9 @@
     @apply p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] border-r;
 }
 
-.detail-content table tr:first-child th{
+.detail-content table tr:first-child th, .detail-content table tr:first-child td{
     @apply h-10 px-2 text-left align-middle border-x font-medium text-white bg-primary [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px];
 }
-.detail-content table tr:first-child th > p {
+.detail-content table tr:first-child th > p, .detail-content table tr:first-child td > p {
     @apply mb-0 font-bold text-base lg:text-lg;
 }

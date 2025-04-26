@@ -58,9 +58,10 @@ const Departments = () => {
                                         <DisplayDialog
                                             trigger={<p className="cursor-pointer">{item?.name} ({item?.shortName})</p>}
                                             heading={"Department details"}
+                                            dialogClassName="lg:max-w-[900px]"
                                         >
                                             <div className="pt-8">
-                                                {item?.about}
+                                                <div className="detail-content" dangerouslySetInnerHTML={{ __html: item?.about }} />
                                             </div>
 
                                         </DisplayDialog>

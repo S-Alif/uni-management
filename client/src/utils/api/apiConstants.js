@@ -29,6 +29,7 @@ const publicRoutes = {
     updatePass: createRoute(publicEndpoint, "update-pass", PATCH),
     faculty: createRoute(publicEndpoint, "faculty", GET),
     department: createRoute(publicEndpoint, "departments", GET),
+    teachers: createRoute(publicEndpoint, "teachers", GET),
 }
 
 // admin routes

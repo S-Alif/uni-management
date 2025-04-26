@@ -32,6 +32,7 @@ import TeacherProfile from "@/pages/admin/actors/TeacherProfile"
 import FacultyAndDept from "@/pages/public/FacultyAndDept"
 import FacultyDetail from "@/pages/public/FacultyDetail"
 import NotFound from "@/pages/NotFound"
+import DepartmentDetail from "@/pages/public/DepartmentDetail"
 
 
 const routes = createBrowserRouter([
@@ -149,6 +150,10 @@ const routes = createBrowserRouter([
             {
                 path: "faculty/:id",
                 element: <FacultyDetail />
+            },
+            {
+                path: "departments/:id",
+                element: <DepartmentDetail />
             }
         ]
     },

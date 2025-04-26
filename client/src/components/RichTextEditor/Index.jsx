@@ -42,7 +42,10 @@ export default function RichTextEditor({ defaultValue = "<p>write product descri
             }),
             Highlight,
             ImageResize,
-            Table,
+            Table.configure({
+                resizable: true,
+                allowTableNodeSelection: true,
+            }),
             TableRow,
             TableHeader,
             TableCell,

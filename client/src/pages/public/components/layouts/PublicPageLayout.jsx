@@ -1,5 +1,6 @@
 import Loading from "@/components/Loading"
 import { Separator } from "@/components/ui/separator"
+import { ArrowUp } from "lucide-react"
 
 const PublicPageLayout = ({
     pageImg = "https://tinyurl.com/mrx7udcr",
@@ -35,6 +36,10 @@ const PublicPageLayout = ({
                         </div>
                     </>
             }
+
+            <div className="fixed bottom-10 right-10">
+                <a href={`#${pageId}`} className="w-10 h-10 rounded-md bg-primary z-20 flex justify-center items-center text-white shadow-md"><ArrowUp /></a>
+            </div>
         </section>
     )
 }
