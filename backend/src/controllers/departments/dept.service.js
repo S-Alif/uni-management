@@ -107,7 +107,7 @@ const deptService = {
                                 })
                                 .populate({
                                     path: "deptHead",
-                                    select: "name image personalId _id"
+                                    select: "name image personalId teacherDesignation _id"
                                 })
         return new ApiResponse(200, department, "Department list loaded")
     },
@@ -123,7 +123,7 @@ const deptService = {
                                 })
                                 .populate({
                                     path: "deptHead",
-                                    select: "name image _id"
+                                    select: "name image personalId teacherDesignation _id"
                                 })
         
         return new ApiResponse(200, department, "Department loaded")

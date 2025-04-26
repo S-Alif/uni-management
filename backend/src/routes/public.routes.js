@@ -1,6 +1,7 @@
 import authController from "../controllers/auth/auth.controller.js"
 import deptController from "../controllers/departments/dept.controller.js"
 import facultyController from "../controllers/faculty/faculty.controller.js"
+import userController from "../controllers/users/users.controller.js"
 
 const routeList = [
     {path: "/login", method: "post", controller: authController.login},
@@ -11,7 +12,8 @@ const routeList = [
     {path: "/faculty", method: "get", controller: facultyController.getFacultyList},
     {path: "/faculty/:id", method: "get", controller: facultyController.getFaculty},
     {path: "/departments", method: "get", controller: deptController.getDeptList},
-    { path: "/departments/:id", method: "get", controller: deptController.getDept},
+    {path: "/departments/:id", method: "get", controller: deptController.getDept},
+    {path: "/teachers", method: "get", controller: userController.getTeacherList},
     // {path: "/faculty/departments/offered-programs", method: "get", controller: ""},
     // {path: "/faculty/departments/teachers", method: "get", controller: ""},
     // {path: "/subjects", method: "get", controller: ""},

@@ -57,10 +57,10 @@ const userService = {
         const role = req?.headers?.role
         const {page, limit, dept = "all", designation = "all"} = req?.query
         const pageNum = parseInt(page) || 1
-        const pageLimit = parseInt(limit) || 20
+        const pageLimit = parseInt(limit) || 40
         const skip = (pageNum - 1) * pageLimit
 
-        if (pageLimit > 60) throw new ApiError(400, "Limit exceeded")
+        if (pageLimit > 80) throw new ApiError(400, "Limit exceeded")
         
         const query = {role: roles.TEACHERS}
         if (dept != "all" && dept?.length == 24) query.dept = dept
@@ -71,7 +71,7 @@ const userService = {
         const teacherList = await usersModel.find(query)
                                 .skip(skip)
                                 .limit(pageLimit)
-                                .select("-refreshTokens -pass")
+                                .select("-refreshTokens -pass -about")
                                 .populate({
                                     path: "dept",
                                     select: "shortName _id"
