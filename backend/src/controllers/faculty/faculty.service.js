@@ -80,7 +80,7 @@ const facultyService = {
         const faculty = await facultyModels.find({})
                             .populate({
                                 path: "dean",
-                                select: "name _id"
+                                select: "name personalId image teacherDesignation _id"
                             })
         return new ApiResponse(200, faculty, "Faculty list loaded")
     },
@@ -92,7 +92,7 @@ const facultyService = {
         const faculty = await facultyModels.findById({_id: id})
                             .populate({
                                 path: "dean",
-                                select: "name _id"
+                                select: "name personalId teacherDesignation image _id"
                             })
         return new ApiResponse(200, faculty, "Faculty loaded")
     }

@@ -94,7 +94,12 @@ const deptService = {
 
     // get department list
     getDeptList: async (req) => {
-        const department = await departmentsModels.find({})
+        const facultyId = req?.query?.facultyId
+        let query = {}
+        if(facultyId) {
+            query.faculty = facultyId
+        }
+        const department = await departmentsModels.find(query)
                                 .select("-createdAt")
                                 .populate({
                                     path: "faculty",
