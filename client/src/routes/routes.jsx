@@ -33,6 +33,7 @@ import FacultyAndDept from "@/pages/public/FacultyAndDept"
 import FacultyDetail from "@/pages/public/FacultyDetail"
 import NotFound from "@/pages/NotFound"
 import DepartmentDetail from "@/pages/public/DepartmentDetail"
+import Profile from "@/pages/Profile"
 
 
 const routes = createBrowserRouter([
@@ -77,7 +78,7 @@ const routes = createBrowserRouter([
     // admin routes
     {
         path: "/admin",
-        element: <UniversalLayout><DashboardLayout /></UniversalLayout>,
+        element: <UniversalLayout><DashboardLayout accessTo={2025} /></UniversalLayout>,
         children: [
 
             // administration routes
@@ -154,6 +155,33 @@ const routes = createBrowserRouter([
             {
                 path: "departments/:id",
                 element: <DepartmentDetail />
+            }
+        ]
+    },
+    // user routes
+    {
+        path: "/dashboard",
+        element: <UniversalLayout />,
+        children: [
+            {
+                path: "student",
+                element: <DashboardLayout accessTo={1999} />,
+                children:[
+                    {
+                        path: "profile",
+                        element: <Profile />
+                    }
+                ]
+            },
+            {
+                path: "teacher",
+                element: <DashboardLayout accessTo={2022} />,
+                children: [
+                    {
+                        path: "profile",
+                        element: <Profile />
+                    }
+                ]
             }
         ]
     },

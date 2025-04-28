@@ -14,7 +14,7 @@ const UniversalLayout = ({ children = null }) => {
     const {getInitialData} = OtherStore()
     const location = useLocation()
     const pathname = location.pathname
-    const isDashboard = ((pathname.includes("admin") || pathname.includes("user")) && !pathname.includes("admin/register"))
+    const isDashboard = ((pathname.includes("admin") || pathname.includes("dashboard")) && !pathname.includes("admin/register"))
 
     useEffect(() => {
         (async () => {
@@ -34,9 +34,9 @@ const UniversalLayout = ({ children = null }) => {
                 : children ? children : <Outlet />
             }
 
-            <div className={`w-full md:px-2 bg-sidebar${(sidebarState && isDashboard) ? " md:pl-[16rem] rounded-xl" : ""}`}>
-                <div className="py-5 md:rounded-xl flex gap-3 justify-center items-center bg-muted font-medium">
-                    <span><CopyrightIcon /></span> Copyright 2025 <NavLink to={"/"} className={cn(buttonVariants({ size: "icon", variant: "link" }), "text-base mx-1")}>UNIAPP.</NavLink> All rights reserved.
+            <div className={`w-full bg-sidebar ${(sidebarState && isDashboard) ? "md:pl-[16rem] px-2 pb-2" : ""}`}>
+                <div className={`py-5 flex gap-3 justify-center items-center ${(sidebarState && isDashboard) ? "rounded-xl" : ""} bg-primary/65 font-medium`}>
+                    <span><CopyrightIcon /></span> Copyright 2025 <NavLink to={"/"} className={cn(buttonVariants({ size: "icon", variant: "link" }), "text-base mx-1 text-white")}>Helix.U</NavLink> All rights reserved.
                 </div>
             </div>
 

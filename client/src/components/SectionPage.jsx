@@ -11,7 +11,7 @@ const SectionPage = ({
     children
 }) => {
   return (
-    <section id={id} className={`section-layout ${sectionClassName}`}>
+    <section id={id} className={`public-section-layout ${sectionClassName}`}>
         <div className="container">
         {sectionTitle && <h2 className="section-title">{sectionTitle}</h2>}
 

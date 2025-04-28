@@ -62,7 +62,15 @@ const Login = () => {
         setAccessToken(result?.accessToken)
 
         setResetForm(true)
-        navigate("/admin/dashboard", {replace: true}) // navigate to profile or dashboard later
+
+        if(result?.user?.role === 1999) {
+            return navigate("/dashboard/student/profile", {replace: true})
+        }
+        else if(result?.user?.role === 2022) {
+            return navigate("/dashboard/teacher/profile", {replace: true})
+        }
+
+        navigate("/admin/dashboard", {replace: true})
     }
 
     return (

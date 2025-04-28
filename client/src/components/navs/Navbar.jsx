@@ -14,6 +14,12 @@ const Navbar = () => {
 
     const {user} = UserStore()
 
+    const avatarOptions = {
+        2025: "/admin/dashboard",
+        2022: "/dashboard/teacher",
+        1999: "/dashboard/student",
+    }
+
     // nav items
     const navItems = [
         {
@@ -133,7 +139,7 @@ const Navbar = () => {
                                             <>
                                                 <DropdownMenuItem className="text-base py-2 capitalize font-bold rounded-md  w-full px-4">
                                                     <NavLink
-                                                        to={`${user?.role == 2025 ? "/admin/dashboard" : "/dashboard"}`}
+                                                        to={avatarOptions[`${user?.role}`]}
                                                         className={`w-full`}
                                                     >
                                                         Dashboard

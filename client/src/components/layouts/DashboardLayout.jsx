@@ -5,12 +5,13 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/s
 import UserStore from '@/stores/UserStore'
 import { Navigate, Outlet, useLocation } from 'react-router'
 
-const DashboardLayout = () => {
+// access to prop is for user role
+const DashboardLayout = ({accessTo=null}) => {
 
     const {user} = UserStore()
 
     if(!user) return <Navigate to={"/auth/login"} replace={true} />
-    if(user?.role !== 2025) return <Navigate to={"/no-access"} replace={true} />
+    if(user?.role !== accessTo) return <Navigate to={"/no-access"} replace={true} />
 
     const pathname = useLocation().pathname
     const pathLength = pathname.split("/").length

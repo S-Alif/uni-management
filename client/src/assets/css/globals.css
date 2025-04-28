@@ -36,6 +36,9 @@ body{
     @apply w-full px-4 lg:px-0 md:max-w-[720px] lg:max-w-[960px] xl:max-w-[1200px] 2xl:max-w-[1420px] mx-auto;
 }
 .section-layout{
+    @apply py-7 block;
+}
+.public-section-layout{
     @apply py-20 block;
 }
 .section-title{
