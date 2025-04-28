@@ -4,6 +4,7 @@ import { useIsMobile } from "@/hooks/use-mobile"
 import DisplayLogo from "../DisplayLogo"
 import DisplayAvatar from "../DisplayAvatar"
 import UserStore from "@/stores/UserStore"
+import ThemeSwitcher from "../ThemeSwitcher"
 
 
 const Navbar = () => {
@@ -57,7 +58,7 @@ const Navbar = () => {
                         </div>
 
                         {/* nav items */}
-                        <div className="flex items-center">
+                        <div className="flex items-center gap-4">
                             <div className="flex gap-2">
                                 {
                                     navItems.map((item, index) => {
@@ -105,6 +106,8 @@ const Navbar = () => {
                                     })
                                 }
                             </div>
+
+                            {/* avatar */}
                             <div>
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
@@ -160,6 +163,9 @@ const Navbar = () => {
                                 </DropdownMenu>
                                 
                             </div>
+
+                            {/* theme switcher */}
+                            <ThemeSwitcher />
                         </div>
 
                     </div>
