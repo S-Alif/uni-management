@@ -14,7 +14,7 @@ const UniversalLayout = ({ children = null }) => {
     const {getInitialData} = OtherStore()
     const location = useLocation()
     const pathname = location.pathname
-    const isDashboard = ((pathname.includes("admin") || pathname.includes("dashboard")) && !pathname.includes("admin/register"))
+    const isDashboard = ((pathname.includes("admin") || pathname.includes("dashboard/student") || pathname.includes("dashboard/teacher")) && !pathname.includes("admin/register"))
 
     useEffect(() => {
         (async () => {

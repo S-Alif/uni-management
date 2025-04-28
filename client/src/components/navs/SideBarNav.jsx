@@ -1,4 +1,4 @@
-import { BookOpen, BookType, Box, Boxes, CalendarClock, ClipboardType, Codesandbox, FileUser, Grid2x2Plus, LayoutDashboard, Plus, SquareLibrary, SquareUser, UserRoundCog, Users } from "lucide-react"
+import { BookOpen, BookType, Box, Boxes, CalendarClock, ClipboardType, Codesandbox, FileUser, Grid2x2Plus, LayoutDashboard, Plus, SquareLibrary, SquareUser, UserCircle2, UserRoundCog, Users } from "lucide-react"
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarRail } from "../ui/sidebar"
 import { NavLink } from "react-router"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "../ui/collapsible"
@@ -77,6 +77,52 @@ const items = [
             },
         ]
     },
+    {
+        groupLabel: "Administration",
+        role: 1999,
+        icon: <UserRoundCog size={50} />,
+        links: [
+            {
+                label: "Dashboard",
+                to: "/dashboard/student",
+                icon: <LayoutDashboard size={48} />
+            },
+            {
+                label: "Classmates",
+                to: "/dashboard/student/classmates",
+                icon: <Users size={48} />
+            },
+        ]
+    },
+    {
+        groupLabel: "Academics",
+        role: 1999,
+        icon: <SquareLibrary size={50} />,
+        links: [
+            {
+                label: "Schedules",
+                to: "/dashboard/student/schedules",
+                icon: <CalendarClock size={48} />
+            },
+            {
+                label: "Materials",
+                to: "/dashboard/student/materials",
+                icon: <ClipboardType size={48} />
+            },
+        ]
+    },
+    {
+        groupLabel: "Account",
+        role: 1999,
+        icon: <UserRoundCog size={50} />,
+        links: [
+            {
+                label: "Profile",
+                to: "/dashboard/student/profile",
+                icon: <UserCircle2 size={48} />
+            },
+        ]
+    }
 ]
 
 const SideBarNav = ({userRole = null}) => {

@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router"
+import { createBrowserRouter, Navigate } from "react-router"
 
 import App from "@/App"
 
@@ -163,6 +163,10 @@ const routes = createBrowserRouter([
         path: "/dashboard",
         element: <UniversalLayout />,
         children: [
+            {
+                index: true,
+                element: <Navigate to="/page-not-found" replace={true} />
+            },
             {
                 path: "student",
                 element: <DashboardLayout accessTo={1999} />,
