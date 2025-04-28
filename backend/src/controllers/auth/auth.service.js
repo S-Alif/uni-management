@@ -17,6 +17,18 @@ const authService = {
         if(!isDataValid) throw new ApiError(404, "Please provide all the data")
 
         const user = await usersModels.findOne({email: data?.email, isBlocked: false})
+                            .populate({
+                                path: "dept",
+                                select: "shortName name _id"
+                            })
+                            .populate({
+                                path: "batch",
+                                select: "name _id"
+                            })
+                            .populate({
+                                path: "section",
+                                select: "shift section _id"
+                            })
         if(!user) throw new ApiError(404, "No user found")
         
         const checkPass = await user.verifyPass(data?.pass)

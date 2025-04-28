@@ -48,7 +48,7 @@ const userService = {
                             select: "section shift _id"
                         })
 
-        // await sendEmail(data?.email, userRegistrationMail({ ...userData?._doc, pass: data.pass }), "Account creation confirmed")
+        await sendEmail(data?.email, userRegistrationMail({ ...userData?._doc, pass: data.pass }), "Account creation confirmed")
         return new ApiResponse(200, userData, "User registration successful")
     },
 
@@ -166,11 +166,14 @@ const userService = {
 
         // need to add profile image update option - only valid for admin
         
-        const userUpdate = await usersModel.findByIdAndUpdate({_id: id}, data, {new: true})
+        const userUpdate = await usersModel.findById({ _id: id })
+        userUpdate.set(data)
+        await userUpdate.save()
+        const result = await usersModel.findById({_id: id})
             .select("-refreshTokens -pass")
             .populate({
                 path: "dept",
-                select: "shortName _id"
+                select: "shortName name _id"
             })
             .populate({
                 path: "batch",
@@ -181,7 +184,7 @@ const userService = {
                 select: "shift section _id"
             })
 
-        return new ApiResponse(200, userUpdate, "User updated")        
+        return new ApiResponse(200, result, "User updated")        
     }
 
 }
