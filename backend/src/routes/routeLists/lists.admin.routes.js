@@ -7,6 +7,7 @@ import fileCheck from "../../middlewares/fileChecker.middlewares.js"
 import { fileExt } from "../../constants/rolesAndFiles.constants.js"
 import facultyController from "../../controllers/faculty/faculty.controller.js"
 import batchSectionController from "../../controllers/batch/batch-sections/batchSection.controller.js"
+import subjectController from "../../controllers/subjects/subject.controller.js"
 
 const fileUp = fileUpload({ createParentPath: true })
 
@@ -59,6 +60,14 @@ const batchSectionsRoutes = [
     { path: "/", method: "get", controller: batchSectionController.getSectionList },
 ]
 
+// subject routes
+const subjectRoutes = [
+    { path: "/", method: "post", controller: subjectController.saveSubject },
+    { path: "/:id", method: "patch", controller: subjectController.saveSubject },
+    { path: "/:id", method: "delete", controller: subjectController.removeSubject },
+    { path: "/", method: "get", controller: subjectController.subjectList },
+]
+
 
 export {
     userRoutes,
@@ -66,4 +75,5 @@ export {
     deptRoutes,
     batchRoutes,
     batchSectionsRoutes,
+    subjectRoutes
 }

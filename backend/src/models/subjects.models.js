@@ -5,21 +5,20 @@ const schema = new mongoose.Schema({
         type: String,
         required: true,
         minLength: 1,
-        maxLength: 100,
+        maxLength: 150,
         unique: true
     },
     code: {
         type: String,
         required: true,
         minLength: 1,
-        maxLength: 10,
-        unique: true
+        maxLength: 4,
     },
     about: {
         type: String,
         required: true,
         minLength: 10,
-        maxLength: 1000,
+        maxLength: 250,
     },
     dept: {
         type: mongoose.Types.ObjectId,

@@ -85,7 +85,7 @@ const userService = {
     // list of students
     getStudentList: async (req) => {
         const role = req?.headers?.role
-        const { page, limit, dept = "", batch = "", section = "" } = req?.query
+        const { page = "1", limit = "60", dept = "all", batch = "all", section = "all" } = req?.query
         const pageNum = parseInt(page) || 1
         const pageLimit = parseInt(limit) || 60
         const skip = (pageNum - 1) * pageLimit

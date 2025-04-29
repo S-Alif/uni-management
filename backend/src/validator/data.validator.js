@@ -124,6 +124,12 @@ const sectionValidate = Joi.object({
     end: Joi.string().min(5).max(100).required(),
 })
 
+const subjectValidate = Joi.object({
+    name: Joi.string().min(1).max(150).required(),
+    code: Joi.string().min(1).max(4).required(),
+    about: Joi.string().min(10).max(250).required(),
+    dept: Joi.string().length(24).required(),
+})
 
 export {
     userRegistration,
@@ -133,5 +139,6 @@ export {
     resetPass,
     deptValidate,
     facultyValidate,
-    sectionValidate
+    sectionValidate,
+    subjectValidate
 }
