@@ -33,6 +33,11 @@ const apiHandler = async (route, data = {}, showToast = false) => {
         else{
             errorToast("An error occurred, please try again later")
         }
+
+        if (error?.redirect) {
+            window.location.href = "/auth/login"
+            return false
+        }
         return false
     }
 }

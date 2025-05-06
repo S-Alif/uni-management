@@ -8,6 +8,7 @@ const SectionDashboard = ({
     containerClassName="",
     sectionClassName="",
     loading=false,
+    headerSideOptions = null,
     loadingType = "card",
     children
 }) => {
@@ -17,7 +18,15 @@ const SectionDashboard = ({
     return (
         <section id={id} className={`section-layout ${sectionClassName}`}>
             <div className={sidebarState ? "" : "container"}>
-                {sectionTitle && <h2 className="page-title">{sectionTitle}</h2>}
+                {(sectionTitle && !headerSideOptions) && <h1 className="page-title">{sectionTitle}</h1>}
+                {
+                    (headerSideOptions && sectionTitle) && (
+                        <div className="flex justify-between items-center mb-10">
+                            <h1 className="page-title">{sectionTitle}</h1>
+                            {headerSideOptions}
+                        </div>
+                    )
+                }
 
                 <div className={containerClassName}>
                     {

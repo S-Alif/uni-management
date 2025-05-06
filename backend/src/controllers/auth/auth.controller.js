@@ -45,7 +45,6 @@ const authController = {
     // refres token rotation
     refreshToken: asyncHandler(async (req, res) => {
         const refreshToken = req.cookies?.refreshToken
-        console.log("refresh token", refreshToken)
         if (!refreshToken) {
             res.clearCookie("refreshToken", { httpOnly: true, sameSite: "None", secure: true })
             throw new ApiError(401, "Unauthorized")
@@ -81,9 +80,6 @@ const authController = {
         const generatedNewRefreshToken = generateToken({id: user?._id}, REFRESH_TOKEN_SECRET, "3d")
         user.refreshTokens = [...newRefreshTokens, generatedNewRefreshToken]
         await user.save()
-
-        console.log("new refresh token", generatedNewRefreshToken)
-        console.log("new access token", accessToken)
 
         res.status(200).cookie("refreshToken", generatedNewRefreshToken, { httpOnly: true, sameSite: "None", secure: true, maxAge: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) }).json({accessToken})
     }),

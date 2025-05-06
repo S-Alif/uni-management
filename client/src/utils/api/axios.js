@@ -7,6 +7,12 @@ const api = axios.create({
     withCredentials: true
 })
 
+// for refresh
+const plainAxios = axios.create({
+    baseURL: baseUrl,
+    withCredentials: true
+})
+
 let isRefreshing = false
 let refreshSubscribers = []
 
@@ -21,7 +27,7 @@ api.interceptors.response.use(
         const originalRequest = error?.config
         if(!originalRequest) return
 
-        if(error?.response?.status == 401 && !originalRequest?._retry){
+        if((error?.response?.status == 401 || error?.response?.status == 403) && !originalRequest?._retry){
             if(isRefreshing){
                 return new Promise(resolve => {
                     refreshSubscribers.push(() => {
@@ -34,7 +40,7 @@ api.interceptors.response.use(
             isRefreshing = true
 
             try{
-                let result = await api.post("/api/v1/public/refresh")
+                let result = await plainAxios.post("/api/v1/public/refresh")
                 console.log(result)
 
                 // save the accesstoken in state
@@ -48,12 +54,11 @@ api.interceptors.response.use(
                 return api(originalRequest)
             }
             catch(err){
-                console.log(err)
+                console.log("Refresh token failed", err)
                 UserStore.getState().logout()
                 isRefreshing = false
                 refreshSubscribers = []
-                window.location.href = window.location.host + "/auth/login"
-                return Promise.reject(err)
+                return Promise.reject({ ...err, redirect: true })
             }
         }
         return Promise.reject(error)
