@@ -17,7 +17,7 @@ const SectionDashboard = ({
     return (
         <section id={id} className={`section-layout ${sectionClassName}`}>
             <div className={sidebarState ? "" : "container"}>
-                {sectionTitle && <h2 className="section-title">{sectionTitle}</h2>}
+                {sectionTitle && <h2 className="page-title">{sectionTitle}</h2>}
 
                 <div className={containerClassName}>
                     {

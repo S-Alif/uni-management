@@ -5,6 +5,7 @@ import subjectController from "../controllers/subjects/subject.controller.js"
 import userController from "../controllers/users/users.controller.js"
 
 const routeList = [
+    {path: "/refresh", method: "post", controller: authController.refreshToken},
     {path: "/login", method: "post", controller: authController.login},
     {path: "/register", method: "post", controller: authController.register}, //valid only for admins
     {path: "/otp", method: "post", controller: authController.sendOtp},

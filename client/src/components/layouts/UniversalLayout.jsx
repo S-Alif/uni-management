@@ -10,7 +10,7 @@ import PublicLayout from "./PublicLayout"
 
 const UniversalLayout = ({ children = null }) => {
 
-    const {sidebarState} = UserStore()
+    const {sidebarState, setUser} = UserStore()
     const {getInitialData} = OtherStore()
     const location = useLocation()
     const pathname = location.pathname
@@ -18,6 +18,11 @@ const UniversalLayout = ({ children = null }) => {
 
     useEffect(() => {
         (async () => {
+            const userData = localStorage.getItem("actor")
+            console.log(userData)
+            if(userData) setUser(JSON.parse(userData))
+            else setUser(null)
+
             await getInitialData()
         })()
     }, [])

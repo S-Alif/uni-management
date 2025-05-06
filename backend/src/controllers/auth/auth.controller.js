@@ -17,8 +17,8 @@ const authController = {
             id: result._id,
             email: result.email,
             role: result.role
-        }, ACCESS_TOKEN_SECRET, "1d")
-        const refreshToken = generateToken({_id: result?._id}, REFRESH_TOKEN_SECRET, "7d")
+        }, ACCESS_TOKEN_SECRET, "1m")
+        const refreshToken = generateToken({id: result?._id}, REFRESH_TOKEN_SECRET, "7d")
 
         let user = await usersModels.findOne({ _id: result?._id }).exec()
 
@@ -43,8 +43,9 @@ const authController = {
     register: controllerHandler(authService.register),
 
     // refres token rotation
-    refreshToken: controllerHandler(async (req, res) => {
+    refreshToken: asyncHandler(async (req, res) => {
         const refreshToken = req.cookies?.refreshToken
+        console.log("refresh token", refreshToken)
         if (!refreshToken) {
             res.clearCookie("refreshToken", { httpOnly: true, sameSite: "None", secure: true })
             throw new ApiError(401, "Unauthorized")
@@ -71,16 +72,20 @@ const authController = {
             await user.save()
             throw new ApiError(403, "Forbidden")
         }
-        if(user?._id != decodeRefreshTokenIfUserIsFound?.id) throw new ApiError(403, "Forbidden")
+        if(user?._id?.toString() != decodeRefreshTokenIfUserIsFound?.id) {
+            throw new ApiError(403, "Forbidden")
+        }
 
         // valid refresh token
-        const accessToken = generateToken({id: user?._id, email: user?.email, role: user?.role}, ACCESS_TOKEN_SECRET, "5m")
+        const accessToken = generateToken({id: user?._id, email: user?.email, role: user?.role}, ACCESS_TOKEN_SECRET, "1m")
         const generatedNewRefreshToken = generateToken({id: user?._id}, REFRESH_TOKEN_SECRET, "3d")
         user.refreshTokens = [...newRefreshTokens, generatedNewRefreshToken]
+        await user.save()
 
-        res.cookie("refreshToken", generatedNewRefreshToken, {httpOnly: true, sameSite: "None", secure: true, maxAge: Date.now() + (7 * 24 * 60 * 60 * 1000) })
+        console.log("new refresh token", generatedNewRefreshToken)
+        console.log("new access token", accessToken)
 
-        res.status(200).json({accessToken})
+        res.status(200).cookie("refreshToken", generatedNewRefreshToken, { httpOnly: true, sameSite: "None", secure: true, maxAge: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) }).json({accessToken})
     }),
 
     sendOtp: controllerHandler(authService.sendOtp),

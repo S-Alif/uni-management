@@ -30,16 +30,19 @@ const publicRoutes = {
     faculty: createRoute(publicEndpoint, "faculty", GET),
     department: createRoute(publicEndpoint, "departments", GET),
     teachers: createRoute(publicEndpoint, "teachers", GET),
+    subjects: createRoute(publicEndpoint, "subjects", GET)
 }
 
 // admin routes
 const administrationRoutes = {
-    // batches
+    // administration
     user: `${baseUrl}/api/v1/${admin}/users`,
     batch: `${baseUrl}/api/v1/${admin}/batch`,
     department: `${baseUrl}/api/v1/${admin}/department`,
     faculty: `${baseUrl}/api/v1/${admin}/faculty`,
     sections: `${baseUrl}/api/v1/${admin}/section`,
+    subjects: `${baseUrl}/api/v1/${admin}/subjects`,
+
 
     // for users
     teachers: `${baseUrl}/api/v1/${admin}/${users}/teachers`,

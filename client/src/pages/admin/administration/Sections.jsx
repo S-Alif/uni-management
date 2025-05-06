@@ -16,6 +16,7 @@ import DisplayAvatar from "@/components/DisplayAvatar"
 import { format } from "date-fns"
 import DisplayDialog from "@/components/DisplayDialog"
 import DisplayPagination from "@/components/DisplayPagination"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 
 const Sections = () => {
@@ -23,6 +24,7 @@ const Sections = () => {
     const { department } = OtherStore()
     const navigate = useNavigate()
     const { updateParams, values: { batch, no, page = 1, limit = 40, dept = "all", shift = "all" }} = useQueryParams(["batch", "page", "limit", "dept", "shift", "no"])
+    const isMobile = useIsMobile()
 
     const [section, setSection] = useState([])
     const [filterOpen, setFilterOpen] = useState(false)
@@ -111,21 +113,21 @@ const Sections = () => {
                     <h1 className="page-title pb-8 md:pb-0">Batch - {no < 10 ? "0"+no : no} Sections</h1>
                     <div className="flex gap-2">
                         <Button
-                            size="lg"
+                            size={isMobile ? "icon" : "lg"}
                             variant="outline"
                             onClick={() => {
                                 setFilterOpen((prev) => !prev)
                             }}
                         >
-                            filter <span className="ml-1"><ListFilter /></span>
+                            <span className="hidden md:block md:mr-1">filter</span> <ListFilter />
                         </Button>
                         {/* section form */}
                         <CustomSheet 
                             trigger={
                                 <Button
-                                    size="lg"
+                                    size={isMobile ? "icon" : "lg"}
                                 >
-                                    Create Section <span className="ml-1"><Plus /></span>
+                                    <span className="hidden md:block">Create Section</span> <Plus />
                                 </Button>
                             }
                             title="Create a new section"

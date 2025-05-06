@@ -46,12 +46,6 @@ const Login = () => {
     // state zustand store
     const {setUser, setAccessToken, user} = UserStore()
 
-    useEffect(() => {
-        if (user) {
-            return <Navigate to="/" replace={true} />
-        } 
-    }, [])
-
     // login submit
     const onSubmit = async (value) => {
         let result = await apiHandler(publicRoutes.login, value, true)

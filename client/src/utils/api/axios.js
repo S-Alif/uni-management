@@ -1,5 +1,6 @@
 import axios from "axios"
 import { baseUrl } from "./apiConstants"
+import UserStore from "@/stores/UserStore"
 
 const api = axios.create({
     baseURL: baseUrl,
@@ -33,9 +34,13 @@ api.interceptors.response.use(
             isRefreshing = true
 
             try{
-                let result = await api.post("/refresh")
+                let result = await api.post("/api/v1/public/refresh")
+                console.log(result)
 
                 // save the accesstoken in state
+                UserStore.getState().setAccessToken(result.data.accessToken)
+
+                originalRequest.headers["Authorization"] = "Bearer " + result.data.accessToken
 
                 isRefreshing = false
                 onRefreshed()
@@ -43,8 +48,11 @@ api.interceptors.response.use(
                 return api(originalRequest)
             }
             catch(err){
+                console.log(err)
+                UserStore.getState().logout()
                 isRefreshing = false
                 refreshSubscribers = []
+                window.location.href = window.location.host + "/auth/login"
                 return Promise.reject(err)
             }
         }

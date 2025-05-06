@@ -8,7 +8,16 @@ import { Navigate, Outlet, useLocation } from 'react-router'
 // access to prop is for user role
 const DashboardLayout = ({accessTo=null}) => {
 
-    const {user} = UserStore()
+    const {user, loadingState, accessToken} = UserStore()
+    console.log(accessToken, loadingState, user)
+
+    if(loadingState) {
+        return (
+            <section className="flex items-center justify-center h-screen w-full bg-primary/35">
+                <div className="w-16 h-16 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
+            </section>
+        )
+    }
 
     if(!user) return <Navigate to={"/auth/login"} replace={true} />
     if(user?.role !== accessTo) return <Navigate to={"/no-access"} replace={true} />
