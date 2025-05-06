@@ -23,8 +23,8 @@ const subjectService = {
 
         // count documents
         const count = await subjectsModels.countDocuments(
-            id ? { _id: { $ne: id }, $or: [{ name: data.name }, { code: data.code }, { dept: data.dept }] }
-                : { $or: [{ name: data.name }, { code: data.code }, { dept: data.dept }] }
+            id ? { _id: { $ne: id }, name: data.name, code: data.code, dept: data.dept  }
+                : { name: data.name, code: data.code, dept: data.dept }
         )
 
         if(count > 0) throw new ApiError(400, "Duplicate subject data found")

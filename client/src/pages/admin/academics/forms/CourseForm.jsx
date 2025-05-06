@@ -1,5 +1,7 @@
 import FormLayout from "@/components/forms/FormLayout"
 import OtherStore from "@/stores/OtherStore"
+import { administrationRoutes, PATCH, POST } from "@/utils/api/apiConstants"
+import apiHandler from "@/utils/api/apiHandler"
 import { useState } from "react"
 import { z } from "zod"
 
@@ -70,7 +72,21 @@ const CourseForm = ({id = null, data, setSubject}) => {
 
     // submit form
     const onSubmit = async (value) => {
-        console.log(value)
+        serLoading(true)
+        const result = await apiHandler(
+            {url:`${administrationRoutes.subjects}/${id ? id : ""}`, method: id ? PATCH : POST},
+            value,
+            true
+        )
+        serLoading(false)
+        if(!result) return
+        if(!id){
+            setSubject(prev => [result, ...prev])
+            setResetForm(true)
+        }
+        else{
+            setSubject(prev => prev.map(subject => subject._id == id ? result : subject))
+        }        
     }
 
 
