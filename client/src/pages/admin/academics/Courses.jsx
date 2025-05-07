@@ -13,6 +13,7 @@ import { administrationRoutes, GET } from "@/utils/api/apiConstants"
 import { TableCell, TableRow } from "@/components/ui/table"
 import { format } from "date-fns"
 import DisplayTable from "@/components/DisplayTable"
+import DisplayPagination from "@/components/DisplayPagination"
 
 
 const Courses = () => {
@@ -124,7 +125,7 @@ const Courses = () => {
 				/>
 
 				{/* course list */}
-				<div className="pt-5">
+				<div className="pt-10">
 					<DisplayTable
 						headings={[
 							{ name: "#" },
@@ -152,6 +153,12 @@ const Courses = () => {
 
 					</DisplayTable>
 				</div>
+
+				<DisplayPagination 
+					totalPage={totalPage}
+					currentPage={page}
+					onPageChange={updateParams}
+				/>
 
 			</SectionDashboard>
 		</section>

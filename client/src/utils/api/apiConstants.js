@@ -42,6 +42,7 @@ const administrationRoutes = {
     faculty: `${baseUrl}/api/v1/${admin}/faculty`,
     sections: `${baseUrl}/api/v1/${admin}/section`,
     subjects: `${baseUrl}/api/v1/${admin}/subjects`,
+    semester: `${baseUrl}/api/v1/${admin}/semester`,
 
 
     // for users

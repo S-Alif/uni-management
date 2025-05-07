@@ -13,6 +13,7 @@ import { TableCell, TableRow } from "@/components/ui/table"
 import DisplayAvatar from "@/components/DisplayAvatar"
 import { format } from "date-fns"
 import DisplayPagination from "@/components/DisplayPagination"
+import SectionDashboard from "@/components/SectionDashboard"
 
 
 const ActorPage = ({userType = ""}) => {
@@ -135,107 +136,107 @@ const ActorPage = ({userType = ""}) => {
         )
     ]
     
-    
 
     return (
         <section className="section-layout">
-            {/* controls */}
-            <div className="pb-5">
-                <div className="flex justify-between items-center mb-10">
-                    <h1 className="page-title"><span className="capitalize">{userType}</span> list</h1>
-                    
-                    {/* buttons */}
-                    <div className="flex gap-2">
-                        <Button
-                            size="lg"
-                            variant="outline"
-                            onClick={() => {
-                                setFilterOpen((prev) => !prev)
-                            }}
-                        >
-                            filter <span className="ml-1"><ListFilter /></span>
-                        </Button>
+            <SectionDashboard
+                id="actor-page"
+                sectionTitle={`${userType} list`}
+                headerSideOptions={
+                    <div className="flex justify-between items-center">
+                        {/* buttons */}
+                        <div className="flex gap-2">
+                            <Button
+                                size="lg"
+                                variant="outline"
+                                onClick={() => {
+                                    setFilterOpen((prev) => !prev)
+                                }}
+                            >
+                                filter <span className="ml-1"><ListFilter /></span>
+                            </Button>
 
-                        {/* dialog */}
-                        <DisplayDialog
-                            trigger={
-                                <Button size="lg">
-                                    <span className="hidden md:block">Add <span className="capitalize">{userType}</span></span> <span className="!text-2xl"><Plus size={50} /></span>
-                                </Button>
-                            }
-                            heading={`Add new ${userType}`}
-                            dialogClassName="lg:max-w-[900px]"
-                        >
-                            {/* place student form here */}
-                            <div className="pt-10">
-                                <UserForm userType={userType} setUsers={setUsers} />
-                            </div>
-                        </DisplayDialog>
+                            {/* dialog */}
+                            <DisplayDialog
+                                trigger={
+                                    <Button size="lg">
+                                        <span className="hidden md:block">Add <span className="capitalize">{userType}</span></span> <span className="!text-2xl"><Plus size={50} /></span>
+                                    </Button>
+                                }
+                                heading={`Add new ${userType}`}
+                                dialogClassName="lg:max-w-[900px]"
+                            >
+                                {/* place student form here */}
+                                <div className="pt-10">
+                                    <UserForm userType={userType} setUsers={setUsers} />
+                                </div>
+                            </DisplayDialog>
+                        </div>
                     </div>
-                </div>
-
+                }
+            >
                 {/* filter options */}
                 <FilterOptions
                     options={filterOptions}
                     filterOpen={filterOpen}
                     searchBtnOnClick={async () => {
-                        if(page == 1) {
+                        if (page == 1) {
                             return await getData()
                         }
                         updateParams("page", 1)
                     }}
                 />
-            </div>
 
-            {/* table */}
-            <div className="pt-5">
-                {
-                    users?.length > 0 &&
-                    <DisplayTable
-                        headings={[
-                            { name: "#" },
-                            { name: "Name" },
-                            { name: "Email & Phone" },
-                            { name: "Department" },
-                            ...(userType == "student" ? [
-                                { name: "Batch & Section" }
-                            ] : []),
-                            ...(userType == "teacher" ? [
-                                { name: "Designation" }
-                            ] : []),
-                            { name: "Last updated at" },
-                            { name: "Actions" }
-                        ]}
-                    >
-                        {
-                            users?.length > 0 &&
-                            users.map((item, index) => (
-                                <UserTableRows
-                                    data={item}
-                                    userType={userType}
-                                    index={index}
-                                    page={page}
-                                    limit={limit}
-                                    setUsers={setUsers}
-                                />
-                            ))
-                        }
+                {/* table */}
+                <div className="pt-10">
+                    {
+                        users?.length > 0 &&
+                        <DisplayTable
+                            headings={[
+                                { name: "#" },
+                                { name: "Name" },
+                                { name: "Email & Phone" },
+                                { name: "Department" },
+                                ...(userType == "student" ? [
+                                    { name: "Batch & Section" }
+                                ] : []),
+                                ...(userType == "teacher" ? [
+                                    { name: "Designation" }
+                                ] : []),
+                                { name: "Last updated at" },
+                                { name: "Actions" }
+                            ]}
+                        >
+                            {
+                                users?.length > 0 &&
+                                users.map((item, index) => (
+                                    <UserTableRows
+                                        data={item}
+                                        userType={userType}
+                                        index={index}
+                                        page={page}
+                                        limit={limit}
+                                        setUsers={setUsers}
+                                    />
+                                ))
+                            }
 
-                    </DisplayTable>
-                }
-                {
-                    users?.length == 0 && <h3 className="text-center text-xl font-bold">No data found</h3>
-                }
-            </div>
+                        </DisplayTable>
+                    }
+                    {
+                        users?.length == 0 && <h3 className="text-center text-xl font-bold">No data found</h3>
+                    }
+                </div>
 
-            {/* pagination */}
-            <div className="pt-10">
-                <DisplayPagination
-                    totalPage={totalPage}
-                    currentPage={parseInt(page)}
-                    onPageChange={updateParams}
-                />
-            </div>
+                {/* pagination */}
+                <div className="pt-10">
+                    <DisplayPagination
+                        totalPage={totalPage}
+                        currentPage={parseInt(page)}
+                        onPageChange={updateParams}
+                    />
+                </div>
+            </SectionDashboard>
         </section>
     )
 }

@@ -1,8 +1,8 @@
 
 const Semesters = () => {
-  return (
-    <div>Semesters</div>
-  )
+	return (
+		<div>Semesters</div>
+	)
 }
 
 export default Semesters

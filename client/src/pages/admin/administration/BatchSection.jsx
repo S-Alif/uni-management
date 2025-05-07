@@ -6,13 +6,16 @@ import { TableCell, TableRow } from "@/components/ui/table"
 import useQueryParams from "@/hooks/useQueryParams"
 import { administrationRoutes, DELETE_METHOD, GET } from "@/utils/api/apiConstants"
 import apiHandler from "@/utils/api/apiHandler"
-import { PencilLine, Plus, Trash2 } from "lucide-react"
+import { ListFilter, PencilLine, Plus, Trash2 } from "lucide-react"
 import { useEffect, useState } from "react"
 import { NavLink } from "react-router"
 import BatchForm from "./forms/BatchForm"
 import { format } from "date-fns"
 import DisplayDialog from "@/components/DisplayDialog"
 import DisplayPagination from "@/components/DisplayPagination"
+import SectionDashboard from "@/components/SectionDashboard"
+import { useIsMobile } from "@/hooks/use-mobile"
+import FilterOptions from "@/components/FilterOptions"
 
 
 const BatchSection = () => {
@@ -20,99 +23,130 @@ const BatchSection = () => {
 	const [batch, setBatch] = useState([])
 	const {values: {page = 1, limit = 20}, updateParams} = useQueryParams(["page", "limit"])
 	const [totalPage, setTotalPage] = useState(0)
+	const [loading, setLoading] = useState(false)
+	const [filterOpen, setFilterOpen] = useState(false)
+	const isMobile = useIsMobile()
 
 	// fetch list
 	useEffect(() => {
 		(async () => {
+			setLoading(true)
 			const result = await apiHandler(
 				{ url: `${administrationRoutes.batch}?page=${page}&limit=${limit}`, method: GET },
 				{},
 				true
 			)
+			setLoading(false)
 			if (!result) return
 			setBatch(result?.batch)
 			setTotalPage(result?.totalPage)
 		})()
 	}, [page, limit])
+
+
+	// filter options
+	const filterOptions = [
+		{
+			label: "Limit",
+			name: "limit",
+			placeholder: "Select limit",
+			selectItems: [
+				{ _id: 40, name: "40" },
+				{ _id: 60, name: "60" },
+				{ _id: 80, name: "80" },
+			],
+			onValueChange: (name, value) => {
+				updateParams(name, value)
+			}
+		},
+	]
 	
 
 	return (
 		<section className="section-layout">
 
-			{/* controls */}
-			<div className="flex justify-between items-end">
-				<h1 className="page-title">Batch list</h1>
-				<CustomSheet
-					trigger={
-						<Button size="lg">
-							<span className="hidden md:block">Create Batch</span> <span className="!text-2xl"><Plus size={50} /></span>
+			<SectionDashboard
+				id="batch"
+				sectionTitle={"Batch List"}
+				loading={loading}
+				loadingType="table"
+				headerSideOptions={
+					<div className="flex justify-between items-end gap-2">
+						<Button
+							size={isMobile ? "icon" : "lg"}
+							variant="outline"
+							onClick={() => {
+								setFilterOpen((prev) => !prev)
+							}}
+						>
+							<span className="hidden md:block md:mr-1">filter</span> <ListFilter />
 						</Button>
-					}
-					title="Create new batch"
-				>
-					<div className="pt-10">
-						<BatchForm setBatch={setBatch} />
+						<CustomSheet
+							trigger={
+								<Button
+									size={isMobile ? "icon" : "lg"}
+								>
+									<span className="hidden md:block">Add Batch</span> <Plus />
+								</Button>
+							}
+							title="Create new batch"
+						>
+							<div className="pt-10">
+								<BatchForm setBatch={setBatch} />
+							</div>
+						</CustomSheet>
 					</div>
-				</CustomSheet>
-			</div>
-
-			{/* batch list sort options */}
-			<div className="pt-10">
-				<div>
-					<label className="block text-base font-bold pb-5 text-gray-700">Limit</label>
-					<Select
-						onValueChange={(value) => {
-							updateParams("limit", value)
-						}}
-					>
-						<SelectTrigger className="w-[180px] lg:w-[300px]">
-							<SelectValue placeholder="Select limit" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="20" className="cursor-pointer">20</SelectItem>
-							<SelectItem value="40" className="cursor-pointer">40</SelectItem>
-							<SelectItem value="60" className="cursor-pointer">60</SelectItem>
-						</SelectContent>
-					</Select>
-				</div>
-			</div>
-
-
-			{/* batch list */}
-			<div className="pt-14">
-				<DisplayTable
-					headings={[
-						{ name: "#" },
-						{ name: "Batch no" },
-						{ name: "Last updated at" },
-						{ name: "Actions" },
-					]}
-				>
-					{
-						batch?.length > 0 &&
-						batch.map((item, index) => (
-							<BatchSectionTableRow 
-								item={item}
-								page={parseInt(page)}
-								limit={parseInt(limit)}
-								index={index}
-								setBatch={setBatch}
-								key={index}
-							/>
-						))
-					}
-
-				</DisplayTable>
-			</div>
-
-			{/* pagination */}
-			<div className="pt-10">
-				<DisplayPagination 
-					totalPage={totalPage}
-					currentPage={parseInt(page)}
-					onPageChange={updateParams}
+				}
+			>
+				{/* filter options */}
+				<FilterOptions
+					options={filterOptions}
+					filterOpen={filterOpen}
+					searchBtnOnClick={() => {
+						updateParams("page", 1)
+					}}
 				/>
-			</div>
+
+				{/* batch list */}
+				<div className="pt-14">
+					<DisplayTable
+						headings={[
+							{ name: "#" },
+							{ name: "Batch no" },
+							{ name: "Last updated at" },
+							{ name: "Actions" },
+						]}
+					>
+						{
+							batch?.length > 0 &&
+							batch.map((item, index) => (
+								<BatchSectionTableRow
+									item={item}
+									page={parseInt(page)}
+									limit={parseInt(limit)}
+									index={index}
+									setBatch={setBatch}
+									key={index}
+								/>
+							))
+						}
+
+					</DisplayTable>
+				</div>
+
+				{/* pagination */}
+				<div className="pt-10">
+					<DisplayPagination
+						totalPage={totalPage}
+						currentPage={parseInt(page)}
+						onPageChange={updateParams}
+					/>
+				</div>
+
+
+			</SectionDashboard>
+
+			
 		</section>
 	)
 }

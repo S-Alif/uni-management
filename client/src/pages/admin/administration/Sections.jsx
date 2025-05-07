@@ -70,9 +70,9 @@ const Sections = () => {
             name: "limit",
             placeholder: "Select limit",
             selectItems: [
-                { _id: 30, name: "30" },
-                { _id: 50, name: "50" },
-                { _id: 70, name: "70" },
+                { _id: 40, name: "40" },
+                { _id: 60, name: "60" },
+                { _id: 80, name: "80" },
             ],
             onValueChange: (name, value) => {
                 updateParams(name, value)
