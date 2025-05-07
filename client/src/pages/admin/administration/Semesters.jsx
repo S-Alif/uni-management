@@ -23,22 +23,23 @@ const Semesters = () => {
 	const [loading, setLoading] = useState(false)
 	const [totalPage, setTotalPage] = useState(0)
 
-	const {page = 1, limit = 40, updateParams} = useQueryParams()
+	const { values: { page = 1, limit = 40 }, updateParams } = useQueryParams(["page", "limit"])
 
+	const getSemesters = async () => {
+		setLoading(true)
+		const result = await apiHandler(
+			{ url: `${administrationRoutes.semester}?page=${page}&limit=${limit}`, method: GET },
+			{},
+			true
+		)
+		setLoading(false)
+		if (!result) return
+		setSemesters(result?.semesters)
+		setTotalPage(result?.totalPage)
+	}
 	// get semesters
 	useEffect(() => {
-		(async () => {
-			setLoading(true)
-			const result = await apiHandler(
-				{url: `${administrationRoutes.semester}?page=${page}&limit=${limit}`, method: GET},
-				{},
-				true
-			)
-			setLoading(false)
-			if(!result) return
-			setSemesters(result?.semesters)
-			setTotalPage(result?.totalPage)
-		})()
+		getSemesters()
 	}, [page, limit])
 
 	return (
@@ -79,6 +80,9 @@ const Semesters = () => {
 				<FilterOptions 
 					filterOpen={filterOpen}
 					searchBtnOnClick={() => {
+						if(page - 1 == 0){
+							getSemesters()
+						}
 						updateParams("page", 1)
 					}}
 					options={[
@@ -96,7 +100,6 @@ const Semesters = () => {
 							}
 						},
 					]}
-
 				/>
 
 				{/* semester table */}

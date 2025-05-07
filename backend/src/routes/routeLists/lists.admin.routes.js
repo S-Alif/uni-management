@@ -9,6 +9,7 @@ import facultyController from "../../controllers/faculty/faculty.controller.js"
 import batchSectionController from "../../controllers/batch/batch-sections/batchSection.controller.js"
 import subjectController from "../../controllers/subjects/subject.controller.js"
 import semesterController from "../../controllers/semesters/semester.controller.js"
+import timeSlotController from "../../controllers/time-slot/time-slot.controller.js"
 
 const fileUp = fileUpload({ createParentPath: true })
 
@@ -78,6 +79,13 @@ const semesterRoutes = [
     { path: "/:id", method: "get", controller: semesterController.getSemester },
 ]
 
+// time slot routes
+const timeSlotRoutes = [
+    { path: "/", method: "post", controller: timeSlotController.saveSlot },
+    { path: "/:id", method: "patch", controller: timeSlotController.saveSlot  },
+    { path: "/:id", method: "delete", controller: timeSlotController.removeSlot },
+    { path: "/", method: "get", controller: timeSlotController.getAllSlots },
+]
 
 export {
     userRoutes,
@@ -86,5 +94,6 @@ export {
     batchRoutes,
     batchSectionsRoutes,
     subjectRoutes,
-    semesterRoutes
+    semesterRoutes,
+    timeSlotRoutes
 }

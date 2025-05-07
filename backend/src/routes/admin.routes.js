@@ -1,4 +1,4 @@
-import {batchRoutes, batchSectionsRoutes, deptRoutes, facultyRoutes, semesterRoutes, subjectRoutes, userRoutes} from "./routeLists/lists.admin.routes.js"
+import {batchRoutes, batchSectionsRoutes, deptRoutes, facultyRoutes, semesterRoutes, subjectRoutes, timeSlotRoutes, userRoutes} from "./routeLists/lists.admin.routes.js"
 
 
 // route lists
@@ -10,6 +10,7 @@ const routeList = [
     {path: "/section", route: batchSectionsRoutes},
     {path: "/subjects", route: subjectRoutes},
     {path: "/semester", route: semesterRoutes},
+    {path: "/time", route: timeSlotRoutes},
 ]
 
 

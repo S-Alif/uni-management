@@ -147,8 +147,18 @@ const semesterValidate = Joi.object({
         .required(),
 
     active: Joi.boolean()
-        .optional(), // optional since there's a default in Mongoose
-});
+        .optional(),
+})
+
+// time slot
+const timeSlotValidate = Joi.object({
+    slot: Joi.string()
+        .required(),
+    shift: Joi.string()
+        .valid("day", "evening")
+        .default("day")
+})
+
 
 export {
     userRegistration,
@@ -160,5 +170,6 @@ export {
     facultyValidate,
     sectionValidate,
     subjectValidate,
-    semesterValidate
+    semesterValidate,
+    timeSlotValidate
 }

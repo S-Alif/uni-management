@@ -9,7 +9,6 @@ import { Navigate, Outlet, useLocation } from 'react-router'
 const DashboardLayout = ({accessTo=null}) => {
 
     const {user, loadingState, accessToken} = UserStore()
-    console.log(accessToken, loadingState, user)
 
     if(loadingState) {
         return (

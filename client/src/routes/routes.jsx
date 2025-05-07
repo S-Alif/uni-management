@@ -34,6 +34,7 @@ import FacultyDetail from "@/pages/public/FacultyDetail"
 import NotFound from "@/pages/NotFound"
 import DepartmentDetail from "@/pages/public/DepartmentDetail"
 import Profile from "@/pages/Profile"
+import TimeSlot from "@/pages/admin/administration/TimeSlot"
 
 
 const routes = createBrowserRouter([
@@ -105,6 +106,10 @@ const routes = createBrowserRouter([
             {
                 path: "semesters",
                 element: <Semesters />
+            },
+            {
+                path: "time-slot",
+                element: <TimeSlot />
             },
 
             // academics routes

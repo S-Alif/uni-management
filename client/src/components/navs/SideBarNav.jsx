@@ -1,4 +1,4 @@
-import { BookOpen, BookType, Box, Boxes, CalendarClock, ClipboardType, Codesandbox, FileUser, Grid2x2Plus, LayoutDashboard, Plus, SquareLibrary, SquareUser, UserCircle2, UserRoundCog, Users } from "lucide-react"
+import { BookOpen, BookType, Box, Boxes, CalendarClock, ClipboardType, Codesandbox, FileUser, Grid2x2Plus, LayoutDashboard, Plus, SquareLibrary, SquareUser, UserCircle2, UserRoundCog, Users, Watch } from "lucide-react"
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarRail } from "../ui/sidebar"
 import { NavLink } from "react-router"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "../ui/collapsible"
@@ -35,6 +35,11 @@ const items = [
                 label: "Semesters",
                 to: "/admin/semesters",
                 icon: <BookOpen />
+            },
+            {
+                label: "Time slot",
+                to: "/admin/time-slot",
+                icon: <Watch />
             },
         ]
     },
