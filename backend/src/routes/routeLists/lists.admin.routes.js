@@ -8,6 +8,7 @@ import { fileExt } from "../../constants/rolesAndFiles.constants.js"
 import facultyController from "../../controllers/faculty/faculty.controller.js"
 import batchSectionController from "../../controllers/batch/batch-sections/batchSection.controller.js"
 import subjectController from "../../controllers/subjects/subject.controller.js"
+import semesterController from "../../controllers/semesters/semester.controller.js"
 
 const fileUp = fileUpload({ createParentPath: true })
 
@@ -68,6 +69,15 @@ const subjectRoutes = [
     { path: "/", method: "get", controller: subjectController.subjectList },
 ]
 
+// semester routes
+const semesterRoutes = [
+    { path: "/", method: "post", controller: semesterController.saveSemester },
+    { path: "/:id", method: "patch", controller: semesterController.saveSemester },
+    { path: "/:id", method: "delete", controller: semesterController.removeSemester  },
+    { path: "/", method: "get", controller: semesterController.getAllSemesters },
+    { path: "/:id", method: "get", controller: semesterController.getSemester },
+]
+
 
 export {
     userRoutes,
@@ -75,5 +85,6 @@ export {
     deptRoutes,
     batchRoutes,
     batchSectionsRoutes,
-    subjectRoutes
+    subjectRoutes,
+    semesterRoutes
 }

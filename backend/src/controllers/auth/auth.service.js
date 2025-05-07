@@ -14,7 +14,7 @@ const authService = {
     login: async (req) => {
         const data = req?.body
         const isDataValid = isValidData(adminLogin, data)
-        if(!isDataValid) throw new ApiError(404, "Please provide all the data")
+        if(!isDataValid) throw new ApiError(400, "Please provide all the data")
 
         const user = await usersModels.findOne({email: data?.email, isBlocked: false})
                             .populate({
@@ -29,10 +29,10 @@ const authService = {
                                 path: "section",
                                 select: "shift section _id"
                             })
-        if(!user) throw new ApiError(404, "No user found")
+        if(!user) throw new ApiError(400, "No user found")
         
         const checkPass = await user.verifyPass(data?.pass)
-        if(!checkPass) throw new ApiError(403, "Incorrect password")
+        if(!checkPass) throw new ApiError(400, "Incorrect password")
 
         return user
     },
@@ -41,11 +41,11 @@ const authService = {
     register: async (req) => {
         let data = req?.body
         const isDataValid = isValidData(userRegistration, data)
-        if(!isDataValid) throw new ApiError(404, "Please provide all the data")
+        if(!isDataValid) throw new ApiError(400, "Please provide all the data")
         
         if(data?.role != roles.ADMIN) throw new ApiError(403, "Cannot register user")
         const countAdmin = await usersModels.countDocuments({role: data?.role})
-        if(countAdmin >= 1) throw new ApiError(403, "Maximum number of admin users reached")
+        if(countAdmin >= 1) throw new ApiError(400, "Maximum number of admin users reached")
 
         await usersModels.create(data)
 
@@ -92,7 +92,7 @@ const authService = {
         if(!validate) throw new ApiError(400, "Invalid reset password")
         
         const user = await usersModels.findOne({email: data?.email})
-        if(!user) throw new ApiError(404, "User not found")
+        if(!user) throw new ApiError(400, "User not found")
         user.pass = data?.pass
         user.save()
 

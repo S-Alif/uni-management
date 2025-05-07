@@ -9,13 +9,17 @@ const schema = new mongoose.Schema({
         unique: true
     },
     start: {
-        type: String,
+        type: Date,
         required: true,
     },
     end: {
-        type: String,
+        type: Date,
         required: true,
     },
+    active: {
+        type: Boolean,
+        default: false,
+    }
 }, { timestamps: true, versionKey: false })
 
 export default mongoose.model("semesters", schema)

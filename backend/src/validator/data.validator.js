@@ -124,12 +124,31 @@ const sectionValidate = Joi.object({
     end: Joi.string().min(5).max(100).required(),
 })
 
+// subject
 const subjectValidate = Joi.object({
     name: Joi.string().min(1).max(150).required(),
     code: Joi.string().min(1).max(4).required(),
     about: Joi.string().min(10).max(250).required(),
     dept: Joi.string().length(24).required(),
 })
+
+// semester
+const semesterValidate = Joi.object({
+    name: Joi.string()
+        .min(1)
+        .max(100)
+        .required(),
+
+    start: Joi.date()
+        .required(),
+
+    end: Joi.date()
+        .greater(Joi.ref("start"))
+        .required(),
+
+    active: Joi.boolean()
+        .optional(), // optional since there's a default in Mongoose
+});
 
 export {
     userRegistration,
@@ -140,5 +159,6 @@ export {
     deptValidate,
     facultyValidate,
     sectionValidate,
-    subjectValidate
+    subjectValidate,
+    semesterValidate
 }
