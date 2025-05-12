@@ -44,6 +44,7 @@ const administrationRoutes = {
     subjects: `${baseUrl}/api/v1/${admin}/subjects`,
     semester: `${baseUrl}/api/v1/${admin}/semester`,
     timeSlot: `${baseUrl}/api/v1/${admin}/time`,
+    schedule: `${baseUrl}/api/v1/${admin}/schedule`,
 
 
     // for users

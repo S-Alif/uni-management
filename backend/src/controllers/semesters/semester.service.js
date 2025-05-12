@@ -24,6 +24,9 @@ const semesterService = {
         )
         if(count > 0) throw new ApiError(400, "Duplicate semester data found")
 
+        const activeSemester = await semestersModels.countDocuments({active: true})
+        if(activeSemester > 0 && data?.active == "true") throw new ApiError(400, "Only one semester can be active at a time")
+
         const semester = await semestersModels.findByIdAndUpdate(
             id ? id : new mongoose.Types.ObjectId(),
             data,

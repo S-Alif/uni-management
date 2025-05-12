@@ -5,7 +5,7 @@ import {ApiResponse} from "../../utils/api/response/apiResponse.js"
 import { roles } from "../../constants/rolesAndFiles.constants.js"
 import usersModel from "../../models/users.models.js"
 import sendEmail from "../../utils/mail/sendMail.js"
-import { uploadMedia } from "../../utils/files/mediaUpload.js"
+import { removeMedia, uploadMedia } from "../../utils/files/mediaUpload.js"
 import crypto from "crypto"
 import userRegistrationMail from "../../utils/mail/mail-templates/user-registration-mail.js"
 
@@ -164,7 +164,17 @@ const userService = {
 
         if(!id) throw new ApiError(400, "Invalid user info")
 
+        const user = await usersModel.findOne({email: data?.email}).select("image").lean()
+
         // need to add profile image update option - only valid for admin
+        const file = req?.files?.image
+        if (file && !isAdmin) {
+            // remove old image
+            const removeOldImage = await removeMedia(user?.image)
+            // upload user image
+            const imageUrl = await uploadMedia(file)
+            data.image = imageUrl
+        }
         
         const userUpdate = await usersModel.findById({ _id: id })
         userUpdate.set(data)
@@ -182,7 +192,13 @@ const userService = {
             .populate({
                 path: "section",
                 select: "shift section _id"
-            })
+            }).lean()
+
+        if(data?.pass) await sendEmail(
+            result?.email,
+            userRegistrationMail({...result, pass: data?.pass || "Password unchanged" }),
+            "Account updated"
+        )
 
         return new ApiResponse(200, result, "User updated")        
     }

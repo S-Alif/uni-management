@@ -3,6 +3,7 @@ import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGrou
 import { NavLink } from "react-router"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "../ui/collapsible"
 import logo from "../../assets/images/logo.png"
+import DisplayLogo from "../DisplayLogo"
 
 // side bar items
 const items = [
@@ -52,11 +53,6 @@ const items = [
                 label: "Courses",
                 to: "/admin/courses",
                 icon: <BookType size={48} />
-            },
-            {
-                label: "Schedules",
-                to: "/admin/schedules",
-                icon: <CalendarClock size={48} />
             },
             {
                 label: "Notices",
@@ -134,9 +130,9 @@ const SideBarNav = ({userRole = null}) => {
     return (
         <Sidebar variant="inset">
             <SidebarHeader>
-                <NavLink to={"/"} className={"mb-6 mt-3"}>
-                    <img src={logo} alt="Uni Management" className="w-auto h-11" />
-                </NavLink>
+                <div className="my-5">
+                    <DisplayLogo />
+                </div>
             </SidebarHeader>
             <SidebarContent>
                 {

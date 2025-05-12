@@ -73,6 +73,7 @@ const CourseForm = ({id = null, data, setSubject}) => {
     // submit form
     const onSubmit = async (value) => {
         serLoading(true)
+        setResetForm(false)
         const result = await apiHandler(
             {url:`${administrationRoutes.subjects}/${id ? id : ""}`, method: id ? PATCH : POST},
             value,

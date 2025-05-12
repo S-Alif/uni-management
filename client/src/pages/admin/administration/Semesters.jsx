@@ -14,6 +14,8 @@ import DisplayDialog from "@/components/DisplayDialog"
 import DisplayTable from "@/components/DisplayTable"
 import { format } from "date-fns"
 import DisplayPagination from "@/components/DisplayPagination"
+import DisplayTootip from "@/components/DisplayTootip"
+import { NavLink } from "react-router"
 
 const Semesters = () => {
 
@@ -169,7 +171,14 @@ const SemesterTableRows = ({page, limit, index, item, setSemester}) => {
 			</TableCell>
 
 			<TableCell className="border-r">
-				{item?.name}
+				<DisplayTootip 
+					tooltipText="Create schedule for this semester"
+					trigger={
+						<NavLink to={`/admin/semesters/schedules/${item?._id}`} className="cursor-pointer">
+							{item?.name}
+						</NavLink>
+					}
+				/>
 			</TableCell>
 
 			<TableCell className="border-r">

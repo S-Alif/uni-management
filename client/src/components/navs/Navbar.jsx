@@ -13,7 +13,7 @@ const Navbar = () => {
     const location = useLocation()
     const pathname = location.pathname
 
-    const {user} = UserStore()
+    const { user, logout } = UserStore()
 
     const avatarOptions = {
         2025: "/admin/dashboard",
@@ -152,6 +152,9 @@ const Navbar = () => {
                                                 <DropdownMenuItem className="text-base py-2 capitalize font-bold rounded-md w-full px-4">
                                                     <button
                                                         className={`text-base capitalize font-bold w-full -ml-4`}
+                                                        onClick={() => {
+                                                            logout()
+                                                        }}
                                                     >
                                                         Logout
                                                     </button>

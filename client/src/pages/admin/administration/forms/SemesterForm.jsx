@@ -73,6 +73,7 @@ const SemesterForm = ({id, data, setSemester}) => {
     // submit form
     const onSubmit = async (value) => {
         // return console.log(value)
+        setResetform(false)
         setLoading(true)
         const result = await apiHandler(
             {url: `${administrationRoutes.semester}/${id ? id : ""}`, method: id ? PATCH : POST},

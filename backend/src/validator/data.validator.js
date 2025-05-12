@@ -159,6 +159,22 @@ const timeSlotValidate = Joi.object({
         .default("day")
 })
 
+// schedule schema
+const scheduleSchema = Joi.object({
+    courseTeacher: Joi.string().length(24).required(),
+    dept: Joi.string().length(24).required(),
+    batchSection: Joi.string().length(24).required(),
+    subject: Joi.string().length(24).required(),
+    semester: Joi.string().length(24).required(),
+    weekday: Joi.string()
+        .valid("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+        .required(),
+    timeSlot: Joi.array()
+        .items(Joi.string().length(24).required())
+        .required(),
+    room: Joi.string().min(3).max(24).required(),
+})
+
 
 export {
     userRegistration,
@@ -171,5 +187,6 @@ export {
     sectionValidate,
     subjectValidate,
     semesterValidate,
-    timeSlotValidate
+    timeSlotValidate,
+    scheduleSchema
 }

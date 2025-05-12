@@ -11,7 +11,7 @@ const FilterOptions = ({options = [], filterOpen, searchBtnOnClick = null}) => {
                 {
                     options?.map((option, index) => (
                         <div key={index}>
-                            <label className="block text-base font-bold pb-5 text-gray-700">{option?.label || "Select something"}</label>
+                            <label className="block text-base font-bold pb-5">{option?.label || "Select something"}</label>
                             <Select
                                 onValueChange={(value) => {
                                     option?.onValueChange(option?.name, value)

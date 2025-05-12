@@ -31,11 +31,15 @@ const schema = new mongoose.Schema({
         required: true,
         enum: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     },
-    timeSlot: {
+    room: {
+        type: String,
+        required: true,
+    },
+    timeSlot: [{
         type: mongoose.Types.ObjectId,
         required: true,
         ref: "time_slots",
-    },
+    }],
 }, { timestamps: true, versionKey: false })
 
 export default mongoose.model("schedules", schema)

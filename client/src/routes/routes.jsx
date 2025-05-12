@@ -118,7 +118,7 @@ const routes = createBrowserRouter([
                 element: <Courses />
             },
             {
-                path: "schedules",
+                path: "semesters/schedules/:semesterId",
                 element: <Schedules />
             },
             {
