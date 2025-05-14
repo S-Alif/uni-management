@@ -4,7 +4,7 @@ import PublicPageLayout from "./components/layouts/PublicPageLayout"
 import apiHandler from "@/utils/api/apiHandler"
 import { publicRoutes } from "@/utils/api/apiConstants"
 import SectionPage from "@/components/SectionPage"
-import TeacherCard from "./components/cards/TeacherCard"
+import UserCards from "@/components/cards/UserCards"
 
 
 const DepartmentDetail = () => {
@@ -53,7 +53,7 @@ const DepartmentDetail = () => {
             >
                 <div className="flex flex-col lg:flex-row gap-10 xl:gap-20">
                     <div className="shrink-0 lg:sticky lg:top-0">
-                        <TeacherCard item={department?.deptHead} />
+                        <UserCards item={department?.deptHead} />
                     </div>
                     <div className="self-center">
                         <p className="whitespace-break-spaces text-justify lg:text-balance">{department?.msgFromDeptHead}</p>
@@ -80,7 +80,7 @@ const DepartmentDetail = () => {
                 <div className="card-grid-layout">
                     {
                         teacherList.map((teacher, index) => (
-                            <TeacherCard
+                            <UserCards
                                 key={index}
                                 item={teacher}
                             />

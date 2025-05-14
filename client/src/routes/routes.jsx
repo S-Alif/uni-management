@@ -35,6 +35,7 @@ import NotFound from "@/pages/NotFound"
 import DepartmentDetail from "@/pages/public/DepartmentDetail"
 import Profile from "@/pages/Profile"
 import TimeSlot from "@/pages/admin/administration/TimeSlot"
+import Classmates from "@/pages/student/Classmates"
 
 
 const routes = createBrowserRouter([
@@ -160,7 +161,15 @@ const routes = createBrowserRouter([
             {
                 path: "departments/:id",
                 element: <DepartmentDetail />
-            }
+            },
+            {
+                path: "teachers/:id",
+                element: <DepartmentDetail /> // add new page for teacher profile
+            },
+            {
+                path: "students/:id",
+                element: <Classmates /> // add new page for classmate profile
+            },
         ]
     },
     // user routes
@@ -179,7 +188,11 @@ const routes = createBrowserRouter([
                     {
                         path: "profile",
                         element: <Profile />
-                    }
+                    },
+                    {
+                        path: "classmates",
+                        element: <Classmates />
+                    },
                 ]
             },
             {

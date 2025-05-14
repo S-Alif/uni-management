@@ -52,6 +52,17 @@ const administrationRoutes = {
     students: `${baseUrl}/api/v1/${admin}/${users}/students`,
 }
 
+// student routes
+const studentRoutes = {
+    user: `${baseUrl}/api/v1/${students}`,
+    classmates: `${baseUrl}/api/v1/${students}/classmates`,
+}
+
+// teacher routes
+const teacherRoutes = {
+    user: `${baseUrl}/api/v1/${teachers}`,
+}
+
 
 export {
     baseUrl,
@@ -60,5 +71,7 @@ export {
     POST,
     PATCH,
     DELETE_METHOD,
-    administrationRoutes
+    administrationRoutes,
+    studentRoutes,
+    teacherRoutes
 }

@@ -4,8 +4,8 @@ import apiHandler from "@/utils/api/apiHandler"
 import { publicRoutes } from "@/utils/api/apiConstants"
 import { Navigate, useParams } from "react-router"
 import SectionPage from "@/components/SectionPage"
-import TeacherCard from "./components/cards/TeacherCard"
 import DeptCard from "./components/cards/DeptCard"
+import UserCards from "@/components/cards/UserCards"
 
 
 const FacultyDetail = () => {
@@ -75,7 +75,7 @@ const FacultyDetail = () => {
             >
                 <div className="flex flex-col lg:flex-row gap-10 xl:gap-20">
                     <div className="shrink-0">
-                        <TeacherCard item={faculty?.dean} />
+                        <UserCards item={faculty?.dean} />
                     </div>
                     <div className="self-center">
                         <p className="whitespace-break-spaces text-justify lg:text-balance">{faculty?.msgFromDean}</p>
