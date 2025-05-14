@@ -198,7 +198,7 @@ export default function ToolBar({ editor }) {
     ]
 
     return (
-        <div className="border flex gap-1 flex-wrap rounded-md p-1.5 mb-1 bg-slate-50 space-x-1 sticky top-10 z-50">
+        <div className="border flex gap-1 flex-wrap rounded-md p-1.5 mb-1 bg-secondary space-x-1 sticky top-10 z-50">
             {Options.map((option, i) => (
                 <TooltipProvider key={i}>
                     <Tooltip>
