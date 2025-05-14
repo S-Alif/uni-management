@@ -1,3 +1,4 @@
+import { Card } from "./ui/card"
 import { Skeleton } from "./ui/skeleton"
 
 
@@ -7,48 +8,29 @@ const Loading = ({type}) => {
     if(type == "card"){
         return(
             <section className="section-layout">
-                <div className="border shadow-sm w-[380px]">
-                    <div className="flex flex-col space-y-1.5 p-6">
-                        <div className="leading-none tracking-tight">
-                            <Skeleton className="w-[104px] max-w-full" />
-                        </div>
-                        <div>
-                            <Skeleton className="w-[216px] max-w-full" />
-                        </div>
-                    </div>
-                    <div className="p-6 pt-0 grid gap-4">
-                        <div>
-                            <div className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-                                <span className="flex h-2 w-2 translate-y-1"></span>
-                                <div className="space-y-1">
-                                    <div className="leading-none">
-                                        <Skeleton className="w-[184px] max-w-full" />
+                <div className="card-grid-layout">
+                    {Array.from({ length: 4 }).map((_, index) => (
+                        <Card key={index} className="py-5 px-4">
+                            <div className="flex flex-col space-y-1.5">
+                                <div className="leading-none tracking-tight">
+                                    <Skeleton className="w-full h-40 max-w-full" />
+                                </div>
+                                <div className="pt-5">
+                                    <Skeleton className="w-[90%] h-5 max-w-full" />
+                                    <Skeleton className="w-[80%] h-5 max-w-full mt-5" />
+                                    <div className="flex gap-3 mt-5">
+                                        <Skeleton className="w-[10%] h-3 max-w-full" />
+                                        <Skeleton className="w-[10%] h-3 max-w-full" />
+                                        <Skeleton className="w-[10%] h-3 max-w-full" />
                                     </div>
-                                    <div>
-                                        <Skeleton className="w-[80px] max-w-full" />
-                                    </div>
+                                    <Skeleton className="w-[40%] h-10 max-w-full mt-5 ml-auto" />
                                 </div>
                             </div>
-                            <div className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-                                <span className="flex h-2 w-2 translate-y-1"></span>
-                                <div className="space-y-1">
-                                    <div className="leading-none">
-                                        <Skeleton className="w-[280px] max-w-full" />
-                                    </div>
-                                    <div>
-                                        <Skeleton className="w-[88px] max-w-full" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex items-center p-6 pt-0">
-                        <div className="inline-flex items-center justify-center transition-colors h-10 px-4 py-2 w-full">
-                            <Skeleton className="w-[136px] max-w-full" />
-                        </div>
-                    </div>
+                        </Card>
+                    ))}
                 </div>
             </section>
+
         )
     }
 
