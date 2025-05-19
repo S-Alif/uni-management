@@ -1,22 +1,22 @@
 import ScheduleCards from "@/components/cards/ScheduleCards"
 import SectionDashboard from "@/components/SectionDashboard"
 import UserStore from "@/stores/UserStore"
-import { GET, studentRoutes } from "@/utils/api/apiConstants"
+import { GET, studentRoutes, teacherRoutes } from "@/utils/api/apiConstants"
 import apiHandler from "@/utils/api/apiHandler"
 import { useEffect, useState } from "react"
 
 
-const StudentSchedules = () => {
+const UserSchedules = () => {
     const [schedules, setSchedules] = useState([])
     const {user} = UserStore()
     const [loading, setLoading] = useState(false)
-    const orderedDays = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+    const orderedDays = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
 
     useEffect(() => {
         (async () => {
             setLoading(true)
             const result = await apiHandler(
-                {url: studentRoutes.schedules, method: GET},
+                { url: user?.role == 2022 ? teacherRoutes.schedules : studentRoutes.schedules, method: GET},
                 {}
             )
             setLoading(false)
@@ -26,9 +26,9 @@ const StudentSchedules = () => {
     }, [])
 
     return (
-        <section className="section-layout" id="student-schedule-page">
+        <section className="section-layout" id="schedule-page">
             <SectionDashboard
-                id="student-schedule"
+                id="schedule"
                 sectionTitle="My Schedule"
                 loading={loading}
                 containerClassName="card-grid-layout mt-10"
@@ -55,4 +55,4 @@ const StudentSchedules = () => {
     )
 }
 
-export default StudentSchedules
+export default UserSchedules

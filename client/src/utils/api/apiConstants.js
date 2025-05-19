@@ -65,6 +65,7 @@ const studentRoutes = {
 // teacher routes
 const teacherRoutes = {
     user: `${baseUrl}/api/v1/${teachers}`,
+    schedules: `${baseUrl}/api/v1/${teachers}/schedules`,
 }
 
 

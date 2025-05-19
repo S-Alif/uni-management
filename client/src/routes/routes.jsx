@@ -37,7 +37,7 @@ import Profile from "@/pages/Profile"
 import TimeSlot from "@/pages/admin/administration/TimeSlot"
 import Classmates from "@/pages/student/Classmates"
 import UserPublicProfile from "@/pages/UserPublicProfile"
-import StudentSchedules from "@/pages/student/StudentSchedules"
+import UserSchedules from "@/pages/UserSchedules"
 
 
 const routes = createBrowserRouter([
@@ -197,7 +197,7 @@ const routes = createBrowserRouter([
                     },
                     {
                         path: "schedules",
-                        element: <StudentSchedules />
+                        element: <UserSchedules />
                     },
                 ]
             },
@@ -211,7 +211,7 @@ const routes = createBrowserRouter([
                     },
                     {
                         path: "schedules",
-                        element: <Profile />
+                        element: <UserSchedules />
                     },
                     {
                         path: "materials",
