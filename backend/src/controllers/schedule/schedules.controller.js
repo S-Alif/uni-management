@@ -5,6 +5,7 @@ const scheduleController = {
     saveSchedule: controllerHandler(scheduleService.saveSchedule),
     removeSchedule: controllerHandler(scheduleService.removeSchedule),
     getAllSchedule: controllerHandler(scheduleService.getAllSchedule),
+    getScheduleByUser: controllerHandler(scheduleService.getScheduleByUser),
 }
 
 export default scheduleController

@@ -1,0 +1,58 @@
+import ScheduleCards from "@/components/cards/ScheduleCards"
+import SectionDashboard from "@/components/SectionDashboard"
+import UserStore from "@/stores/UserStore"
+import { GET, studentRoutes } from "@/utils/api/apiConstants"
+import apiHandler from "@/utils/api/apiHandler"
+import { useEffect, useState } from "react"
+
+
+const StudentSchedules = () => {
+    const [schedules, setSchedules] = useState([])
+    const {user} = UserStore()
+    const [loading, setLoading] = useState(false)
+    const orderedDays = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+
+    useEffect(() => {
+        (async () => {
+            setLoading(true)
+            const result = await apiHandler(
+                {url: studentRoutes.schedules, method: GET},
+                {}
+            )
+            setLoading(false)
+            if(!result) return
+            setSchedules(result)
+        })()
+    }, [])
+
+    return (
+        <section className="section-layout" id="student-schedule-page">
+            <SectionDashboard
+                id="student-schedule"
+                sectionTitle="My Schedule"
+                loading={loading}
+                containerClassName="card-grid-layout mt-10"
+            >
+                {
+                    orderedDays.map((day) => (
+                        schedules.map((schedule) => {
+                            if (schedule.weekday === day) {
+                                console.log(schedule.weekday)
+                                return (
+                                    <ScheduleCards
+                                        key={schedule._id}
+                                        item={schedule}
+                                        role={user?.role}
+                                    />
+                                )
+                            }
+                        })
+                    ))
+                }
+
+            </SectionDashboard>
+        </section>
+    )
+}
+
+export default StudentSchedules

@@ -149,12 +149,12 @@ const scheduleService = {
             query.courseTeacher = userId
         }
         else{
-            const batchSection = await usersModels.findOne({_id: userId}).select("batchSection").lean()
-            if (!batchSection) throw new ApiError(404, "No batch section found")
-            query.batchSection = batchSection.batchSection
+            const section = await usersModels.findOne({ _id: userId }).select("section").lean()
+            if (!section) throw new ApiError(404, "No batch section found")
+            query.batchSection = section?.section.toString()
         }
         
-        query.semester = activeSemester._id
+        query.semester = activeSemester._id.toString()
 
         let populateOptions = [
             {
@@ -182,7 +182,7 @@ const scheduleService = {
                 select: "slot shift _id"
             }
         ]
-        if(role == roles.TEACHERS) {
+        if(role !== roles.TEACHERS) {
             populateOptions.push({
                 path: "courseTeacher",
                 select: "_id name image personalId"
