@@ -1,3 +1,5 @@
+import { publicRoutes } from "@/utils/api/apiConstants"
+import apiHandler from "@/utils/api/apiHandler"
 import { create } from "zustand"
 
 const UserStore = create((set) => ({
@@ -18,12 +20,13 @@ const UserStore = create((set) => ({
     setSidebarState: (openState) => set((state) => ({
         sidebarState: openState
     })),
-    logout: () => {
+    logout: async () => {
         set((state) => ({
             user: null,
             accessToken: null
         }))
         localStorage.clear()
+        await apiHandler({url: publicRoutes.logout.url, method: publicRoutes.logout.method}, {}, true)
     }
 }))
 

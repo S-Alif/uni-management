@@ -12,6 +12,7 @@ import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
 import ToolBar from "./ToolBar"
 import { useEffect } from "react"
+import HardBreak from "@tiptap/extension-hard-break"
 
 
 
@@ -49,6 +50,11 @@ export default function RichTextEditor({ defaultValue = "<p>write product descri
             TableRow,
             TableHeader,
             TableCell,
+            HardBreak.configure({
+                HTMLAttributes: {
+                    class: 'inline-block',
+                },
+            }),
         ],
         immediatelyRender: true,
         content: defaultValue,
@@ -58,7 +64,7 @@ export default function RichTextEditor({ defaultValue = "<p>write product descri
             },
         },
         onUpdate: ({ editor }) => {
-            onChange(editor.getHTML())
+            onChange(editor.getHTML().replace(/<p><\/p>/g, '<p>&nbsp;</p>'))
         },
     })
 

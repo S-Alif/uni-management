@@ -7,6 +7,7 @@ const SectionDashboard = ({
     sectionTitle=null,
     containerClassName="",
     sectionClassName="",
+    wrapperClassName="",
     loading=false,
     headerSideOptions = null,
     loadingType = "card",
@@ -17,7 +18,7 @@ const SectionDashboard = ({
 
     return (
         <section id={id} className={`section-layout ${sectionClassName}`}>
-            <div className={sidebarState ? "" : "container"}>
+            <div className={`${sidebarState ? "" : "container"} ${wrapperClassName}`}>
                 {(sectionTitle && !headerSideOptions) && <h1 className="page-title">{sectionTitle}</h1>}
                 {
                     (headerSideOptions && sectionTitle) && (

@@ -15,7 +15,7 @@ const DELETE_METHOD = "DELETE"
 
 const createRoute = (paths, route, method) => {
     return {
-        url: `${baseUrl}/api/v1/${paths}/${route}`,
+        url: paths ? `${baseUrl}/api/v1/${paths}/${route}` : `${baseUrl}/api/v1/${route}`,
         method: method,
     }
 }
@@ -27,10 +27,13 @@ const publicRoutes = {
     sendOtp: createRoute(publicEndpoint, "otp", POST),
     verifyOtp: createRoute(publicEndpoint, "otp", PATCH),
     updatePass: createRoute(publicEndpoint, "update-pass", PATCH),
+    logout: createRoute(null, "users/logout", PATCH),
     faculty: createRoute(publicEndpoint, "faculty", GET),
     department: createRoute(publicEndpoint, "departments", GET),
     teachers: createRoute(publicEndpoint, "teachers", GET),
-    subjects: createRoute(publicEndpoint, "subjects", GET)
+    subjects: createRoute(publicEndpoint, "subjects", GET),
+    teacherProfile: createRoute(publicEndpoint, "users", GET),
+    studentProfile: createRoute(null, "users", GET),
 }
 
 // admin routes

@@ -40,6 +40,7 @@ const userRegistration = Joi.object({
 
 // user update by admin
 const userUpdateByAdmin = Joi.object({
+    _id: Joi.string().length(24).optional(),
     name: Joi.string().min(5).max(80).required(),
     email: Joi.string().email(new RegExp(emailRegex)).required(),
     image: Joi.string().min(10).max(300).optional(),
@@ -67,13 +68,14 @@ const userUpdateByAdmin = Joi.object({
         then: Joi.required(),
         otherwise: Joi.optional()
     }),
-    role: Joi.number().valid(...Object.values(roles)).optional()
+    role: Joi.number().valid(...Object.values(roles)).optional(),
+    isBlocked: Joi.boolean().optional(),
 })
 
 // for updating a user by himself
 const userUpdateByHimself = Joi.object({
-    pass: Joi.string().min(8).max(255).required(),
-    about: Joi.string().min(10).max(50000).required()
+    pass: Joi.string().min(8).max(255).optional(),
+    about: Joi.string().min(10).max(50000).optional()
 })
 
 // user login

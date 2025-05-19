@@ -8,6 +8,7 @@ const PublicPageLayout = ({
     pageDescription = "",
     pageId = "give-an-id",
     loading = false,
+    header= true,
     children
 }) => {
     return (
@@ -18,17 +19,20 @@ const PublicPageLayout = ({
                     :
                     <>
                         {/* page header */}
-                        <div className="w-full h-[50vh] lg:h-[60vh] relative overflow-hidden">
-                            <img src={pageImg} alt="faculty-and-dept" className="w-full h-full object-cover object-center" />
-                            {/* overlay text */}
-                            <div className="absolute top-0 left-0 w-full h-full bg-black/75 flex items-center justify-center">
-                                <div className="text-center text-white">
-                                    <h1 className="public-page-title">{pageTitle}</h1>
-                                    <Separator className="my-4 xl:my-8 max-w-[200px] mx-auto" />
-                                    <p className="text-white text-base lg:text-xl w-full max-w-[600px] xl:max-w-[950px] mx-auto">{pageDescription}</p>
+                        {
+                            header &&
+                            <div className="w-full h-[50vh] lg:h-[60vh] relative overflow-hidden">
+                                <img src={pageImg} alt="faculty-and-dept" className="w-full h-full object-cover object-center" />
+                                {/* overlay text */}
+                                <div className="absolute top-0 left-0 w-full h-full bg-black/75 flex items-center justify-center">
+                                    <div className="text-center text-white">
+                                        <h1 className="public-page-title">{pageTitle}</h1>
+                                        <Separator className="my-4 xl:my-8 max-w-[200px] mx-auto" />
+                                        <p className="text-white text-base lg:text-xl w-full max-w-[600px] xl:max-w-[950px] mx-auto">{pageDescription}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
 
                         {/* page content */}
                         <div>

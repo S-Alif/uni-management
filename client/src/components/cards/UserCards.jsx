@@ -19,7 +19,7 @@ const UserCards = ({item}) => {
                     <NavLink
                         to={
                             isTeacher ? `/academics/teachers/${item?._id}`
-                            : `/students/${item?._id}`
+                            : `/academics/students/${item?._id}`
                         }
                         className={`${buttonVariants({size: "lg", variant: "link"})} !px-0`}
                     >

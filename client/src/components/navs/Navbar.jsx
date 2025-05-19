@@ -152,8 +152,8 @@ const Navbar = () => {
                                                 <DropdownMenuItem className="text-base py-2 capitalize font-bold rounded-md w-full px-4">
                                                     <button
                                                         className={`text-base capitalize font-bold w-full -ml-4`}
-                                                        onClick={() => {
-                                                            logout()
+                                                        onClick={async () => {
+                                                            await logout()
                                                         }}
                                                     >
                                                         Logout

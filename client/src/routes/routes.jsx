@@ -36,6 +36,7 @@ import DepartmentDetail from "@/pages/public/DepartmentDetail"
 import Profile from "@/pages/Profile"
 import TimeSlot from "@/pages/admin/administration/TimeSlot"
 import Classmates from "@/pages/student/Classmates"
+import UserPublicProfile from "@/pages/UserPublicProfile"
 
 
 const routes = createBrowserRouter([
@@ -164,11 +165,11 @@ const routes = createBrowserRouter([
             },
             {
                 path: "teachers/:id",
-                element: <DepartmentDetail /> // add new page for teacher profile
+                element: <UserPublicProfile role={2022} />
             },
             {
                 path: "students/:id",
-                element: <Classmates /> // add new page for classmate profile
+                element: <UserPublicProfile role={1999} />
             },
         ]
     },

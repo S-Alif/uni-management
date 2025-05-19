@@ -98,7 +98,7 @@ const authController = {
         user.refreshTokens = []
         await user.save()
         res.clearCookie("refreshToken", { httpOnly: true, sameSite: "None", secure: true })
-        return new ApiResponse(200, "Logged out successfully")
+        return new ApiResponse(200, {}, "Logged out successfully")
     })
 }
 

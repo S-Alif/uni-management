@@ -1,7 +1,9 @@
-import express from "express"
+import userController from "../controllers/users/users.controller.js"
 
-const router = express.Router()
 
-const routeList = []
+const routeList = [
+    {path: "/", method: "post", controller: userController.updateUser},
+    {path: "/classmates", method: "get", controller: userController.getStudentList},
+]
 
 export default routeList

@@ -9,6 +9,7 @@ import { removeMedia, uploadMedia } from "../../utils/files/mediaUpload.js"
 import crypto from "crypto"
 import userRegistrationMail from "../../utils/mail/mail-templates/user-registration-mail.js"
 
+
 const userService = {
 
     // register a new user - teacher or student
@@ -85,6 +86,7 @@ const userService = {
     // list of students
     getStudentList: async (req) => {
         const role = req?.headers?.role
+        if(!role) throw new ApiError(401, "Login to see student list")
         const { page = "1", limit = "60", dept = "all", batch = "all", section = "all" } = req?.query
         const pageNum = parseInt(page) || 1
         const pageLimit = parseInt(limit) || 60
@@ -126,10 +128,13 @@ const userService = {
         const id = req?.params.id
         if (!id) throw new ApiError(400, "No user info provided")
 
+        const role = req?.headers?.role
+
         const query = { _id: id }
 
-        const user = await usersModel.findOne(query).select("role")
+        const user = await usersModel.findOne(query).select("role").lean()
         if (!user) throw new ApiError(404, "User not found")
+        if((user?.role == roles.STUDENTS) && !role) throw new ApiError(400, "You are not authorized to see this data") 
 
         let userQuery = await usersModel.findOne(query).select("-pass -refreshTokens")
 
@@ -137,7 +142,7 @@ const userService = {
             userQuery = await userQuery.populate([
                 { 
                     path: "dept",
-                    select: "shortName _id",
+                    select: "name shortName _id",
                 },
                 { path: "batch", select: "name _id" },
                 { path: "section", select: "section shift _id" }
@@ -146,7 +151,7 @@ const userService = {
         else if (user?.role === roles.TEACHERS) {
             userQuery = await userQuery.populate({
                 path: "dept",
-                select: "shortName _id"
+                select: "name shortName _id"
             })
         }
 
@@ -161,20 +166,21 @@ const userService = {
 
         if(!validate) throw new ApiError(400, "Invalid user data")
         const id = isAdmin ? req?.params?.id : req?.headers?.id
-
+    
         if(!id) throw new ApiError(400, "Invalid user info")
-
-        const user = await usersModel.findOne({email: data?.email}).select("image").lean()
-
+        
+        const user = await usersModel.findOne({_id: id}).select("image").lean()
+        
         // need to add profile image update option - only valid for admin
         const file = req?.files?.image
-        if (file && !isAdmin) {
+        if (file && isAdmin) {
             // remove old image
             const removeOldImage = await removeMedia(user?.image)
             // upload user image
             const imageUrl = await uploadMedia(file)
             data.image = imageUrl
         }
+        
         
         const userUpdate = await usersModel.findById({ _id: id })
         userUpdate.set(data)
@@ -192,13 +198,14 @@ const userService = {
             .populate({
                 path: "section",
                 select: "shift section _id"
-            }).lean()
+            })
 
-        if(data?.pass) await sendEmail(
+        await sendEmail(
             result?.email,
-            userRegistrationMail({...result, pass: data?.pass || "Password unchanged" }),
+            userRegistrationMail({ ...result, pass: data?.pass || "Password unchanged" }),
             "Account updated"
         )
+        
 
         return new ApiResponse(200, result, "User updated")        
     }
