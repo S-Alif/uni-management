@@ -208,7 +208,15 @@ const routes = createBrowserRouter([
                     {
                         path: "profile",
                         element: <Profile />
-                    }
+                    },
+                    {
+                        path: "schedules",
+                        element: <Profile />
+                    },
+                    {
+                        path: "materials",
+                        element: <Profile />
+                    },
                 ]
             }
         ]

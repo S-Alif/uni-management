@@ -2,7 +2,6 @@ import { BookOpen, BookType, Box, Boxes, CalendarClock, ClipboardType, Codesandb
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarRail } from "../ui/sidebar"
 import { NavLink } from "react-router"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "../ui/collapsible"
-import logo from "../../assets/images/logo.png"
 import DisplayLogo from "../DisplayLogo"
 
 // side bar items
@@ -123,7 +122,48 @@ const items = [
                 icon: <UserCircle2 size={48} />
             },
         ]
-    }
+    },
+    {
+        groupLabel: "Administration",
+        role: 2022,
+        icon: <UserRoundCog size={50} />,
+        links: [
+            {
+                label: "Dashboard",
+                to: "/dashboard/teacher",
+                icon: <UserCircle2 size={48} />
+            },
+        ]
+    },
+    {
+        groupLabel: "Academics",
+        role: 2022,
+        icon: <SquareLibrary size={50} />,
+        links: [
+            {
+                label: "Schedules",
+                to: "/dashboard/teacher/schedules",
+                icon: <CalendarClock size={48} />
+            },
+            {
+                label: "Materials",
+                to: "/dashboard/teacher/materials",
+                icon: <ClipboardType size={48} />
+            },
+        ]
+    },
+    {
+        groupLabel: "Account",
+        role: 2022,
+        icon: <UserRoundCog size={50} />,
+        links: [
+            {
+                label: "Profile",
+                to: "/dashboard/teacher/profile",
+                icon: <UserCircle2 size={48} />
+            },
+        ]
+    },
 ]
 
 const SideBarNav = ({userRole = null}) => {
