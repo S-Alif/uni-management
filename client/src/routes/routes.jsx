@@ -38,6 +38,7 @@ import TimeSlot from "@/pages/admin/administration/TimeSlot"
 import Classmates from "@/pages/student/Classmates"
 import UserPublicProfile from "@/pages/UserPublicProfile"
 import UserSchedules from "@/pages/UserSchedules"
+import Materials from "@/pages/Materials"
 
 
 const routes = createBrowserRouter([
@@ -215,7 +216,7 @@ const routes = createBrowserRouter([
                     },
                     {
                         path: "materials",
-                        element: <Profile />
+                        element: <Materials role={2022} />
                     },
                 ]
             }

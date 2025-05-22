@@ -11,7 +11,7 @@ const ScheduleCards = ({item, role}) => {
                 <CardDescription>
                     {
                         item?.timeSlot?.map((slot, index) => (
-                            <p key={index}>{slot?.slot} {slot?.shift}</p>
+                            <p key={index}>{slot?.slot} {slot?.shift?.toUpperCase()}</p>
                         ))
                     }
                 </CardDescription>

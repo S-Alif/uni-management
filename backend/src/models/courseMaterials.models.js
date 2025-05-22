@@ -14,6 +14,10 @@ const schema = new mongoose.Schema({
         type: String,
         required: true
     },
+    fileId: {
+        type: Number,
+        required: true
+    },
 }, { timestamps: true, versionKey: false })
 
 export default mongoose.model("course_materials", schema)

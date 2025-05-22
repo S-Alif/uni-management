@@ -31,24 +31,25 @@ const UserSchedules = () => {
                 id="schedule"
                 sectionTitle="My Schedule"
                 loading={loading}
-                containerClassName="card-grid-layout mt-10"
             >
-                {
-                    orderedDays.map((day) => (
-                        schedules.map((schedule) => {
-                            if (schedule.weekday === day) {
-                                console.log(schedule.weekday)
-                                return (
-                                    <ScheduleCards
-                                        key={schedule._id}
-                                        item={schedule}
-                                        role={user?.role}
-                                    />
-                                )
-                            }
-                        })
-                    ))
-                }
+                <div className="card-grid-layout mt-10">
+                    {
+                        orderedDays.map((day) => (
+                            schedules.map((schedule) => {
+                                if (schedule.weekday === day) {
+                                    console.log(schedule.weekday)
+                                    return (
+                                        <ScheduleCards
+                                            key={schedule._id}
+                                            item={schedule}
+                                            role={user?.role}
+                                        />
+                                    )
+                                }
+                            })
+                        ))
+                    }
+                </div>
 
             </SectionDashboard>
         </section>
