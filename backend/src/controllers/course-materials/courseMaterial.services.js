@@ -3,6 +3,7 @@ import { ApiError } from "../../utils/api/response/apiError.js"
 import { ApiResponse } from "../../utils/api/response/apiResponse.js"
 import { fileRemove, fileUpload } from "../../utils/files/fileUpload.js"
 import courseMaterialModel from "../../models/courseMaterials.models.js"
+import sharedMaterialModel from "../../models/sharedMaterials.models.js"
 
 const courseMaterialService = {
     save: async (req) => {
@@ -26,13 +27,48 @@ const courseMaterialService = {
 
         return new ApiResponse(200, uploadMaterial, "file uploaded")
     },
+
+    // remove files
     remove: async (req) => {
-        console.log(req.params)
-        await fileRemove(`27337`, 980)
+        const materialId = req?.params?.id
+        const role = req?.headers?.role
+        const id = req?.headers?.id
+        if (!materialId) throw new ApiError(400, "Material not found")
+        if (role !== roles.TEACHERS) throw new ApiError(403, "only teacher can remove file")
+        if(!id) throw new ApiError(400, "User not found")
+
+        const material = await courseMaterialModel.findById({ _id: materialId }).select("fileId").lean()
+        if (!material) throw new ApiError(400, "Material not found")
+
+        
+        await fileRemove(material?.fileId)
+        await courseMaterialModel.findByIdAndDelete({ _id: materialId })
+        await sharedMaterialModel.deleteMany({ materialId: materialId})
+
         return new ApiResponse(200, {}, "file removed")
     },
+
+    // get files based on user id and role
     getAll: async (req) => {
-        
+        const id = req?.headers?.id
+        const role = req?.headers?.role
+        if(!id) throw new ApiError(400, "User not found")
+        if (!role) throw new ApiError(403, "Cannot view materials")
+
+        const {page = "1"} = req?.query
+        const limit = 60
+        const skip = (parseInt(page) - 1) * limit
+
+        const materials = await courseMaterialModel.find({courseTeacher: id})
+            .sort({createdAt: -1})
+            .skip(skip)
+            .limit(limit)
+            .select("-courseTeacher -createdAt")
+
+        const total = await courseMaterialModel.countDocuments({courseTeacher: id})
+        const totalPages = Math.ceil(total / limit)
+
+        return new ApiResponse(200, {materials, totalPage: totalPages}, "Materials Loaded")
     }
 }
 

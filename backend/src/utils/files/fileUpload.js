@@ -45,7 +45,7 @@ const fileUpload = async (file) => {
 }
 
 // file remove
-const fileRemove = async (entryId, linkId) => {
+const fileRemove = async (entryId) => {
     try{
         const result = await axios.post(
             `${FILE_HOST}/file-entries/delete`,
