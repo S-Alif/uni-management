@@ -1,4 +1,5 @@
 import DisplayDialog from "@/components/DisplayDialog"
+import DisplaySharedMaterials from "@/components/DisplaySharedMaterials"
 import DisplayTable from "@/components/DisplayTable"
 import SectionDashboard from "@/components/SectionDashboard"
 import { Button, buttonVariants } from "@/components/ui/button"
@@ -149,6 +150,7 @@ const Materials = ({role}) => {
                                     item={item}
                                     page={page}
                                     index={index}
+                                    role={role}
                                     getMaterials={getMaterials}
                                 />
                             ))
@@ -166,7 +168,7 @@ export default Materials
 
 
 // material table row
-const MaterialRow = ({item, page, index, getMaterials}) => {
+const MaterialRow = ({item, page, index, getMaterials, role}) => {
     const [dialogOpen, setDialogOpen] = useState(false)
 
     return (
@@ -174,8 +176,8 @@ const MaterialRow = ({item, page, index, getMaterials}) => {
             <TableCell className="border-r">{(page - 1) * 60 + index + 1}</TableCell>
             <TableCell className="border-r">
                 <DisplayDialog
-                    dialogClassName="lg:max-w-[900] xl:max-w-[1100]"
-                    heading={"Materials shared to"}
+                    dialogClassName="lg:max-w-[900px] xl:max-w-[1100px]"
+                    heading={`${item?.name} shared to`}
                     trigger={
                         <Button
                             size="lg"
@@ -186,8 +188,7 @@ const MaterialRow = ({item, page, index, getMaterials}) => {
                         </Button>
                     }
                 >
-                    
-
+                    <DisplaySharedMaterials id={item?._id} role={role} />
                 </DisplayDialog>
             </TableCell>
 

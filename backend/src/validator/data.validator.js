@@ -177,6 +177,12 @@ const scheduleSchema = Joi.object({
     room: Joi.string().min(3).max(24).required(),
 })
 
+// shared materials
+const sharedMaterialSchema = Joi.object({
+    materialId: Joi.string().length(24).required(),
+    batchSection: Joi.string().length(24).required(),
+})
+
 
 export {
     userRegistration,
@@ -190,5 +196,6 @@ export {
     subjectValidate,
     semesterValidate,
     timeSlotValidate,
-    scheduleSchema
+    scheduleSchema,
+    sharedMaterialSchema
 }

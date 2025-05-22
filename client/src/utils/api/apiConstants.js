@@ -61,6 +61,7 @@ const studentRoutes = {
     classmates: `${baseUrl}/api/v1/${students}/classmates`,
     schedules: `${baseUrl}/api/v1/${students}/schedules`,
     materials: `${baseUrl}/api/v1/${students}/materials`,
+    sharedMaterials: `${baseUrl}/api/v1/${students}/shared-materials`,
 }
 
 // teacher routes
@@ -68,6 +69,7 @@ const teacherRoutes = {
     user: `${baseUrl}/api/v1/${teachers}`,
     schedules: `${baseUrl}/api/v1/${teachers}/schedules`,
     materials: `${baseUrl}/api/v1/${teachers}/materials`,
+    sharedMaterials: `${baseUrl}/api/v1/${teachers}/shared-materials`,
 }
 
 
