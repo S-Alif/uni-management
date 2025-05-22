@@ -8,7 +8,7 @@ import { ListFilter, PencilLine, Plus, Trash2 } from "lucide-react"
 import DisplayDialog from "@/components/DisplayDialog"
 import { useEffect, useState } from "react"
 import FilterOptions from "@/components/FilterOptions"
-import { administrationRoutes, GET } from "@/utils/api/apiConstants"
+import { administrationRoutes, DELETE_METHOD, GET } from "@/utils/api/apiConstants"
 import apiHandler from "@/utils/api/apiHandler"
 import DisplayTable from "@/components/DisplayTable"
 import { TableCell, TableRow } from "@/components/ui/table"
@@ -146,6 +146,7 @@ const Schedules = () => {
 		)
 		setLoading(false)
 		if (!result) return
+		console.log(result)
 		setScheduleList(result?.schedules)
 		setTotalPages(result?.totalPages)
 	}
@@ -313,12 +314,32 @@ const ScheduleRows = ({ page, limit, item, index, setScheduleList }) => {
 					</DisplayDialog>
 
 					{/* remove */}
-					<Button
-						size="icon"
-						variant="destructive"
+					<DisplayDialog
+						heading={"Remove Schedule"}
+						description={"Are you sure you want to remove this schedule?"}
+						trigger={
+							<Button size="icon" variant="destructive"><Trash2 /></Button>
+						}
 					>
-						<Trash2 />
-					</Button>
+						<div className="flex justify-end">
+							<Button
+								size="lg"
+								variant="destructive"
+								onClick={async () => {
+									const result = await apiHandler(
+										{ url: `${administrationRoutes.schedule}/${item?._id}`, method: DELETE_METHOD },
+										{},
+										true
+									)
+									if (!result) return
+									setScheduleList((prev) => prev.filter((schedule) => schedule._id != item._id))
+								}}
+							>
+								Remove Schedule
+							</Button>
+						</div>
+
+					</DisplayDialog>
 				</div>
 			</TableCell>
 

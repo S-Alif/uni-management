@@ -1,5 +1,5 @@
 import OtherStore from "@/stores/OtherStore"
-import { administrationRoutes, GET, POST } from "@/utils/api/apiConstants"
+import { administrationRoutes, GET, PATCH, POST } from "@/utils/api/apiConstants"
 import apiHandler from "@/utils/api/apiHandler"
 import { errorToast } from "@/utils/toastNotification"
 import { Input } from "@/components/ui/input"
@@ -85,6 +85,26 @@ const ScheduleForm = ({semesterId, id, data}) => {
         subjectOfWhichDept: null,
     })
     const [schedule, setSchedule] = useState({ ...defaultValues })
+
+
+    // set default values when id is not null
+    useEffect(() => {
+        if (!id) return
+        setInfo({
+            scheduleOfBatch: data?.batchSection?.batch?._id,
+            subjectOfWhichDept: data?.subject?.dept?._id,
+        })
+        setSchedule({
+            courseTeacher: data?.courseTeacher?._id,
+            dept: data?.dept?._id,
+            batchSection: data?.batchSection?._id,
+            subject: data?.subject?._id,
+            semester: data?.semester?._id,
+            weekday: data?.weekday,
+            timeSlot: data?.timeSlot?.map(slot => slot._id),
+            room: data?.room || "",
+        })
+    }, [])
 
     // get form options to create a schedule
     useEffect(() => {
@@ -341,7 +361,7 @@ const ScheduleForm = ({semesterId, id, data}) => {
                         return data?.error.issues.map((issue) => errorToast(issue.message))
                     }
                     const result = await apiHandler(
-                        { url: `${administrationRoutes.schedule}`, method: POST },
+                        { url: `${administrationRoutes.schedule}/${id ? id : ""}`, method: id ? PATCH : POST },
                         data.data,
                         true
                     )

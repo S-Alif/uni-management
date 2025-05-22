@@ -20,9 +20,9 @@ const scheduleService = {
         const id = req.params?.id
 
         const countTeacherSchedule = await schedulesModels.countDocuments(
-            id ? { _id: { $ne: id }, courseTeacher: data.courseTeacher, timeSlot: data.timeSlot }
+            id ? { _id: { $ne: id }, courseTeacher: data.courseTeacher, timeSlot: data.timeSlot, weekday: data.weekday }
                 :
-                { courseTeacher: data.courseTeacher, timeSlot: data.timeSlot }
+                { courseTeacher: data.courseTeacher, timeSlot: data.timeSlot, weekday: data.weekday }
         )
 
         const countRoom = await schedulesModels.countDocuments(
@@ -57,7 +57,11 @@ const scheduleService = {
         })
         .populate({
             path: "subject",
-            select: "name code _id"
+            select: "name code dept _id",
+            populate: {
+                path: "dept",
+                select: "_id name shortName"
+            }
         })
         .populate({
             path: "semester",
@@ -119,7 +123,11 @@ const scheduleService = {
             })
             .populate({
                 path: "subject",
-                select: "name code _id"
+                select: "name code dept _id",
+                populate: {
+                    path: "dept",
+                    select: "_id name shortName"
+                }
             })
             .populate({
                 path: "semester",
@@ -171,7 +179,11 @@ const scheduleService = {
             },
             {
                 path: "subject",
-                select: "name code _id"
+                select: "name code dept _id",
+                populate: {
+                    path: "dept",
+                    select: "_id name shortName"
+                }
             },
             {
                 path: "semester",
