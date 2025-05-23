@@ -14,6 +14,7 @@ import { TableCell, TableRow } from "@/components/ui/table"
 import { format } from "date-fns"
 import DisplayTable from "@/components/DisplayTable"
 import DisplayPagination from "@/components/DisplayPagination"
+import CourseTableRows from "@/components/tableRows/CourseTableRows"
 
 
 const Courses = () => {
@@ -166,58 +167,3 @@ const Courses = () => {
 }
 
 export default Courses
-
-
-// course table rows
-const CourseTableRows = ({page, limit, index, item, setSubject}) => {
-	return (
-		<TableRow>
-			<TableCell className="border-r">
-				{(page * limit) + index + 1}
-			</TableCell>
-			<TableCell className="border-r">
-				{item.name}
-			</TableCell>
-
-			<TableCell className="border-r">
-				{item.code}
-			</TableCell>
-
-			<TableCell className="border-r">
-				{item.about}
-			</TableCell>
-
-			<TableCell className="border-r">
-				{item.dept.name}
-			</TableCell>
-
-			<TableCell className="border-r">
-				{format(item?.updatedAt, "MMMM dd, EEEE, yyyy, hh:mm a")}
-			</TableCell>
-
-			<TableCell>
-				{/* actions */}
-				<div className="flex gap-2 items-center">
-					<CustomSheet
-						trigger={
-							<Button size="icon"><PencilLine /></Button>
-						}
-						title={"Update course details"}
-					>
-						<div className="pt-10">
-							<CourseForm id={item?._id} data={item} setSubject={setSubject} />
-						</div>
-					</CustomSheet>
-
-					{/* remove */}
-					<Button
-						size="icon"
-						variant="destructive"
-					>
-						<Trash2 />
-					</Button>
-				</div>
-			</TableCell>
-		</TableRow>
-	)
-}

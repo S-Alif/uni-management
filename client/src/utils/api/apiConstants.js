@@ -70,6 +70,8 @@ const teacherRoutes = {
     user: `${baseUrl}/api/v1/${teachers}`,
     schedules: `${baseUrl}/api/v1/${teachers}/schedules`,
     materials: `${baseUrl}/api/v1/${teachers}/materials`,
+    studentList: `${baseUrl}/api/v1/${teachers}/student-list`,
+    teacherList: `${baseUrl}/api/v1/${teachers}/teacher-list`,
     sharedMaterials: `${baseUrl}/api/v1/${teachers}/shared-materials`,
 }
 

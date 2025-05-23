@@ -39,6 +39,8 @@ import UserPublicProfile from "@/pages/UserPublicProfile"
 import UserSchedules from "@/pages/UserSchedules"
 import Materials from "@/pages/Materials"
 import Dashboard from "@/pages/Dashboard"
+import StudentList from "@/pages/teacher/StudentList"
+import Collegue from "@/pages/student/Collegue"
 
 
 const routes = createBrowserRouter([
@@ -221,6 +223,14 @@ const routes = createBrowserRouter([
                     {
                         path: "materials",
                         element: <Materials role={2022} />
+                    },
+                    {
+                        path: "students",
+                        element: <StudentList />
+                    },
+                    {
+                        path: "collegues",
+                        element: <Collegue />
                     },
                 ]
             }

@@ -1,18 +1,16 @@
 import { NavLink } from "react-router"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card"
 import DisplayAvatar from "../DisplayAvatar"
-import { Button } from "../ui/button"
+import { Button, buttonVariants } from "../ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 import { useEffect, useState } from "react"
 import apiHandler from "@/utils/api/apiHandler"
 import { GET, POST, teacherRoutes } from "@/utils/api/apiConstants"
 import DisplayDialog from "../DisplayDialog"
-import UserStore from "@/stores/UserStore"
+import { ClipboardList } from "lucide-react"
 
 
 const ScheduleCards = ({item, role}) => {
-
-    const {user} = UserStore()
     
     return (
         <Card>
@@ -49,23 +47,29 @@ const ScheduleCards = ({item, role}) => {
                 }
                 {
                     role == 2022 && (
-                        <DisplayDialog
-                            heading={"Share Material"}
-                            trigger={
-                                <Button
-                                    size="lg"
-                                    variant="link"
-                                    className="text-lg px-0"
-                                >
-                                    Batch: {item?.batchSection?.batch?.name} - {item?.batchSection.section} - {item?.batchSection?.shift?.toUpperCase()}
-                                </Button>
-                            }
-                        >
-                            <ShareMaterial
-                                batchSection={item?.batchSection?._id}
-                            />
-                            
-                        </DisplayDialog>
+                        <div className="flex gap-3 items-center">
+                            <DisplayDialog
+                                heading={"Share Material"}
+                                trigger={
+                                    <Button
+                                        size="lg"
+                                        variant="link"
+                                        className="text-lg px-0"
+                                    >
+                                        Batch: {item?.batchSection?.batch?.name} - {item?.batchSection.section} - {item?.batchSection?.shift?.toUpperCase()}
+                                    </Button>
+                                }
+                            >
+                                <ShareMaterial
+                                    batchSection={item?.batchSection?._id}
+                                />
+
+                            </DisplayDialog>
+
+                            <NavLink to={"/dashboard/teacher/students"} className={buttonVariants({ size: "icon" })} state={{ section: item?.batchSection?._id }}>
+                                <ClipboardList />
+                            </NavLink>
+                        </div>
                     )
                 }
                 

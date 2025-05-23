@@ -5,7 +5,7 @@ import DashboardCards from "./cards/DashboardCards"
 import DisplayCharts from "./DisplayCharts"
 
 const AdminDashboard = ({data, loading, setRefresh}) => {
-    console.log(data)
+    // console.log(data)
     return (
         <Fragment>
             <SectionDashboard

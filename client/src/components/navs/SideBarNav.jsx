@@ -82,11 +82,11 @@ const items = [
         role: 1999,
         icon: <UserRoundCog size={50} />,
         links: [
-            {
-                label: "Dashboard",
-                to: "/dashboard/student",
-                icon: <LayoutDashboard size={48} />
-            },
+            // {
+            //     label: "Dashboard",
+            //     to: "/dashboard/student",
+            //     icon: <LayoutDashboard size={48} />
+            // },
             {
                 label: "Classmates",
                 to: "/dashboard/student/classmates",
@@ -128,9 +128,14 @@ const items = [
         role: 2022,
         icon: <UserRoundCog size={50} />,
         links: [
+            // {
+            //     label: "Dashboard",
+            //     to: "/dashboard/teacher",
+            //     icon: <UserCircle2 size={48} />
+            // },
             {
-                label: "Dashboard",
-                to: "/dashboard/teacher",
+                label: "Collegues",
+                to: "/dashboard/teacher/collegues",
                 icon: <UserCircle2 size={48} />
             },
         ]

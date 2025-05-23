@@ -7,6 +7,8 @@ const routeList = [
     { path: "/", method: "post", controller: userController.updateUser },
     { path: "/schedules", method: "get", controller: scheduleController.getScheduleByUser },
     {path: "/materials", route: materialRoutes},
+    { path: "/student-list", method: "get", controller: userController.getStudentList },
+    { path: "/teacher-list", method: "get", controller: userController.getTeacherList },
     {path: "/shared-materials", route: sharedMaterialRoutes},
 ]
 

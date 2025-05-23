@@ -2,6 +2,7 @@ import UserCards from "@/components/cards/UserCards"
 import DisplayPagination from "@/components/DisplayPagination"
 import SectionDashboard from "@/components/SectionDashboard"
 import useQueryParams from "@/hooks/useQueryParams"
+import UserStore from "@/stores/UserStore"
 import { GET, studentRoutes } from "@/utils/api/apiConstants"
 import apiHandler from "@/utils/api/apiHandler"
 import { useEffect, useState } from "react"
@@ -12,6 +13,7 @@ const Classmates = () => {
     const [classmates, setClassmates] = useState([])
     const [totalPages, setTotalPages] = useState(0)
     const [loading, setLoading] = useState(false)
+    const {user} = UserStore()
     
     const {values: {page = 1}, updateParams} = useQueryParams(["page"])
     const limit = 60
@@ -21,7 +23,7 @@ const Classmates = () => {
         (async () => {
             setLoading(true)
             const result = await apiHandler(
-                {url: `${studentRoutes.classmates}?page=${page}&limit=${limit}`, method: GET},
+                {url: `${studentRoutes.classmates}?page=${page}&limit=${limit}&section=${user?.section?._id}`, method: GET},
                 {},
                 false
             )
