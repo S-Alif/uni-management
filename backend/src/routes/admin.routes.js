@@ -1,3 +1,4 @@
+import dashboardController from "../controllers/dashboard/dashboard.controller.js"
 import {batchRoutes, batchSectionsRoutes, deptRoutes, facultyRoutes, schedulesRoutes, semesterRoutes, subjectRoutes, timeSlotRoutes, userRoutes} from "./routeLists/lists.admin.routes.js"
 
 
@@ -12,6 +13,7 @@ const routeList = [
     {path: "/semester", route: semesterRoutes},
     {path: "/time", route: timeSlotRoutes},
     {path: "/schedule", route: schedulesRoutes},
+    {path: "/dashboard", method: "get", controller: dashboardController.adminDashboard},
 ]
 
 

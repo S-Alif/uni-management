@@ -1,4 +1,4 @@
-import { publicRoutes } from "@/utils/api/apiConstants"
+import { GET, publicRoutes } from "@/utils/api/apiConstants"
 import apiHandler from "@/utils/api/apiHandler"
 import { create } from "zustand"
 
@@ -7,6 +7,13 @@ const UserStore = create((set) => ({
     accessToken: null,
     sidebarState: true,
     loadingState: true,
+    dashboard: null,
+    setDashboard: async (url) => {
+        const dashboard = await apiHandler({url: url, method: GET}, {}, true)
+        set((state) => ({
+            dashboard: dashboard
+        }))
+    },
     setUser: (user) => {
         set((state) => ({
             user: user,

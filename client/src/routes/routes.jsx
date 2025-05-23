@@ -15,7 +15,6 @@ import UniversalLayout from "@/components/layouts/UniversalLayout"
 import DashboardLayout from "@/components/layouts/DashboardLayout"
 
 // admin pages
-import Dashboard from "@/pages/admin/administration/Dashboard"
 import BatchSection from "@/pages/admin/administration/BatchSection"
 import Faculty from "@/pages/admin/administration/Faculty"
 import Departments from "@/pages/admin/administration/Departments"
@@ -39,6 +38,7 @@ import Classmates from "@/pages/student/Classmates"
 import UserPublicProfile from "@/pages/UserPublicProfile"
 import UserSchedules from "@/pages/UserSchedules"
 import Materials from "@/pages/Materials"
+import Dashboard from "@/pages/Dashboard"
 
 
 const routes = createBrowserRouter([

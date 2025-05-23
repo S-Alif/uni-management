@@ -38,6 +38,8 @@ const publicRoutes = {
 
 // admin routes
 const administrationRoutes = {
+    dashboard: `${baseUrl}/api/v1/${admin}/dashboard`,
+
     // administration
     user: `${baseUrl}/api/v1/${admin}/users`,
     batch: `${baseUrl}/api/v1/${admin}/batch`,
