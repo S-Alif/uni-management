@@ -72,7 +72,7 @@ const userService = {
         const teacherList = await usersModel.find(query)
                                 .skip(skip)
                                 .limit(pageLimit)
-                                .select("-refreshTokens -pass -about")
+                                .select(`-refreshTokens -pass -about ${!role ? "-role" : ""}`)
                                 .populate({
                                     path: "dept",
                                     select: "shortName _id"

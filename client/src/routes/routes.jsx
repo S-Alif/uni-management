@@ -41,12 +41,17 @@ import Materials from "@/pages/Materials"
 import Dashboard from "@/pages/Dashboard"
 import StudentList from "@/pages/teacher/StudentList"
 import Collegue from "@/pages/student/Collegue"
+import About from "@/pages/About"
 
 
 const routes = createBrowserRouter([
     {
         path: "/",
         element: <UniversalLayout><App /></UniversalLayout>
+    },
+    {
+        path: "/about-us",
+        element: <UniversalLayout><About /></UniversalLayout>
     },
     {
         path: "/page-not-found",

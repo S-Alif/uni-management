@@ -5,6 +5,7 @@ import DisplayLogo from "../DisplayLogo"
 import DisplayAvatar from "../DisplayAvatar"
 import UserStore from "@/stores/UserStore"
 import ThemeSwitcher from "../ThemeSwitcher"
+import { BookA, Building2, Home } from "lucide-react"
 
 
 const Navbar = () => {
@@ -25,15 +26,18 @@ const Navbar = () => {
     const navItems = [
         {
             label: "home",
-            to: "/"
+            to: "/",
+            icon: <Home size={22} />,
         },
         {
             label: "about us",
-            to: "/about-us"
+            to: "/about-us",
+            icon: <Building2 size={22} />,
         },
         {
             label: "academics",
             to: "/academics",
+            icon: <BookA size={22} />,
             dropdowns: [
                 {
                     label: "faculty and department",
@@ -59,7 +63,7 @@ const Navbar = () => {
 
                         {/* nav items */}
                         <div className="flex items-center gap-4">
-                            <div className="flex gap-2">
+                            <div className="flex lg:gap-2">
                                 {
                                     navItems.map((item, index) => {
                                         return !item?.dropdowns ? 
@@ -67,17 +71,17 @@ const Navbar = () => {
                                             key={index}
                                             to={item?.to}
                                             className={({isActive}) => {
-                                                return `text-base capitalize font-bold px-4 py-2 rounded-md ${isActive ? "text-primary bg-background" : "text-white"}`
+                                                return `text-sm md:text-base capitalize font-bold px-4 py-2 rounded-md ${isActive ? "text-primary bg-background" : "text-white"}`
                                             }}
                                         >
-                                            {item?.label}
+                                            <span className="hidden md:block">{item?.label}</span> <span className="md:hidden block text-sm">{item?.icon}</span>
                                         </NavLink>
                                         :
                                         <DropdownMenu key={index}>
                                             <DropdownMenuTrigger asChild>
                                                 <p className={
                                                     `text-base capitalize font-bold px-4 py-2 rounded-md cursor-pointer ${pathname.includes(item?.to) ? "text-primary bg-background" : "text-white"}`
-                                                }>{item?.label}</p>
+                                                }><span className="hidden md:block">{item?.label}</span> <span className="md:hidden block">{item?.icon}</span></p>
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent className="z-[1001]">
                                                 {
@@ -117,10 +121,10 @@ const Navbar = () => {
                                                 alt={user?.name ? user?.name : "user image"}
                                             >
                                                 {
-                                                    user?.name && <h3 className="text-base text-white font-bold">{user?.name}</h3>
+                                                    user?.name && <h3 className="text-base text-white font-bold hidden lg:block">{user?.name}</h3>
                                                 }
                                                 {
-                                                    user?.personalId && <p className="text-sm text-white">{user?.personalId}</p>
+                                                    user?.personalId && <p className="text-sm text-white hidden lg:block">{user?.personalId}</p>
                                                 }
                                             </DisplayAvatar>
                                         </div>

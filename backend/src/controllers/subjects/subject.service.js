@@ -57,9 +57,10 @@ const subjectService = {
     // subject list
     subjectList: async (req) => {
         const { page = "1", limit = "60", dept = "all" } = req?.query
+        // console.log(dept)
 
-        const id = req?.headers?.id
-        if(!id && dept == "all") throw new ApiError(404, "Could not find subjects")
+        // const id = req?.headers?.id
+        // if(!id && dept == "all") throw new ApiError(404, "Could not find subjects")
 
         const pageNum = parseInt(page) || 1
         const pageLimit = parseInt(limit) || 60
