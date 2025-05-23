@@ -35,6 +35,7 @@ const userRegistration = Joi.object({
         then: Joi.required(),
         otherwise: Joi.optional()
     }),
+    gender: Joi.string().valid("MALE", "FEMALE", "OTHERS"),
     role: Joi.number().valid(...Object.values(roles)).required()
 })
 
@@ -69,6 +70,7 @@ const userUpdateByAdmin = Joi.object({
         otherwise: Joi.optional()
     }),
     role: Joi.number().valid(...Object.values(roles)).optional(),
+    gender: Joi.string().valid("MALE", "FEMALE", "OTHERS"),
     isBlocked: Joi.boolean().optional(),
 })
 

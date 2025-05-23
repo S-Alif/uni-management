@@ -49,7 +49,7 @@ const userService = {
                             select: "section shift _id"
                         })
 
-        await sendEmail(data?.email, userRegistrationMail({ ...userData?._doc, pass: data.pass }), "Account creation confirmed")
+        // await sendEmail(data?.email, userRegistrationMail({ ...userData?._doc, pass: data.pass }), "Account creation confirmed")
         return new ApiResponse(200, userData, "User registration successful")
     },
 

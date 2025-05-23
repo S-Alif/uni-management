@@ -200,6 +200,10 @@ const routes = createBrowserRouter([
                         path: "schedules",
                         element: <UserSchedules />
                     },
+                    {
+                        path: "materials",
+                        element: <Materials role={1999} />
+                    },
                 ]
             },
             {

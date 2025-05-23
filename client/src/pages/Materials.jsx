@@ -6,6 +6,7 @@ import { Button, buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { TableCell, TableRow } from "@/components/ui/table"
 import useQueryParams from "@/hooks/useQueryParams"
+import UserStore from "@/stores/UserStore"
 import { DELETE_METHOD, GET, POST, studentRoutes, teacherRoutes } from "@/utils/api/apiConstants"
 import apiHandler from "@/utils/api/apiHandler"
 import { errorToast, infoToast } from "@/utils/toastNotification"
@@ -36,6 +37,7 @@ const Materials = ({role}) => {
     })
     const [totalPages, setTotalPages] = useState(0)
     const {values: {page = 1}, updateParams} = useQueryParams(["page"])
+    const {user} = UserStore()
 
     // upload file
     const uploadFile = async () => {
@@ -62,7 +64,6 @@ const Materials = ({role}) => {
     // get material based on role
     const getMaterials = async () => {
         let url = `${teacherRoutes.materials}?page=${page}`
-        if(role == 1999) url = `${studentRoutes.materials}`
 
         setLoading(true)
         const result = await apiHandler(
@@ -78,6 +79,7 @@ const Materials = ({role}) => {
 
     // get material on page load
     useEffect(() => {
+        if(user?.role !== 2022) return
         getMaterials()
     }, [page])
     
@@ -88,7 +90,7 @@ const Materials = ({role}) => {
             {/* form */}
             <SectionDashboard
                 sectionTitle={"Add Materials"}
-                sectionClassName={role == 1999 && "hidden"}
+                sectionClassName={role == 1999 && "!hidden"}
             >
                 <div className="pt-10">
                     <div className="w-full max-w-[500px] border-0">
@@ -131,7 +133,7 @@ const Materials = ({role}) => {
                 sectionTitle={"Materials"}
                 loading={loading}
                 loadingType="table"
-                sectionClassName={role == 1999 && "hidden"}
+                sectionClassName={role == 1999 && "!hidden"}
             >
                 <div className="pt-10">
                     <DisplayTable
@@ -159,6 +161,12 @@ const Materials = ({role}) => {
                     </DisplayTable>
                 </div>
             </SectionDashboard>
+
+            {/* student materials */}
+           {
+                user?.role == 1999 &&
+                <DisplaySharedMaterials id={user?.section?._id} role={user?.role} />
+           }
 
         </section>
     )

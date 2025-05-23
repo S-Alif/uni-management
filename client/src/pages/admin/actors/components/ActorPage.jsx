@@ -14,6 +14,7 @@ import DisplayAvatar from "@/components/DisplayAvatar"
 import { format } from "date-fns"
 import DisplayPagination from "@/components/DisplayPagination"
 import SectionDashboard from "@/components/SectionDashboard"
+import { NavLink } from "react-router"
 
 
 const ActorPage = ({userType = ""}) => {
@@ -254,8 +255,12 @@ const UserTableRows = ({data, userType, index, page, limit, setUsers}) => {
                     img={data?.image}
                     alt="User image"
                 >
-                    <h3 className="text-base">{data?.name}</h3>
-                    <p className="text-sm text-gray-400">{data?.personalId}</p>
+                    <NavLink
+                        to={`/academics/${userType == "student" ? "students" : "teachers"}/${data?._id}`}
+                    >
+                        <h3 className="text-base">{data?.name}</h3>
+                        <p className="text-sm text-gray-400">{data?.personalId}</p>
+                    </NavLink>
 
                 </DisplayAvatar>
             </TableCell>

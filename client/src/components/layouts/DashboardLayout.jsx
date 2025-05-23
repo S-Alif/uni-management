@@ -3,7 +3,9 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import UserStore from '@/stores/UserStore'
+import { Fragment } from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router'
+import ThemeSwitcher from '../ThemeSwitcher'
 
 // access to prop is for user role
 const DashboardLayout = ({accessTo=null}) => {
@@ -30,7 +32,7 @@ const DashboardLayout = ({accessTo=null}) => {
             <SideBarNav userRole={user?.role} /> 
             <SidebarInset>
 
-                <header className="flex h-16 shrink-0 border-b items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+                <header className="flex justify-between h-16 shrink-0 border-b items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
                     <div className="flex items-center gap-2 px-4">
                         <SidebarTrigger className="-ml-1" />
                         <Separator orientation="vertical" className="mr-2 h-4" />
@@ -39,7 +41,7 @@ const DashboardLayout = ({accessTo=null}) => {
                                 {
                                     pathname.split("/").map((e, index) => {
                                         return index != 0 && (
-                                            <>
+                                            <Fragment key={index}>
                                                 <BreadcrumbItem className={`${index != pathLength - 1 ? "md:block hidden" : ""}`}>
                                                     <BreadcrumbPage className="capitalize">{e}</BreadcrumbPage>
                                                 </BreadcrumbItem>
@@ -47,12 +49,17 @@ const DashboardLayout = ({accessTo=null}) => {
                                                     index != pathLength - 1 && 
                                                     <BreadcrumbSeparator className={`${index != pathLength - 1 ? "md:block hidden" : ""}`} />
                                                 }
-                                            </>
+                                            </Fragment>
                                         )
                                     })
                                 }
                             </BreadcrumbList>
                         </Breadcrumb>
+                    </div>
+
+                    {/* theme switcher */}
+                    <div className="pr-2">
+                        <ThemeSwitcher />
                     </div>
                 </header>
 

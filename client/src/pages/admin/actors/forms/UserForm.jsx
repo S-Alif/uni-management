@@ -100,6 +100,7 @@ const UserForm = ({userType, id = null, data = null, setUsers}) => {
         address: z.string().min(10, "Please enter address").max(300, "Address is too long"),
         teacherDesignation: userType !== "teacher" ? z.string().optional() : z.enum(["Professor", "Associate Professor", "Assistant Professor", "Senior Lecturer", "Lecturer"]).default("Lecturer"),
         role: z.number().optional().default(userType == "student" ? 1999 : 2022),
+        gender: z.enum(["MALE", "FEMALE", "OTHERS"]),
     })
 
     // default values
@@ -108,6 +109,7 @@ const UserForm = ({userType, id = null, data = null, setUsers}) => {
         email: id ? data?.email : "",
         phone: id ? data?.phone : "",
         image: id ? data?.image : "",
+        gender: id? data?.gender : "MALE",
         address: id ? data?.address : "",
         ...(userType == "teacher" && {
             teacherDesignation: id ? data?.teacherDesignation : "Lecturer"
@@ -147,6 +149,17 @@ const UserForm = ({userType, id = null, data = null, setUsers}) => {
                 }
             ]
         ),
+        {
+            type: "select",
+            name: "gender",
+            label: "Select Gender",
+            placeholder: "Select gender",
+            selectItems: [
+                {_id: "MALE", name: "Male"},
+                {_id: "FEMALE", name: "Female"},
+                {_id: "OTHERS", name: "Others"},
+            ]
+        },
         {
             type: "file",
             name: "image",

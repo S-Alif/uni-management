@@ -84,6 +84,10 @@ const schema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    gender: {
+        type: String,
+        enum: ["MALE", "FEMALE", "OTHERS"]
+    },
     refreshTokens: [String]
 }, {timestamps: true, versionKey: false})
 

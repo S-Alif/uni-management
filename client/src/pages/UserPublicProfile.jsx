@@ -91,6 +91,7 @@ const UserPublicProfile = ({role}) => {
                             }
                             <p className="text-base xl:text-lg pb-2"><span className="font-bold">Email:</span> {userData?.email}</p>
                             <p className="text-base xl:text-lg pb-2"><span className="font-bold">Phone:</span> +{userData?.phone}</p>
+                            <p className="text-base xl:text-lg pb-2"><span className="font-bold">Gender:</span> {userData?.gender}</p>
                             <p className="text-base xl:text-lg pb-2"><span className="font-bold">Department:</span> {userData?.dept?.name} ({userData?.dept?.shortName})</p>
                             {
                                 role == 1999 && (
@@ -140,7 +141,7 @@ const UserPublicProfile = ({role}) => {
                                 <Button size="icon"><PencilLine /></Button>
                             }
                             heading={"About"}
-                            dialogClassName="lg:max-w-[900px] xl:max-w-[1100px]"
+                            dialogClassName="lg:max-w-[900px] lg:!max-h-[700px] xl:max-w-[1100px]"
                         >
                             <RichTextEditor 
                                 defaultValue={userData?.about ? userData?.about : "Write something"}

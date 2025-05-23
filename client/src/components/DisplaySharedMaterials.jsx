@@ -6,9 +6,11 @@ import { useEffect, useState } from "react"
 import DisplayTable from "./DisplayTable"
 import { TableCell, TableRow } from "./ui/table"
 import { format } from "date-fns"
-import { Button } from "./ui/button"
-import { Trash2 } from "lucide-react"
+import { Button, buttonVariants } from "./ui/button"
+import { Eye, Trash2 } from "lucide-react"
 import SectionDashboard from "./SectionDashboard"
+import DisplayAvatar from "./DisplayAvatar"
+import { NavLink } from "react-router"
 
 const DisplaySharedMaterials = ({id, role}) => {
 
@@ -34,11 +36,12 @@ const DisplaySharedMaterials = ({id, role}) => {
     }, [])
 
     return (
-        <section className="section-layout" id="shared-materials">
-            <SectionDashboard
-                loading={loading}
-                loadingType="table"
-            >
+        <SectionDashboard
+            loading={loading}
+            loadingType="table"
+            {...(role === 1999 ? { sectionTitle: "Shared Materials" } : {})}
+        >
+            <div className="pt-10">
                 <DisplayTable
                     headings={[
                         { name: "#" },
@@ -74,8 +77,8 @@ const DisplaySharedMaterials = ({id, role}) => {
                     }
 
                 </DisplayTable>
-            </SectionDashboard>
-        </section>
+            </div>
+        </SectionDashboard>
     )
 }
 
@@ -112,6 +115,32 @@ const SharedMaterialsRows = ({item, index, getMaterials, role}) => {
                             </Button>
                         </TableCell>
                     </> 
+                )
+            }
+            {
+                role == 1999 && (
+                    <>
+                        <TableCell className="border-r">
+                            <DisplayAvatar
+                                img={item?.materialId?.courseTeacher?.image}
+                                alt={item?.materialId?.courseTeacher?.name}
+                            >
+                                <NavLink to={`/academics/teachers/${item?.materialId?.courseTeacher?._id}`}>
+                                    <h3>{item?.materialId?.courseTeacher?.name}</h3>
+                                </NavLink>
+                            </DisplayAvatar>
+                        </TableCell>
+                        <TableCell className="border-r">{item?.materialId?.name}</TableCell>
+                        <TableCell>
+                            <NavLink
+                                className={buttonVariants({size: "icon"})}
+                                to={item?.materialId?.materialLocation}
+                                target="_blank"
+                            >
+                                <Eye />
+                            </NavLink>
+                        </TableCell>
+                    </>
                 )
             }
 
