@@ -19,7 +19,7 @@ import BatchSection from "@/pages/admin/administration/BatchSection"
 import Faculty from "@/pages/admin/administration/Faculty"
 import Departments from "@/pages/admin/administration/Departments"
 import Semesters from "@/pages/admin/administration/Semesters"
-import Courses from "@/pages/admin/academics/Courses"
+import Courses from "@/pages/Courses"
 import Schedules from "@/pages/admin/academics/Schedules"
 import Notices from "@/pages/admin/academics/Notices"
 import AccessForbidden from "@/pages/AccessForbidden"
@@ -158,6 +158,10 @@ const routes = createBrowserRouter([
             {
                 path: "faculty-and-department",
                 element: <FacultyAndDept />
+            },
+            {
+                path: "courses",
+                element: <Courses />
             },
             {
                 path: "faculty/:id",

@@ -6,16 +6,18 @@ import { format } from "date-fns"
 import { TableCell, TableRow } from "../ui/table"
 import UserStore from "@/stores/UserStore"
 import { Fragment } from "react"
+import { useLocation } from "react-router"
 
 // course table rows
 const CourseTableRows = ({ page, limit, index, item, setSubject }) => {
 
     const {user} = UserStore()
+    const location = useLocation()
 
     return (
         <TableRow>
             <TableCell className="border-r">
-                {(page * limit) + index + 1}
+                {((page-1) * limit) + index + 1}
             </TableCell>
             <TableCell className="border-r">
                 {item.name}
@@ -34,7 +36,7 @@ const CourseTableRows = ({ page, limit, index, item, setSubject }) => {
             </TableCell>
 
             {
-                user?.role == 2025 &&
+                (user?.role == 2025 && location.pathname.includes("/admin")) &&
                 <Fragment>
                     <TableCell className="border-r">
                         {format(item?.updatedAt, "MMMM dd, EEEE, yyyy, hh:mm a")}

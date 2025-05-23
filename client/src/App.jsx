@@ -36,11 +36,11 @@ const App = () => {
 					link: "/academics/teachers",
 					className: buttonVariants({ size: "lg", variant: "blue" })
 				},
-				{
-					title: "Research Opportunities",
-					link: "/research",
-					className: buttonVariants({ size: "lg", variant: "default" })
-				},
+				// {
+				// 	title: "Research Opportunities",
+				// 	link: "/research",
+				// 	className: buttonVariants({ size: "lg", variant: "default" })
+				// },
 			]
 		},
 		{

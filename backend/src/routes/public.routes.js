@@ -16,7 +16,7 @@ const routeList = [
     {path: "/departments", method: "get", controller: deptController.getDeptList},
     {path: "/departments/:id", method: "get", controller: deptController.getDept},
     {path: "/teachers", method: "get", controller: userController.getTeacherList},
-    {path: "/subjects/:deptId", method: "get", controller: subjectController.subjectList},
+    {path: "/subjects", method: "get", controller: subjectController.subjectList},
     { path: "/users/:id", method: "get", controller: userController.getUser },
     // {path: "/faculty/departments/offered-programs", method: "get", controller: ""},
     // {path: "/faculty/departments/teachers", method: "get", controller: ""},

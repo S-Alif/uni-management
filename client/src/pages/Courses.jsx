@@ -2,19 +2,19 @@ import CustomSheet from "@/components/CustomSheet"
 import SectionDashboard from "@/components/SectionDashboard"
 import { Button } from "@/components/ui/button"
 import { useIsMobile } from "@/hooks/use-mobile"
-import { ListFilter, PencilLine, Plus, Trash2 } from "lucide-react"
+import { ListFilter, Plus } from "lucide-react"
 import { useEffect, useState } from "react"
-import CourseForm from "./forms/CourseForm"
+import CourseForm from "./admin/academics/forms/CourseForm"
 import FilterOptions from "@/components/FilterOptions"
 import useQueryParams from "@/hooks/useQueryParams"
 import OtherStore from "@/stores/OtherStore"
 import apiHandler from "@/utils/api/apiHandler"
-import { administrationRoutes, GET } from "@/utils/api/apiConstants"
-import { TableCell, TableRow } from "@/components/ui/table"
-import { format } from "date-fns"
+import { administrationRoutes, GET, publicRoutes } from "@/utils/api/apiConstants"
 import DisplayTable from "@/components/DisplayTable"
 import DisplayPagination from "@/components/DisplayPagination"
 import CourseTableRows from "@/components/tableRows/CourseTableRows"
+import UserStore from "@/stores/UserStore"
+import { useLocation } from "react-router"
 
 
 const Courses = () => {
@@ -23,19 +23,25 @@ const Courses = () => {
 	const [filterOpen, setFilterOpen] = useState(false)
 	const [courses, setCourses] = useState([])
 	const [totalPage, setTotalPage] = useState(0)
+	const location = useLocation()
 
-	const {page = 0, limit = 40, dept = "all", updateParams} = useQueryParams()
+	const { values: { page = 1, limit = 60, dept = "all" }, updateParams} = useQueryParams(["page", "limit", "dept"])
 	const {department} = OtherStore()
 	const isMobile = useIsMobile()
 	console.log(courses)
 
+	const {user} = UserStore()
+
 	// get course list
 	const getData = async () => {
+		let url = `${administrationRoutes.subjects}?page=${page}&limit=${limit}&dept=${dept}`
+		if (user?.role !== 2025) url = `${publicRoutes.subjects.url}?page=${page}&limit=${limit}&dept=${dept}`
+
 		setLoading(true)
 
 		// fetch data
 		const result = await apiHandler(
-			{url: `${administrationRoutes.subjects}?page=${page}&limit=${limit}&dept=${dept}`, method: GET},
+			{url: url, method: GET},
 			{},
 			true
 		)
@@ -83,6 +89,7 @@ const Courses = () => {
 			<SectionDashboard
 				id="course-dashboard"
 				sectionTitle={"Course List"}
+				sectionClassName={(user?.role !== 2025 || !location.pathname.includes("/admin")) ? "container" : ""}
 				loading={loading}
 				loadingType="table"
 				headerSideOptions={
@@ -97,18 +104,21 @@ const Courses = () => {
 							<span className="hidden md:block md:mr-1">filter</span> <ListFilter />
 						</Button>
 
-						<CustomSheet
-							trigger={
-								<Button
-									size={isMobile ? "icon" : "lg"}
-								>
-									<span className="hidden md:block">Add Course</span> <Plus />
-								</Button>
-							}
-							title="Create a new course"
-						>
-							<CourseForm setSubject={setCourses} />
-						</CustomSheet>
+						{
+							(user?.role == 2025 && location.pathname.includes("/admin")) &&
+							<CustomSheet
+								trigger={
+									<Button
+										size={isMobile ? "icon" : "lg"}
+									>
+										<span className="hidden md:block">Add Course</span> <Plus />
+									</Button>
+								}
+								title="Create a new course"
+							>
+								<CourseForm setSubject={setCourses} />
+							</CustomSheet>
+						}
 					</div>
 				}
 			>
@@ -134,8 +144,10 @@ const Courses = () => {
 							{ name: "Code" },
 							{ name: "About" },
 							{ name: "Department" },
-							{ name: "Last updated at" },
-							{ name: "Actions" }
+							...((user?.role == 2025 && location.pathname.includes("/admin")) ? [
+								{ name: "Last updated at" },
+								{ name: "Actions" }
+							] : [])
 						]}
 					>
 						{
