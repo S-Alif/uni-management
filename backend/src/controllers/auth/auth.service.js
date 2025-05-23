@@ -97,7 +97,7 @@ const authService = {
         user.save()
 
         // notification email to user
-        // await sendEmail(data?.email, "", "Password reset confirmation")
+        await sendEmail(data?.email, "Your password was changed", "Password reset confirmation")
         return new ApiResponse(200, {}, "Password reset successfully")
     }
 }

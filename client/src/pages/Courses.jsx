@@ -28,7 +28,7 @@ const Courses = () => {
 	const { values: { page = 1, limit = 60, dept = "all" }, updateParams} = useQueryParams(["page", "limit", "dept"])
 	const {department} = OtherStore()
 	const isMobile = useIsMobile()
-	console.log(courses)
+	// console.log(courses)
 
 	const {user} = UserStore()
 

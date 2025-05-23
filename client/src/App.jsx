@@ -3,6 +3,7 @@ import SectionPage from "./components/SectionPage";
 import { buttonVariants } from "./components/ui/button"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "./components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay"
+import { Card, CardContent } from "./components/ui/card";
 
 const App = () => {
 
@@ -113,6 +114,51 @@ const App = () => {
 						<CarouselPrevious />
 						<CarouselNext />
 					</Carousel>
+				</div>
+			</SectionPage>
+
+			{/* about */}
+			<SectionPage
+				id="about"
+				sectionTitle={"About Us"}
+				sectionClassName="bg-primary/35"
+			>
+				<div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+					<div className="overflow-hidden">
+						<img 
+							src="https://images.unsplash.com/photo-1570975640108-2292d83390ff?q=80&w=1922&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+							alt="uni"
+							className="rounded-md object-cover object-center shadow-md"
+						/>
+					</div>
+					<div>
+						<h3 className="pb-3 border-b mb-4 text-lg font-bold">Welcome to Helix U.</h3>
+						<p className="text-justify">We’re thrilled to welcome you to Helix University — a place where curiosity is encouraged, ideas come to life, and every student is empowered to grow, lead, and make a difference.
+
+							At Helix U., we believe that education goes beyond books and classrooms. It’s about exploring your passions, challenging yourself, and discovering how you can contribute to the world around you. Whether you're here to study science, arts, business, or technology, you'll find a supportive community, inspiring faculty, and endless opportunities to learn and create.
+
+							As you begin your journey with us, know that you’re not alone. You’re now part of a diverse and welcoming family that celebrates ambition, creativity, and collaboration. We’re excited to see the ideas you’ll bring and the path you’ll carve for yourself.
+
+							Once again, welcome to Helix U. Your story starts here — and we can’t wait to be part of it.</p>
+					</div>
+				</div>
+
+			</SectionPage>
+
+			{/* vc message */}
+			<SectionPage
+				id="vc-message"
+			>
+				<div className="grid grid-cols-1 gap-10 items-center">
+					<div className="overflow-hidden aspect-square max-w-[400px] mx-auto">
+						<img
+							src="https://images.unsplash.com/photo-1627161684458-a62da52b51c3?q=80&w=2049&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+							alt="Chancellor"
+							className="rounded-md object-cover w-full h-full shadow-md"
+						/>
+					</div>
+					<p className="text-pretty text-center max-w-[900px] w-full mx-auto">Welcome to Helix University! As Vice-Chancellor, it is my pleasure to greet you as you begin or continue your journey with us. At Helix U., we are dedicated to fostering an inclusive, inspiring environment where students, faculty, and staff can thrive. Our focus on academic excellence, innovation, and global engagement prepares our community to lead and make a positive impact in the world. I encourage you to take full advantage of the opportunities available, both inside and outside the classroom. We are proud to have you with us and look forward to supporting your growth every step of the way.</p>
+					<p className="text-center font-bold text-sm">- Dr. Reid Richards (Vice Chancellor)</p>
 				</div>
 			</SectionPage>
 

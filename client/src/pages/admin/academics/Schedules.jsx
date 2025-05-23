@@ -20,7 +20,7 @@ const Schedules = () => {
 
 	const navigate = useNavigate()
 	const {semesterId} = useParams()
-	console.log(semesterId)
+	// console.log(semesterId)
 
 	const { values: { page = 1, limit = 40, dept = "all", section = "all", batch = "all" }, updateParams } = useQueryParams(["page", "limit", "dept", "section", "batch"])
 	const { department } = OtherStore()
@@ -146,7 +146,7 @@ const Schedules = () => {
 		)
 		setLoading(false)
 		if (!result) return
-		console.log(result)
+		// console.log(result)
 		setScheduleList(result?.schedules)
 		setTotalPages(result?.totalPages)
 	}

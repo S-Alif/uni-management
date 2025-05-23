@@ -37,7 +37,7 @@ const UserSchedules = () => {
                         orderedDays.map((day) => (
                             schedules.map((schedule) => {
                                 if (schedule.weekday === day) {
-                                    console.log(schedule.weekday)
+                                    // console.log(schedule.weekday)
                                     return (
                                         <ScheduleCards
                                             key={schedule._id}

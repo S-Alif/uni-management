@@ -58,7 +58,7 @@ const UpdatePass = () => {
     if(!userEmail) return <Navigate to={window.history.back()} replace={true} />
 
     const onSubmit = async (value) => {
-        console.log(value)
+        // console.log(value)
         let result = await apiHandler(publicRoutes.updatePass, {email: userEmail, pass: value?.pass}, true)
         if(!result) return
         setResetForm(true)

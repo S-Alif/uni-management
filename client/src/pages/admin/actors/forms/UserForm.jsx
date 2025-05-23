@@ -204,7 +204,7 @@ const UserForm = ({userType, id = null, data = null, setUsers}) => {
         value.dept = extraInfo.dept
         
         const data = formData(value)
-        console.log(Object.fromEntries(data))
+        // console.log(Object.fromEntries(data))
 
         const result = await apiHandler(
             { url: `${administrationRoutes.user}/${id ? id : ""}`, method: id ? PATCH : POST},

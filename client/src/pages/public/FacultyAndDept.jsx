@@ -8,7 +8,7 @@ import DeptCard from "./components/cards/DeptCard"
 const FacultyAndDept = () => {
 
     const {faculty, department} = OtherStore()
-    console.log(faculty, department)
+    // console.log(faculty, department)
 
     // // get faculty and dept lists
     // useEffect(() => {

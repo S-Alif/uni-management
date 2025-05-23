@@ -41,7 +41,7 @@ api.interceptors.response.use(
 
             try{
                 let result = await plainAxios.post("/api/v1/public/refresh")
-                console.log(result)
+                // console.log(result)
 
                 // save the accesstoken in state
                 UserStore.getState().setAccessToken(result.data.accessToken)
@@ -54,7 +54,7 @@ api.interceptors.response.use(
                 return api(originalRequest)
             }
             catch(err){
-                console.log("Refresh token failed", err)
+                // console.log("Refresh token failed", err)
                 UserStore.getState().logout()
                 isRefreshing = false
                 refreshSubscribers = []

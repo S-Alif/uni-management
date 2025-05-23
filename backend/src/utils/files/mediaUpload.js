@@ -27,7 +27,7 @@ const uploadMedia = async (file) => {
         })
         return result
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         throw new ApiError(400, 'Failed to upload media')
     }
 }
@@ -39,7 +39,7 @@ const removeMedia = async (fileUrl) => {
         await cloudinary.uploader.destroy(publicId)
         return true
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         throw new ApiError(400, 'Failed to remove media')
     }
 }

@@ -19,7 +19,7 @@ const UniversalLayout = ({ children = null }) => {
     useEffect(() => {
         (async () => {
             const userData = localStorage.getItem("actor")
-            console.log(userData)
+            // console.log(userData)
             if(userData) setUser(JSON.parse(userData))
             else setUser(null)
 

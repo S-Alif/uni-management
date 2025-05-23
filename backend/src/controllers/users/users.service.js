@@ -198,13 +198,13 @@ const userService = {
             .populate({
                 path: "section",
                 select: "shift section _id"
-            })
+            }).lean()
 
-        // await sendEmail(
-        //     result?.email,
-        //     userRegistrationMail({ ...result, pass: data?.pass || "Password unchanged" }),
-        //     "Account updated"
-        // )
+        await sendEmail(
+            result?.email,
+            userRegistrationMail({ ...result, pass: data?.pass || "Password unchanged" }),
+            "Account updated"
+        )
 
         return new ApiResponse(200, result, "User updated")        
     }

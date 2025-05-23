@@ -23,7 +23,7 @@ const fileUpload = async (file) => {
             }
         )
         const fileEntry = result.data?.fileEntry
-        console.log(fileEntry)
+        // console.log(fileEntry)
         if (!fileEntry) throw new ApiError(500, "file upload failed")
         const createShareAbleLink = await axios.post(
             `${FILE_HOST}/file-entries/${fileEntry?.id}/shareable-link`,
@@ -39,7 +39,7 @@ const fileUpload = async (file) => {
             fileId: fileEntry?.id
         }
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         throw new ApiError(500, "file upload failed")
     }
 }
@@ -61,8 +61,8 @@ const fileRemove = async (entryId) => {
                 }
             }
         )
-        console.log(result.data)
-        console.log(result.data?.pagination)
+        // console.log(result.data)
+        // console.log(result.data?.pagination)
         return true
     }
     catch(error){
