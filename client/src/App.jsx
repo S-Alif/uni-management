@@ -3,7 +3,8 @@ import SectionPage from "./components/SectionPage";
 import { buttonVariants } from "./components/ui/button"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "./components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay"
-import { Card, CardContent } from "./components/ui/card";
+import { galleryData } from "./data/data";
+import GalleryCard from "./components/cards/GalleryCard";
 
 const App = () => {
 
@@ -160,6 +161,28 @@ const App = () => {
 					<p className="text-pretty text-center max-w-[900px] w-full mx-auto">Welcome to Helix University! As Vice-Chancellor, it is my pleasure to greet you as you begin or continue your journey with us. At Helix U., we are dedicated to fostering an inclusive, inspiring environment where students, faculty, and staff can thrive. Our focus on academic excellence, innovation, and global engagement prepares our community to lead and make a positive impact in the world. I encourage you to take full advantage of the opportunities available, both inside and outside the classroom. We are proud to have you with us and look forward to supporting your growth every step of the way.</p>
 					<p className="text-center font-bold text-sm">- Dr. Reid Richards (Vice Chancellor)</p>
 				</div>
+			</SectionPage>
+
+			{/* gallery */}
+			<SectionPage
+				id="gallery"
+				sectionTitle={"Gallery"}
+				sectionClassName="bg-primary/35"
+			>
+				<div className="card-grid-layout">
+					{
+						galleryData.sort(() => 0.5 - Math.random()).slice(0, 4).map((item, index) => (
+							<GalleryCard key={index} item={item} />
+						))
+					}
+				</div>
+
+				<div className="text-center mt-10">
+					<NavLink to={"/gallery"} className={buttonVariants({ size: "lg" })}>
+						See more
+					</NavLink>
+				</div>
+			
 			</SectionPage>
 
 			

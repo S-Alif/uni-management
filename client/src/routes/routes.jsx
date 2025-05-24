@@ -43,6 +43,7 @@ import StudentList from "@/pages/teacher/StudentList"
 import Collegue from "@/pages/student/Collegue"
 import About from "@/pages/About"
 import TeacherList from "@/pages/TeacherList"
+import GalleryPage from "@/components/GalleryPage"
 
 
 const routes = createBrowserRouter([
@@ -53,6 +54,10 @@ const routes = createBrowserRouter([
     {
         path: "/about-us",
         element: <UniversalLayout><About /></UniversalLayout>
+    },
+    {
+        path: "/gallery",
+        element: <UniversalLayout><GalleryPage /></UniversalLayout>
     },
     {
         path: "/page-not-found",

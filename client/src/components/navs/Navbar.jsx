@@ -47,6 +47,10 @@ const Navbar = () => {
                     label: "Courses",
                     to: "/courses"
                 },
+                {
+                    label: "Faculty members",
+                    to: "/teachers"
+                },
             ]
         },
     ]
