@@ -66,7 +66,7 @@ const authService = {
         let otpCode = Math.floor(100000 + Math.random() * 900000)
         await otpModel.create({ email, otpCode })
 
-        // await sendEmail(email, otpMail(user?.name, otpCode), "Account verification")
+        await sendEmail(email, otpMail(user?.name, otpCode), "Account verification")
 
         return new ApiResponse(200, {}, "Verification email sent")
     },
