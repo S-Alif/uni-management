@@ -3,10 +3,11 @@ import { NavLink, Outlet, useLocation } from "react-router"
 import { buttonVariants } from "../ui/button"
 import { cn } from "@/lib/utils"
 import { Toaster } from "../ui/sonner"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import UserStore from "@/stores/UserStore"
 import OtherStore from "@/stores/OtherStore"
 import PublicLayout from "./PublicLayout"
+import ScrollToTop from "../ScrollToTop"
 
 const UniversalLayout = ({ children = null }) => {
 
@@ -30,6 +31,7 @@ const UniversalLayout = ({ children = null }) => {
 
     return (
         <div className="w-full h-auto block">
+            <ScrollToTop />
 
             {
                 !isDashboard ?

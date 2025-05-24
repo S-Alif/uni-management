@@ -3,7 +3,7 @@ import SectionPage from "./components/SectionPage";
 import { buttonVariants } from "./components/ui/button"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "./components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay"
-import { galleryData } from "./data/data";
+import { galleryData, usefulLinks } from "./data/data";
 import GalleryCard from "./components/cards/GalleryCard";
 
 const App = () => {
@@ -53,7 +53,7 @@ const App = () => {
 			links: [
 				{
 					title: "Campus Life",
-					link: "/campus-life",
+					link: "/gallery",
 					className: buttonVariants({ size: "lg", variant: "blue" })
 				},
 				{
@@ -181,6 +181,23 @@ const App = () => {
 					<NavLink to={"/gallery"} className={buttonVariants({ size: "lg" })}>
 						See more
 					</NavLink>
+				</div>
+			
+			</SectionPage>
+
+			{/* usefull links */}
+			<SectionPage
+				id="useful-links"
+				sectionTitle={"Useful Links"}
+			>
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+					{
+						usefulLinks.map((item, index) => (
+							<NavLink to={item.url} key={index} className={buttonVariants({ size: "lg", variant: "outline" })}>
+								{item.label}
+							</NavLink>
+						))
+					}
 				</div>
 			
 			</SectionPage>

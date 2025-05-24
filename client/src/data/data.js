@@ -21,6 +21,25 @@ const galleryData = [
     { id: 20, title: "Night View", description: "The campus lit up under the stars.", imageUrl: "https://images.unsplash.com/photo-1606388062959-71c8182b4b45?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
 ]
 
+const usefulLinks = [
+    {
+        id: 1,
+        label: "Faculty and departments",
+        url: "/academics/faculty-and-department"
+    },
+    {
+        id: 1,
+        label: "Courses",
+        url: "/academics/courses"
+    },
+    {
+        id: 1,
+        label: "Faculty members",
+        url: "/academics/teachers"
+    },
+]
+
 export {
-    galleryData
+    galleryData,
+    usefulLinks
 }

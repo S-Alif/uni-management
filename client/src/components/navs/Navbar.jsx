@@ -1,6 +1,5 @@
 import { NavLink, useLocation } from "react-router"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu"
-import { useIsMobile } from "@/hooks/use-mobile"
 import DisplayLogo from "../DisplayLogo"
 import DisplayAvatar from "../DisplayAvatar"
 import UserStore from "@/stores/UserStore"
@@ -10,7 +9,6 @@ import { BookA, Building2, Home } from "lucide-react"
 
 const Navbar = () => {
 
-    const isMobile = useIsMobile()
     const location = useLocation()
     const pathname = location.pathname
 
@@ -18,8 +16,8 @@ const Navbar = () => {
 
     const avatarOptions = {
         2025: "/admin/dashboard",
-        2022: "/dashboard/teacher",
-        1999: "/dashboard/student",
+        2022: "/dashboard/teacher/profile",
+        1999: "/dashboard/student/profile",
     }
 
     // nav items
