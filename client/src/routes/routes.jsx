@@ -42,6 +42,7 @@ import Dashboard from "@/pages/Dashboard"
 import StudentList from "@/pages/teacher/StudentList"
 import Collegue from "@/pages/student/Collegue"
 import About from "@/pages/About"
+import TeacherList from "@/pages/TeacherList"
 
 
 const routes = createBrowserRouter([
@@ -175,6 +176,10 @@ const routes = createBrowserRouter([
             {
                 path: "departments/:id",
                 element: <DepartmentDetail />
+            },
+            {
+                path: "teachers",
+                element: <TeacherList />
             },
             {
                 path: "teachers/:id",
